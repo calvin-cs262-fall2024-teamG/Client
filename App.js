@@ -24,12 +24,12 @@ const styles = StyleSheet.create({
   text1: {
     color: '#ffffff',
     fontFamily: 'Verdana',
-    fontSize: '20',
+    fontSize: 20,
   },
 
   text2: {
     color: '#ffffff',
     fontFamily: 'Impact',
-    fontSize: '35',
+    fontSize: 35,
   },
 });
