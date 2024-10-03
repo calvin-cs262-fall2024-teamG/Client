@@ -2,6 +2,7 @@ import { StatusBar } from 'react-native';
 import { StyleSheet, Text, View, Button, FlatList } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import styles from './styles'; //Import the styles from styles.js
 
 function HomeScreen({ navigation }) {
   return (
@@ -26,6 +27,11 @@ function PropertiesScreen({ navigation }) {
     { id: '1', name: 'Property 1' },
     { id: '2', name: 'Property 2' },
     { id: '3', name: 'Property 3' },
+    { id: '4', name: 'Property 4' },
+    { id: '5', name: 'Property 5' },
+    { id: '6', name: 'Property 6' },
+    { id: '7', name: 'Property 7' },
+    { id: '8', name: 'Property 8' },
   ];
 
   return (
@@ -34,9 +40,30 @@ function PropertiesScreen({ navigation }) {
       <Text style={styles.propertiesTitle}>Properties</Text>
       <FlatList
         data={properties}
-        renderItem={({ item }) => <Text style={styles.propertyItem}>{item.name}</Text>}
+        renderItem={({ item }) => (
+        <Text
+          style={styles.propertyItem}
+          onPress={() => navigation.navigate('PropertyDetails', {
+            item: item,
+          })}
+        >
+          {item.name}
+        </Text>)
+      }
         keyExtractor={item => item.id}
       />
+    </View>
+  );
+}
+
+function PropertyDetailsScreen({ route, navigation }) {
+  const { item } = route.params;
+  return (
+    <View style={styles.propertiesContainer}>
+      <StatusBar style="light" />
+      <Text style={styles.propertiesTitle}>Property Details</Text>
+      <Text style={styles.propertyItem}>ID: {item.id}</Text>
+      <Text style={styles.propertyItem}>Name: {item.name}</Text>
     </View>
   );
 }
@@ -49,56 +76,10 @@ function App() {
       <Stack.Navigator>
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="Properties" component={PropertiesScreen} />
+        <Stack.Screen name="PropertyDetails" component={PropertyDetailsScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
 }
 
 export default App;
-
-const styles = StyleSheet.create({
-  statusBar: {
-    backgroundColor: '#4E0101',
-    barStyle: 'light-content',
-  },
-  
-  homeContainer: {
-    flex: 1,
-    backgroundColor: '#4E0101',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-
-  text1: {
-    color: '#ffffff',
-    fontFamily: 'Verdana',
-    fontSize: 20,
-    textAlign: 'center',
-  },
-
-  text2: {
-    color: '#ffffff',
-    fontFamily: 'Impact',
-    fontSize: 35,
-  },
-
-  propertiesContainer: {
-    flex: 1,
-    backgroundColor: '#fff',
-    paddingTop: 50,
-    paddingHorizontal: 20,
-  },
-
-  propertiesTitle: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20,
-  },
-
-  propertyItem: {
-    fontSize: 18,
-    padding: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: '#ccc',
-  },
-});
