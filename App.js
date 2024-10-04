@@ -1,8 +1,9 @@
 import { StatusBar } from 'react-native';
-import { StyleSheet, Text, View, Button, FlatList } from 'react-native';
+import { Text, View, Button, FlatList } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import styles from './styles'; //Import the styles from styles.js
+import properties from './properties'; //Import the properties from properties.js
 
 function HomeScreen({ navigation }) {
   return (
@@ -23,17 +24,6 @@ function HomeScreen({ navigation }) {
 }
 
 function PropertiesScreen({ navigation }) {
-  const properties = [
-    { id: '1', name: 'Property 1' },
-    { id: '2', name: 'Property 2' },
-    { id: '3', name: 'Property 3' },
-    { id: '4', name: 'Property 4' },
-    { id: '5', name: 'Property 5' },
-    { id: '6', name: 'Property 6' },
-    { id: '7', name: 'Property 7' },
-    { id: '8', name: 'Property 8' },
-  ];
-
   return (
     <View style={styles.propertiesContainer}>
       <StatusBar style="light" />
@@ -47,7 +37,7 @@ function PropertiesScreen({ navigation }) {
             item: item,
           })}
         >
-          {item.name}
+          {item.address}
         </Text>)
       }
         keyExtractor={item => item.id}
@@ -63,7 +53,15 @@ function PropertyDetailsScreen({ route, navigation }) {
       <StatusBar style="light" />
       <Text style={styles.propertiesTitle}>Property Details</Text>
       <Text style={styles.propertyItem}>ID: {item.id}</Text>
-      <Text style={styles.propertyItem}>Name: {item.name}</Text>
+      <Text style={styles.propertyItem}>Address: {item.address}</Text>
+
+      <Text style={styles.propertiesTitle}>Contact Information</Text>
+      {item.contact_phone && (
+        <Text style={styles.propertyItem}>Phone: {item.contact_phone}</Text>
+      )}
+      {item.contact_email && (
+        <Text style={styles.propertyItem}>Email: {item.contact_email}</Text>
+      )}
     </View>
   );
 }
