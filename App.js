@@ -1,5 +1,4 @@
-import { StatusBar } from 'react-native';
-import { Text, View, Button, FlatList } from 'react-native';
+import { Image, StatusBar, Text, View, Button, FlatList } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import styles from './styles'; //Import the styles from styles.js
@@ -51,9 +50,18 @@ function PropertyDetailsScreen({ route, navigation }) {
   return (
     <View style={styles.propertiesContainer}>
       <StatusBar style="light" />
+
+      {item.banner_image && (
+        <Image
+          source={{ uri: item.banner_image }}
+          style={styles.propertyImage}
+        />
+      )}
       <Text style={styles.propertiesTitle}>Property Details</Text>
       <Text style={styles.propertyItem}>ID: {item.id}</Text>
       <Text style={styles.propertyItem}>Address: {item.address}</Text>
+      <Text style={styles.propertyItem}>Beds: {item.beds}</Text>
+      <Text style={styles.propertyItem}>Baths: {item.baths}</Text>
 
       <Text style={styles.propertiesTitle}>Contact Information</Text>
       {item.contact_phone && (
