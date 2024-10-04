@@ -57,11 +57,17 @@ function PropertyDetailsScreen({ route, navigation }) {
           style={styles.propertyImage}
         />
       )}
+
       <Text style={styles.propertiesTitle}>Property Details</Text>
+
       <Text style={styles.propertyItem}>ID: {item.id}</Text>
+      <Text style={styles.propertyItem}>Rating: {item.rating}</Text>
       <Text style={styles.propertyItem}>Address: {item.address}</Text>
       <Text style={styles.propertyItem}>Beds: {item.beds}</Text>
       <Text style={styles.propertyItem}>Baths: {item.baths}</Text>
+      <Text style={styles.propertyItem}>Estimated Cost: ${item.estimated_cost}</Text>
+      <Text style={styles.propertyItem}>Distance from Campus: {item.distance_from_campus} miles</Text>
+      <Text style={styles.propertyItem}>Pet Friendly: {item.pet_friendly ? 'Yes' : 'No'}</Text>
 
       <Text style={styles.propertiesTitle}>Contact Information</Text>
       {item.contact_phone && (
