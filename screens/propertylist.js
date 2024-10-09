@@ -1,5 +1,5 @@
 import { Image, StatusBar, Text, View, Button, FlatList } from 'react-native';
-import styles from '../styles'; //Import the styles from styles.js
+import styles from '../style/styles'; //Import the styles from styles.js
 import properties from '../properties'; //Import the properties from properties.js
 
 

@@ -1,7 +1,7 @@
 import { Image, StatusBar, Text, View, Button, FlatList, ScrollView } from 'react-native';
-import styles from '../styles'; //Import the styles from styles.js
+import styles from '../style/styles'; //Import the styles from styles.js
 import properties from '../properties'; //Import the properties from properties.js
-
+import StarRating from '../style/5stars'; //Import the StarRating from 5stars.js
 
 export default function PropertyDetailsScreen({ route, navigation }) {
     const { item } = route.params;
@@ -20,6 +20,9 @@ export default function PropertyDetailsScreen({ route, navigation }) {
   
         <Text style={styles.propertyItem}>ID: {item.id}</Text>
         <Text style={styles.propertyItem}>Rating: {item.rating}</Text>
+        <View style={styles.propertyItem}>
+            <StarRating rating={item.rating} />
+        </View>
         <Text style={styles.propertyItem}>Address: {item.address}</Text>
         <Text style={styles.propertyItem}>Beds: {item.beds}</Text>
         <Text style={styles.propertyItem}>Baths: {item.baths}</Text>

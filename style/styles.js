@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native';
 
 export default styles = StyleSheet.create({
     statusBar: {
-      backgroundColor: '#4E0101',
+      backgroundColor: '#8C2131',
       barStyle: 'light-content',
     },
     
@@ -10,13 +10,13 @@ export default styles = StyleSheet.create({
 
     homeContainer: {
       flex: 1,
-      backgroundColor: '#4E0101',
+      backgroundColor: '#8C2131',
       alignItems: 'center',
       justifyContent: 'center',
     },
   
     text1: {
-      color: '#fff',
+      color: '#F3CD00',
       fontFamily: 'Verdana',
       fontSize: 20,
       textAlign: 'center',
@@ -32,7 +32,7 @@ export default styles = StyleSheet.create({
 
     propertiesContainer: {
       flex: 1,
-      backgroundColor: '#4E0101',
+      backgroundColor: '#fff',
       paddingTop: 50,
       paddingHorizontal: 20,
     },
@@ -41,7 +41,7 @@ export default styles = StyleSheet.create({
       fontSize: 24,
       fontWeight: 'bold',
       marginBottom: 20,
-      color: '#fff',
+      color: '#F3CD00',
     },
   
     propertyItem: {
@@ -49,7 +49,7 @@ export default styles = StyleSheet.create({
       padding: 10,
       borderBottomWidth: 1,
       borderBottomColor: '#ccc',
-      color: '#fff',
+      color: '#000000',
     },
 
     //property details screen styles
