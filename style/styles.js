@@ -95,10 +95,15 @@ export default styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 10,
   },
-  
+
   checkboxLabel: {
     marginLeft: 8,
     fontSize: 16,
+  },
+
+  resultsText: {
+    fontSize: 16,
+    padding: 10,
   },
 
   //property details screen styles

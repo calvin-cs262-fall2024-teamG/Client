@@ -56,6 +56,7 @@ export default function PropertiesScreen({ navigation }) {
           <Text style={styles.menuButtonText}>Filtering</Text>
         </TouchableOpacity>
       </View>
+      <Text style={styles.resultsText}> {displayedProperties.length} results found</Text>
       <FlatList
         data={displayedProperties}
         renderItem={({ item }) => (
