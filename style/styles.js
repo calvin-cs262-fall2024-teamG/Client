@@ -1,4 +1,11 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
+
+// maroon: 8C2131
+// gold: F3CD00
+// white: FFFFFF
+// grey: 808080
+// black: 000000
+const { width } = Dimensions.get('window'); // Get the width of the screen
 
 export default styles = StyleSheet.create({
     statusBar: {
@@ -10,7 +17,7 @@ export default styles = StyleSheet.create({
 
     homeContainer: {
       flex: 1,
-      backgroundColor: '#8C2131',
+      //backgroundColor: '#8C2131',
       alignItems: 'center',
       justifyContent: 'center',
     },
@@ -25,7 +32,41 @@ export default styles = StyleSheet.create({
     text2: {
       color: '#fff',
       fontFamily: 'Impact',
-      fontSize: 35,
+      //fontStyle: 'italic',
+      fontSize: 50,
+    },
+
+    textBox: {
+      borderWidth: 6,
+      borderColor: '#00000', // Border color
+      padding: 30, // Padding inside the box
+      backgroundColor: "#8C2131", // Optional: background color with opacity
+      borderRadius: 5, // Optional: rounded corners
+    },
+
+    backgroundImage: {
+      flex: 1,
+      resizeMode: 'cover',
+    },
+
+    // button and link styles
+    link: {
+      color: '#8C2131', 
+      fontSize: 16, 
+      fontWeight: 'bold', 
+      textDecorationLine: 'underline', 
+    },
+    button: {
+      borderWidth: 4,
+      borderColor: '#00000', // Border color
+      backgroundColor: '#8C2131', 
+      padding: 10,
+      borderRadius: 5,
+    },
+    buttonText: {
+      color: '#FFFFFF', 
+      fontSize: 16,
+      textAlign: 'center',
     },
     
     //properties screen styles
@@ -33,20 +74,23 @@ export default styles = StyleSheet.create({
     propertiesContainer: {
       flex: 1,
       backgroundColor: '#fff',
-      paddingTop: 50,
-      paddingHorizontal: 20,
+      //paddingTop: 50,
+      //paddingHorizontal: 20,
     },
   
     propertiesTitle: {
       fontSize: 24,
       fontWeight: 'bold',
       marginBottom: 20,
-      color: '#F3CD00',
+      marginVertical: 10,
+      marginHorizontal: 20,
+      color: '#000000',
     },
   
     propertyItem: {
       fontSize: 18,
       padding: 10,
+      marginHorizontal: 20,
       borderBottomWidth: 1,
       borderBottomColor: '#ccc',
       color: '#000000',
@@ -55,7 +99,7 @@ export default styles = StyleSheet.create({
     //property details screen styles
 
     propertyImage: {
-      width: '100%',
+      width: width, // '100%',
       height: 200,
       resizeMode: 'cover',
     },
