@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Image, StatusBar, Text, View, Button, FlatList, TouchableOpacity, Modal, TextInput, CheckBox } from 'react-native';
+import CheckBox from 'expo-checkbox';
+import { Image, StatusBar, Text, View, Button, FlatList, TouchableOpacity, Modal, TextInput } from 'react-native';
 import styles from '../style/styles'; //Import the styles from styles.js
 import properties from '../properties'; //Import the properties from properties.js
 
@@ -114,7 +115,7 @@ export default function PropertiesScreen({ navigation }) {
                   onValueChange={() => handleCheckboxChange(filter.id)}
                 />
                 <Text style={styles.checkboxLabel}>{filter.label} </Text>
-                {filter.id === '4' && selectedFilters.includes('4') && (
+               {filter.id === '4' && selectedFilters.includes('4') ? (
                   <View style={styles.distanceInputContainer}>
                     <TextInput
                       style={styles.textInput}
@@ -125,19 +126,19 @@ export default function PropertiesScreen({ navigation }) {
                     />
                     <Text style={styles.checkboxLabel}> miles</Text>
                   </View>
-                )}
+                ) : null}
               </View>
             ))}
             <View style={styles.buttonRow}>
               <TouchableOpacity style={styles.filterMenuButton} onPress={applyFilters}>
                 <Text style={styles.buttonText}>Apply Filters</Text>
               </TouchableOpacity>
-              <View style={{ width: 10 }} /> {/* Spacer */}
+              <View style={{ width: 10 }} />
               <TouchableOpacity style={styles.filterMenuButton} onPress={() => setSelectedFilters([])}>
                 <Text style={styles.buttonText}>Clear Filters</Text>
               </TouchableOpacity>
             </View>
-            <View style={{ height: 10 }} /> {/* Spacer */}
+            <View style={{ height: 10 }} />
             <TouchableOpacity style={styles.filterMenuButton} onPress={toggleModal}>
               <Text style={styles.buttonText}>Close</Text>
             </TouchableOpacity>
