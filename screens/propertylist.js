@@ -15,46 +15,55 @@ export default function PropertiesScreen({ navigation }) {
   const [modalVisible, setModalVisible] = useState(false);
   const [displayedProperties, setDisplayedProperties] = useState(properties);
   const [selectedFilters, setSelectedFilters] = useState([]);
+  const [tempSelectedFilters, setTempSelectedFilters] = useState([]);
   const [numAppliedFilters, setNumAppliedFilters] = useState(0);
   const [distance, setDistance] = useState('');
+  const [tempDistance, setTempDistance] = useState('');
 
   const toggleModal = () => {
     setModalVisible(!modalVisible);
+    if (!modalVisible) {
+      setTempSelectedFilters(selectedFilters);
+      setTempDistance(distance);
+    }
   };
 
   const handleCheckboxChange = (filterId) => {
     if (filterId === '4') {
       // Toggle the distance filter
-      if (selectedFilters.includes(filterId)) {
-        setSelectedFilters(selectedFilters.filter(id => id !== filterId));
-        setDistance(''); // Reset distance when filter is deselected
+      if (tempSelectedFilters.includes(filterId)) {
+        setTempSelectedFilters(tempSelectedFilters.filter(id => id !== filterId));
+        setTempDistance(''); // Reset distance when filter is deselected
       } else {
-        setSelectedFilters([...selectedFilters, filterId]);
+        setTempSelectedFilters([...tempSelectedFilters, filterId]);
       }
     } else {
       // Handle other filters
-      if (selectedFilters.includes(filterId)) {
-        setSelectedFilters(selectedFilters.filter(id => id !== filterId));
+      if (tempSelectedFilters.includes(filterId)) {
+        setTempSelectedFilters(tempSelectedFilters.filter(id => id !== filterId));
       } else {
-        setSelectedFilters([...selectedFilters, filterId]);
+        setTempSelectedFilters([...tempSelectedFilters, filterId]);
       }
     }
   };
 
   const applyFilters = () => {
+    setSelectedFilters(tempSelectedFilters);
+    setDistance(tempDistance);
+
     let filteredProperties = properties;
 
-    if (selectedFilters.includes('1')) {
+    if (tempSelectedFilters.includes('1')) {
       filteredProperties = filteredProperties.filter((property) => property.pet_friendly);
     }
-    if (selectedFilters.includes('2')) {
+    if (tempSelectedFilters.includes('2')) {
       filteredProperties = filteredProperties.filter((property) => (property.contact_phone || property.contact_email));
     }
-    if (selectedFilters.includes('3')) {
+    if (tempSelectedFilters.includes('3')) {
       filteredProperties = filteredProperties.filter((property) => property.banner_image);
     }
-    if (selectedFilters.includes('4') && distance) {
-      const distanceValue = parseFloat(distance);
+    if (tempSelectedFilters.includes('4') && tempDistance) {
+      const distanceValue = parseFloat(tempDistance);
       if (!isNaN(distanceValue)) {
         filteredProperties = filteredProperties.filter(property => {
           // Assuming property.distance is the distance of the property
@@ -66,7 +75,7 @@ export default function PropertiesScreen({ navigation }) {
     // Add more filter conditions here as needed
 
     setDisplayedProperties(filteredProperties);
-    setNumAppliedFilters(selectedFilters.length + (distance || !selectedFilters.includes('4') ? 0 : -1));
+    setNumAppliedFilters(tempSelectedFilters.length + (tempDistance || !tempSelectedFilters.includes('4') ? 0 : -1));
     toggleModal();
   };
 
@@ -111,18 +120,18 @@ export default function PropertiesScreen({ navigation }) {
             {filters.map((filter) => (
               <View key={filter.id} style={styles.checkboxContainer}>
                 <CheckBox
-                  value={selectedFilters.includes(filter.id)}
+                  value={tempSelectedFilters.includes(filter.id)}
                   onValueChange={() => handleCheckboxChange(filter.id)}
                 />
                 <Text style={styles.checkboxLabel}>{filter.label} </Text>
-               {filter.id === '4' && selectedFilters.includes('4') ? (
+                {filter.id === '4' && tempSelectedFilters.includes('4') ? (
                   <View style={styles.distanceInputContainer}>
                     <TextInput
                       style={styles.textInput}
                       placeholder="Enter distance"
                       keyboardType="numeric"
-                      value={distance}
-                      onChangeText={setDistance}
+                      value={tempDistance}
+                      onChangeText={setTempDistance}
                     />
                     <Text style={styles.checkboxLabel}> miles</Text>
                   </View>
@@ -134,7 +143,7 @@ export default function PropertiesScreen({ navigation }) {
                 <Text style={styles.buttonText}>Apply Filters</Text>
               </TouchableOpacity>
               <View style={{ width: 10 }} />
-              <TouchableOpacity style={styles.filterMenuButton} onPress={() => setSelectedFilters([])}>
+              <TouchableOpacity style={styles.filterMenuButton} onPress={() => {setTempSelectedFilters([]); setTempDistance('')}}>
                 <Text style={styles.buttonText}>Clear Filters</Text>
               </TouchableOpacity>
             </View>
