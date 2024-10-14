@@ -66,7 +66,7 @@ export default function PropertiesScreen({ navigation }) {
     // Add more filter conditions here as needed
 
     setDisplayedProperties(filteredProperties);
-    setNumAppliedFilters(selectedFilters.length + (distance ? 0 : -1));
+    setNumAppliedFilters(selectedFilters.length + (distance || !selectedFilters.includes('4') ? 0 : -1));
     toggleModal();
   };
 
