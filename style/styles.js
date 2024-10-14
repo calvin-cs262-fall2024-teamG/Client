@@ -15,61 +15,61 @@ export default styles = StyleSheet.create({
 
   //home screen styles
 
-    homeContainer: {
-      flex: 1,
-      //backgroundColor: '#8C2131',
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-  
-    text1: {
-      color: '#F3CD00',
-      fontFamily: 'Verdana',
-      fontSize: 20,
-      textAlign: 'center',
-    },
-  
-    text2: {
-      color: '#fff',
-      fontFamily: 'Impact',
-      //fontStyle: 'italic',
-      fontSize: 50,
-    },
+  homeContainer: {
+    flex: 1,
+    //backgroundColor: '#8C2131',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 
-    textBox: {
-      borderWidth: 6,
-      borderColor: '#00000', // Border color
-      padding: 30, // Padding inside the box
-      backgroundColor: "#8C2131", // Optional: background color with opacity
-      borderRadius: 5, // Optional: rounded corners
-    },
+  text1: {
+    color: '#F3CD00',
+    fontFamily: 'Verdana',
+    fontSize: 20,
+    textAlign: 'center',
+  },
 
-    backgroundImage: {
-      flex: 1,
-      resizeMode: 'cover',
-    },
+  text2: {
+    color: '#fff',
+    fontFamily: 'Impact',
+    //fontStyle: 'italic',
+    fontSize: 50,
+  },
 
-    // button and link styles
-    link: {
-      color: '#8C2131', 
-      fontSize: 16, 
-      fontWeight: 'bold', 
-      textDecorationLine: 'underline', 
-    },
-    button: {
-      borderWidth: 4,
-      borderColor: '#00000', // Border color
-      backgroundColor: '#8C2131', 
-      padding: 10,
-      borderRadius: 5,
-    },
-    buttonText: {
-      color: '#FFFFFF', 
-      fontSize: 16,
-      textAlign: 'center',
-    },
-    
-    //properties screen styles
+  textBox: {
+    borderWidth: 6,
+    borderColor: '#00000', // Border color
+    padding: 30, // Padding inside the box
+    backgroundColor: "#8C2131", // Optional: background color with opacity
+    borderRadius: 5, // Optional: rounded corners
+  },
+
+  backgroundImage: {
+    flex: 1,
+    resizeMode: 'cover',
+  },
+
+  // button and link styles
+  link: {
+    color: '#8C2131',
+    fontSize: 16,
+    fontWeight: 'bold',
+    textDecorationLine: 'underline',
+  },
+  button: {
+    borderWidth: 4,
+    borderColor: '#000', // Border color
+    backgroundColor: '#8C2131',
+    padding: 10,
+    borderRadius: 5,
+  },
+  buttonText: {
+    color: '#FFFFFF',
+    fontSize: 16,
+    textAlign: 'center',
+  },
+
+  //properties screen styles
 
   propertiesContainer: {
     flex: 1,
@@ -92,15 +92,12 @@ export default styles = StyleSheet.create({
     color: '#F3CD00',
   },
 
-  menuButton: {
+  filterMenuButton: {
+    borderWidth: 2,
+    borderColor: '#000',
+    backgroundColor: '#8C2131',
     padding: 10,
-    backgroundColor: '#007BFF',
     borderRadius: 5,
-  },
-
-  menuButtonText: {
-    color: '#fff',
-    fontSize: 16,
   },
 
   propertyItem: {
@@ -113,6 +110,13 @@ export default styles = StyleSheet.create({
   },
 
   //Popup menu styles
+
+  buttonRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginVertical: 5,
+  },
 
   modalContainer: {
     flex: 1,
@@ -150,11 +154,26 @@ export default styles = StyleSheet.create({
     padding: 10,
   },
 
+  distanceInputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+
+  textInput: {
+    height: 40,
+    width: 110,
+    borderColor: 'gray',
+    borderWidth: 1,
+    paddingHorizontal: 10,
+    borderRadius: 5,
+    marginRight: 5, // Add some space between the text input and the "miles" text
+  },
+
   //property details screen styles
 
-    propertyImage: {
-      width: width, // '100%',
-      height: 200,
-      resizeMode: 'cover',
-    },
-  });  
+  propertyImage: {
+    width: width, // '100%',
+    height: 200,
+    resizeMode: 'cover',
+  },
+});  
