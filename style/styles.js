@@ -149,6 +149,10 @@ export default styles = StyleSheet.create({
     fontSize: 16,
   },
 
+  checkbox: {
+    transform: [{ scaleX: 1.5 }, { scaleY: 1.5 }], // Adjust the scale as needed
+  },
+
   resultsText: {
     fontSize: 16,
     padding: 10,

@@ -119,10 +119,11 @@ export default function PropertiesScreen({ navigation }) {
             <Text style={styles.modalText}>Filtering Menu</Text>
             {filters.map((filter) => (
               <View key={filter.id} style={styles.checkboxContainer}>
-                <CheckBox
-                  value={tempSelectedFilters.includes(filter.id)}
-                  onValueChange={() => handleCheckboxChange(filter.id)}
-                />
+                  <CheckBox
+                    style={styles.checkbox}
+                    value={tempSelectedFilters.includes(filter.id)}
+                    onValueChange={() => handleCheckboxChange(filter.id)}
+                  />
                 <Text style={styles.checkboxLabel}>{filter.label} </Text>
                 {filter.id === '4' && tempSelectedFilters.includes('4') ? (
                   <View style={styles.distanceInputContainer}>
@@ -143,7 +144,7 @@ export default function PropertiesScreen({ navigation }) {
                 <Text style={styles.buttonText}>Apply Filters</Text>
               </TouchableOpacity>
               <View style={{ width: 10 }} />
-              <TouchableOpacity style={styles.filterMenuButton} onPress={() => {setTempSelectedFilters([]); setTempDistance('')}}>
+              <TouchableOpacity style={styles.filterMenuButton} onPress={() => { setTempSelectedFilters([]); setTempDistance('') }}>
                 <Text style={styles.buttonText}>Clear Filters</Text>
               </TouchableOpacity>
             </View>
