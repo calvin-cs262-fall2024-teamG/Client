@@ -14,46 +14,55 @@ const filters = [
 export default function PropertiesScreen({ navigation }) {
   const [modalVisible, setModalVisible] = useState(false);
   const [displayedProperties, setDisplayedProperties] = useState(properties);
+  const [filteredProperties, setFilteredProperties] = useState(properties);
   const [selectedFilters, setSelectedFilters] = useState([]);
+  const [tempSelectedFilters, setTempSelectedFilters] = useState([]);
   const [numAppliedFilters, setNumAppliedFilters] = useState(0);
   const [distance, setDistance] = useState('');
+  const [tempDistance, setTempDistance] = useState('');
 
   const toggleModal = () => {
     setModalVisible(!modalVisible);
-    applyFilters();
+    if (!modalVisible) {
+      setTempSelectedFilters(selectedFilters);
+      setTempDistance(distance);
+    }
   };
 
   const handleCheckboxChange = (filterId) => {
+    let updatedFilters = [...tempSelectedFilters];
     if (filterId === '4') {
       // Toggle the distance filter
-      if (selectedFilters.includes(filterId)) {
-        setSelectedFilters(selectedFilters.filter(id => id !== filterId));
+      if (updatedFilters.includes(filterId)) {
+        updatedFilters = updatedFilters.filter(id => id !== filterId);
       } else {
-        setSelectedFilters([...selectedFilters, filterId]);
+        updatedFilters.push(filterId);
       }
     } else {
       // Handle other filters
-      if (selectedFilters.includes(filterId)) {
-        setSelectedFilters(selectedFilters.filter(id => id !== filterId));
+      if (updatedFilters.includes(filterId)) {
+        updatedFilters = updatedFilters.filter(id => id !== filterId);
       } else {
-        setSelectedFilters([...selectedFilters, filterId]);
+        updatedFilters.push(filterId);
       }
     }
+    setTempSelectedFilters(updatedFilters);
+    setFilteredProperties(getFilteredProperties(updatedFilters, tempDistance));
   };
 
-  const applyFilters = () => {
+  const getFilteredProperties = (filters, distance) => {
     let filteredProperties = properties;
 
-    if (selectedFilters.includes('1')) {
+    if (filters.includes('1')) {
       filteredProperties = filteredProperties.filter((property) => property.pet_friendly);
     }
-    if (selectedFilters.includes('2')) {
+    if (filters.includes('2')) {
       filteredProperties = filteredProperties.filter((property) => (property.contact_phone || property.contact_email));
     }
-    if (selectedFilters.includes('3')) {
+    if (filters.includes('3')) {
       filteredProperties = filteredProperties.filter((property) => property.banner_image);
     }
-    if (selectedFilters.includes('4') && distance) {
+    if (filters.includes('4') && distance) {
       const distanceValue = parseFloat(distance);
       if (!isNaN(distanceValue)) {
         filteredProperties = filteredProperties.filter(property => {
@@ -65,8 +74,18 @@ export default function PropertiesScreen({ navigation }) {
 
     // Add more filter conditions here as needed
 
+    return filteredProperties;
+  }
+
+  const applyFilters = () => {
+    toggleModal();
+    setSelectedFilters(tempSelectedFilters);
+    setDistance(tempDistance);
+
+    const filteredProperties = getFilteredProperties(tempSelectedFilters, tempDistance);
+
     setDisplayedProperties(filteredProperties);
-    setNumAppliedFilters(selectedFilters.length + (distance || !selectedFilters.includes('4') ? 0 : -1));
+    setNumAppliedFilters(tempSelectedFilters.length + (tempDistance || !selectedFilters.includes('4') ? 0 : -1));
   };
 
   return (
@@ -109,11 +128,11 @@ export default function PropertiesScreen({ navigation }) {
             <Text style={styles.modalText}>Filtering Menu</Text>
             {filters.map((filter) => (
               <View key={filter.id} style={styles.checkboxContainer}>
-                  <CheckBox
-                    style={styles.checkbox}
-                    value={selectedFilters.includes(filter.id)}
-                    onValueChange={() => handleCheckboxChange(filter.id)}
-                  />
+                <CheckBox
+                  style={styles.checkbox}
+                  value={tempSelectedFilters.includes(filter.id)}
+                  onValueChange={() => handleCheckboxChange(filter.id)}
+                />
                 <Text style={styles.checkboxLabel}>{filter.label} </Text>
                 {filter.id === '4' ? (
                   <View style={styles.distanceInputContainer}>
@@ -124,8 +143,11 @@ export default function PropertiesScreen({ navigation }) {
                       ]}
                       placeholder="Enter distance"
                       keyboardType="numeric"
-                      value={distance}
-                      onChangeText={setDistance}
+                      value={tempDistance}
+                      onChangeText={(text) => {
+                        setTempDistance(text);
+                        setFilteredProperties(getFilteredProperties(tempSelectedFilters, text));
+                      }}
                     />
                     <Text style={styles.checkboxLabel}>miles</Text>
                   </View>
@@ -133,15 +155,18 @@ export default function PropertiesScreen({ navigation }) {
               </View>
             ))}
             <View style={styles.buttonRow}>
-              
-              <TouchableOpacity style={styles.filterMenuButton} onPress={() => { setSelectedFilters([]); setDistance('') }}>
-                <Text style={styles.buttonText}>Clear Filters</Text>
+              <TouchableOpacity style={styles.filterMenuButton} onPress={applyFilters}>
+                <Text style={styles.buttonText}>Show {filteredProperties.length} Results</Text>
               </TouchableOpacity>
               <View style={{ width: 10 }} />
-              <TouchableOpacity style={styles.filterMenuButton} onPress={toggleModal}>
+              <TouchableOpacity style={styles.filterMenuButton} onPress={() => { setTempSelectedFilters([]); setTempDistance('') }}>
+                <Text style={styles.buttonText}>Clear Filters</Text>
+              </TouchableOpacity>
+            </View>
+            <View style={{ height: 10 }} />
+            <TouchableOpacity style={styles.filterMenuButton} onPress={toggleModal}>
               <Text style={styles.buttonText}>Close</Text>
             </TouchableOpacity>
-            </View>            
           </View>
         </View >
       </Modal >
