@@ -141,12 +141,16 @@ export default styles = StyleSheet.create({
   checkboxContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 10,
+    marginBottom: 20,
   },
 
   checkboxLabel: {
     marginLeft: 8,
     fontSize: 16,
+  },
+
+  checkbox: {
+    transform: [{ scaleX: 1.5 }, { scaleY: 1.5 }], // Adjust the scale as needed
   },
 
   resultsText: {
@@ -167,6 +171,10 @@ export default styles = StyleSheet.create({
     paddingHorizontal: 10,
     borderRadius: 5,
     marginRight: 5, // Add some space between the text input and the "miles" text
+  },
+  textInputError: {
+    borderColor: 'red',
+    borderWidth: 2,
   },
 
   //property details screen styles
