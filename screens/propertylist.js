@@ -85,7 +85,7 @@ export default function PropertiesScreen({ navigation }) {
     const filteredProperties = getFilteredProperties(tempSelectedFilters, tempDistance);
 
     setDisplayedProperties(filteredProperties);
-    setNumAppliedFilters(tempSelectedFilters.length + (tempDistance || !selectedFilters.includes('4') ? 0 : -1));
+    setNumAppliedFilters(tempSelectedFilters.length + (!tempDistance && tempSelectedFilters.includes('4') ? -1 : 0));
   };
 
   return (
@@ -139,7 +139,7 @@ export default function PropertiesScreen({ navigation }) {
                     <TextInput
                       style={[
                         styles.textInput,
-                        selectedFilters.includes('4') && !distance && styles.textInputError,
+                        (selectedFilters.includes('4') && !distance ? styles.textInputError : null),
                       ]}
                       placeholder="Enter distance"
                       keyboardType="numeric"
