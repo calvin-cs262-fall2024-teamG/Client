@@ -72,8 +72,6 @@ export default function PropertiesScreen({ navigation }) {
       }
     }
 
-    // Add more filter conditions here as needed
-
     return filteredProperties;
   }
 
@@ -90,24 +88,35 @@ export default function PropertiesScreen({ navigation }) {
 
   return (
     <View style={styles.propertiesContainer}>
-      <StatusBar style="light" />
-      <View style={styles.header}>
+
+      {/* Title Banner */}
+      <View style={styles.titleBanner}>
         <Text style={styles.propertiesTitle}>Properties</Text>
-        <TouchableOpacity style={styles.button} onPress={toggleModal}>
+      </View>
+
+      {/* Filter button and results count swapped and placed side by side */}
+      <View style={styles.filterAndResultsContainer}>
+        <View style={styles.resultsBox}>
+          <Text style={styles.buttonText}>{displayedProperties.length} results found</Text>
+        </View>
+
+        {/* The entire filter box is now the button */}
+        <TouchableOpacity style={styles.filterBox} onPress={toggleModal}>
           <Text style={styles.buttonText}>
             Filters
-            {numAppliedFilters != 0 && (
+            {numAppliedFilters !== 0 && (
               <Text style={styles.buttonText}> ({numAppliedFilters} applied)</Text>
             )}
           </Text>
         </TouchableOpacity>
       </View>
-      <Text style={styles.resultsText}> {displayedProperties.length} results found</Text>
+
+      {/* Properties List */}
       <FlatList
         data={displayedProperties}
         renderItem={({ item }) => (
           <Text
-            style={styles.propertyItem}
+            style={styles.propertyList}
             onPress={() => navigation.navigate('PropertyDetails', {
               item: item,
             })}
@@ -117,6 +126,8 @@ export default function PropertiesScreen({ navigation }) {
         }
         keyExtractor={item => item.id}
       />
+
+      {/* Modal for Filters */}
       <Modal
         animationType="fade"
         transparent={true}
@@ -156,20 +167,23 @@ export default function PropertiesScreen({ navigation }) {
             ))}
             <View style={styles.buttonRow}>
               <TouchableOpacity style={styles.filterMenuButton} onPress={applyFilters}>
-                <Text style={styles.buttonText}>Show {filteredProperties.length} Results</Text>
+                <Text style={styles.filtersText}>Show {filteredProperties.length} Results</Text>
               </TouchableOpacity>
               <View style={{ width: 10 }} />
               <TouchableOpacity style={styles.filterMenuButton} onPress={() => { setTempSelectedFilters([]); setTempDistance('') }}>
-                <Text style={styles.buttonText}>Clear Filters</Text>
+                <Text style={styles.filtersText}>Clear Filters</Text>
               </TouchableOpacity>
             </View>
             <View style={{ height: 10 }} />
             <TouchableOpacity style={styles.filterMenuButton} onPress={toggleModal}>
-              <Text style={styles.buttonText}>Close</Text>
+              <Text style={styles.filtersText}>Close</Text>
             </TouchableOpacity>
           </View>
-        </View >
-      </Modal >
-    </View >
+        </View>
+      </Modal>
+    </View>
   );
 }
+
+
+
