@@ -16,7 +16,7 @@ export default function PropertyDetailsScreen({ route, navigation }) {
           />
         )}
   
-        <Text style={styles.propertiesTitle}>Property Details</Text>
+        <Text style={styles.propertiesPageText}>Property Details</Text>
   
         <Text style={styles.propertyItem}>ID: {item.id}</Text>
         <Text style={styles.propertyItem}>Rating: {item.rating}</Text>
@@ -30,7 +30,7 @@ export default function PropertyDetailsScreen({ route, navigation }) {
         <Text style={styles.propertyItem}>Distance from Campus: {item.distance_from_campus} miles</Text>
         <Text style={styles.propertyItem}>Pet Friendly: {item.pet_friendly ? 'Yes' : 'No'}</Text>
   
-        <Text style={styles.propertiesTitle}>Contact Information</Text>
+        <Text style={styles.propertiesPageText}>Contact Information</Text>
         {item.contact_phone && (
           <Text style={styles.propertyItem}>Phone: {item.contact_phone}</Text>
         )}

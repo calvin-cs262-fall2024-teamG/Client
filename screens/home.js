@@ -20,9 +20,10 @@ export default function HomeScreen({ navigation }) {
                 <View style={{ padding: 10 }} />
                 <TouchableOpacity
                     style={styles.button}
-                    onPress={() => navigation.navigate('Properties')}
+                    //onPress={() => navigation.navigate('Properties')}
+                    onPress={() => navigation.navigate('LogIn')}
                 >
-                    <Text style={styles.buttonText}>Start Scouting</Text>
+                    <Text style={styles.filtersText}>Log In</Text>
                 </TouchableOpacity>
             </View>
         </ImageBackground>

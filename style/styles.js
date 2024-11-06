@@ -8,12 +8,11 @@ import { StyleSheet, Dimensions } from 'react-native';
 const { width } = Dimensions.get('window'); // Get the width of the screen
 
 export default styles = StyleSheet.create({
+  // Status bar styles remain the same
   statusBar: {
     backgroundColor: '#8C2131',
     barStyle: 'light-content',
   },
-
-  //home screen styles
 
   homeContainer: {
     flex: 1,
@@ -57,6 +56,7 @@ export default styles = StyleSheet.create({
     textDecorationLine: 'underline',
   },
   button: {
+    width: '30%',
     borderWidth: 4,
     borderColor: '#000', // Border color
     backgroundColor: '#8C2131',
@@ -64,32 +64,72 @@ export default styles = StyleSheet.create({
     borderRadius: 5,
   },
   buttonText: {
-    color: '#FFFFFF',
+    color: '#000',
     fontSize: 16,
     textAlign: 'center',
   },
 
-  //properties screen styles
-
-  propertiesContainer: {
-    flex: 1,
-    backgroundColor: '#fff',
+  filtersText: {
+    color: 'white',
+    fontSize: 16,
+    textAlign: 'center',
   },
 
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: 10,
-  },
-
-  propertiesTitle: {
+  propertiesPageText: {
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 20,
     marginVertical: 10,
     marginHorizontal: 20,
     color: '#F3CD00',
+  },
+
+  // Properties Title Banner
+  titleBanner: {
+    width: '100%',
+    height: 100,  
+    backgroundColor: '#8C2131', 
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingTop: 10,  // Padding to adjust the title position
+  },
+
+  propertiesTitle: {
+    fontSize: 45,
+    fontWeight: 'bold',
+    color: 'white', // Or could be gold: #F3CD00 
+    fontStyle: 'italic',
+  },
+
+  // Container for filter button and results text
+  filterAndResultsContainer: {
+    flexDirection: 'row', 
+    justifyContent: 'space-between',
+    width: '100%',  // Take up full width of the screen
+    marginTop: 0, // Align boxes flush with the banner
+    marginBottom: 20, // Space below for property listings
+  },
+
+  // Box for filter button
+  filterBox: {
+    flex: 1,  
+    backgroundColor: '#F3CD00',  
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 10, // Increase padding for a larger box
+    borderWidth: 1,
+    borderColor: '#000',
+  },
+
+  // Box for results count
+  resultsBox: {
+    flex: 1,  
+    backgroundColor: '#F3CD00',  
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 10, // Increase padding for a larger box
+    borderWidth: 1,
+    borderColor: '#000',
   },
 
   filterMenuButton: {
@@ -100,6 +140,18 @@ export default styles = StyleSheet.create({
     borderRadius: 5,
   },
 
+  propertyList: {
+    padding: 10,
+    fontSize: 18,
+    marginHorizontal: 20,
+    borderBottomWidth: 1,
+    borderBottomColor: '#ccc',
+    borderWidth: 1,  
+    borderColor: '#000', 
+    borderRadius: 5, 
+    marginBottom: 7,  // Space between each property listing
+  },
+  
   propertyItem: {
     padding: 10,
     fontSize: 18,
@@ -184,4 +236,58 @@ export default styles = StyleSheet.create({
     height: 200,
     resizeMode: 'cover',
   },
+
+  //Log In and Create Account Screen Styles
+
+  Lcontainer: {
+    flex: 1,
+    backgroundColor: '#8C2131', 
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 20,
+  },
+  Ltitle: {
+    fontSize: 30,
+    color: '#FFFFFF',
+    fontWeight: 'bold',
+    marginBottom: 40,
+  },
+  Linput: {
+    width: '100%',
+    height: 50,
+    backgroundColor: '#FFFFFF',
+    borderRadius: 8,
+    paddingHorizontal: 15,
+    marginBottom: 20,
+    fontSize: 16,
+    color: '#333333',
+  },
+  Lbutton: {
+    width: '100%',
+    height: 50,
+    backgroundColor: '#F3CD00', // Gold color
+    borderRadius: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginVertical: 10,
+  },
+  LbuttonText: {
+    color: '#8C2131',
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  Llink: {
+    color: '#F3CD00',
+    fontSize: 16,
+    marginVertical: 10,
+  },
+  Lfooter: {
+    flexDirection: 'row',
+    marginTop: 20,
+  },
+  LfooterText: {
+    color: '#FFFFFF',
+    fontSize: 16,
+  },
+
 });  
