@@ -1,6 +1,7 @@
 const properties = [
   {
     id: 1,
+    name: "Beets-Veenstra",
     banner_image: 'https://calvin.edu/sites/default/files/styles/wide/public/place/BV.jpg',
     address: '3275 Knight Way Southeast, Grand Rapids, MI 49546',
     beds: 3,
@@ -15,6 +16,7 @@ const properties = [
   },
   {
     id: 2,
+    name: "Calvin Dorm",
     banner_image: '',
     address: '3260 Knight Way Southeast, Grand Rapids, MI 49546',
     beds: 4,
@@ -28,6 +30,7 @@ const properties = [
   },
   {
     id: 3,
+    name: "KE Apartment",
     banner_image: '',
     address: '3250 Knight Way Southeast, Grand Rapids, MI 49546',
     beds: 2,
@@ -41,6 +44,7 @@ const properties = [
   },
   {
     id: 4,
+    name: "Calvin Dorm",
     banner_image: '',
     address: '3240 Knight Way Southeast, Grand Rapids, MI 49546',
     beds: 3,
@@ -54,6 +58,7 @@ const properties = [
   },
   {
     id: 5,
+    name: '',
     banner_image: '',
     address: '3230 Knight Way Southeast, Grand Rapids, MI 49546',
     beds: 5,
@@ -67,6 +72,7 @@ const properties = [
   },
   {
     id: 6,
+    name: '',
     banner_image: '',
     address: '3220 Knight Way Southeast, Grand Rapids, MI 49546',
     beds: 1,
@@ -80,6 +86,7 @@ const properties = [
   },
   {
     id: 7,
+    name: 'KHvR',
     banner_image: 'https://calvin.edu/sites/default/files/styles/wide/public/place/KHvR_1.jpg',
     address: '3245 Knight Way Southeast, Grand Rapids, MI 49546',
     beds: 3,
@@ -93,6 +100,7 @@ const properties = [
   },
   {
     id: 8,
+    name: 'Prince Conference Center',
     banner_image: 'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/13/61/84/5c/main-entrance.jpg',
     address: '1800 E Beltline Ave SE, Grand Rapids, MI 49546',
     beds: 2,

@@ -7,15 +7,13 @@ export default function HomeScreen({ navigation }) {
         <ImageBackground
             source={require('../style/city-map-4320755_640.png')}
             style={styles.backgroundImage}
+            resizeMode="cover" // Ensure the image covers the entire screen
         >
             <View style={styles.homeContainer}>
-                <StatusBar style="light" />
+            <StatusBar style="light" />
                 <View style={styles.textBox}>
-                    <Text style={styles.text1}>
-                        Welcome to
-                        {'\n'}
-                        <Text style={styles.text2}>RentScout</Text>
-                    </Text>
+                    <Text style={styles.text1}>Welcome to</Text>
+                    <Text style={styles.text2}>RentScout</Text>
                 </View>
                 <View style={{ padding: 10 }} />
                 <TouchableOpacity

@@ -121,9 +121,9 @@ export default function PropertiesScreen({ navigation }) {
               item: item,
             })}
           >
-            {item.address}
-          </Text>)
-        }
+            {item.name ? item.name : item.address}
+          </Text>
+        )}
         keyExtractor={item => item.id}
       />
 
