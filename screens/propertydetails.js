@@ -5,6 +5,7 @@ import StarRating from '../style/5stars'; //Import the StarRating from 5stars.js
 
 export default function PropertyDetailsScreen({ route, navigation }) {
     const { item } = route.params;
+
     return (
       <ScrollView style={styles.propertiesContainer} contentContainerStyle={{ paddingBottom: 75 }}>
         <StatusBar style="light" />
@@ -13,6 +14,7 @@ export default function PropertyDetailsScreen({ route, navigation }) {
           <Image
             source={{ uri: item.banner_image }}
             style={styles.propertyImage}
+            imageAlign="center"
           />
         )}
   

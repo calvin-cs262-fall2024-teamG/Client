@@ -37,7 +37,7 @@ export default styles = StyleSheet.create({
 
   textBox: {
     borderWidth: 6,
-    borderColor: '#00000', // Border color
+    borderColor: '#000000', // Border color
     padding: 30, // Padding inside the box
     backgroundColor: "#8C2131", // Optional: background color with opacity
     borderRadius: 5, // Optional: rounded corners
@@ -45,7 +45,10 @@ export default styles = StyleSheet.create({
 
   backgroundImage: {
     flex: 1,
-    resizeMode: 'cover',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
+    height: '100%',
   },
 
   // button and link styles
@@ -92,6 +95,7 @@ export default styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     paddingTop: 10,  // Padding to adjust the title position
+    paddingBottom: 30,  // Padding to adjust the title position
   },
 
   propertiesTitle: {
@@ -107,7 +111,7 @@ export default styles = StyleSheet.create({
     justifyContent: 'space-between',
     width: '100%',  // Take up full width of the screen
     marginTop: 0, // Align boxes flush with the banner
-    marginBottom: 20, // Space below for property listings
+    marginBottom: 15, // Space below for property listings
   },
 
   // Box for filter button
@@ -144,12 +148,14 @@ export default styles = StyleSheet.create({
     padding: 10,
     fontSize: 18,
     marginHorizontal: 20,
+    marginVertical: 5,
     borderBottomWidth: 1,
     borderBottomColor: '#ccc',
     borderWidth: 1,  
     borderColor: '#000', 
     borderRadius: 5, 
-    marginBottom: 7,  // Space between each property listing
+    marginBottom: 5,  // Space between each property listing
+    marginTop: 0,  // Space between each property listing
   },
   
   propertyItem: {
@@ -161,8 +167,7 @@ export default styles = StyleSheet.create({
     color: '#000000',
   },
 
-  //Popup menu styles
-
+  // Popup menu styles
   buttonRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -230,7 +235,6 @@ export default styles = StyleSheet.create({
   },
 
   //property details screen styles
-
   propertyImage: {
     width: width, // '100%',
     height: 200,
@@ -238,7 +242,6 @@ export default styles = StyleSheet.create({
   },
 
   //Log In and Create Account Screen Styles
-
   Lcontainer: {
     flex: 1,
     backgroundColor: '#8C2131', 
@@ -290,4 +293,36 @@ export default styles = StyleSheet.create({
     fontSize: 16,
   },
 
-});  
+  //Header styles
+    headerContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      paddingHorizontal: 10,
+      paddingVertical: 5,
+      backgroundColor: '#8C2131', // Maroon
+      borderBottomWidth: 1,
+      borderBottomColor: '#8C2131',
+    },
+    headerTitle: {
+      flex: 1,
+      textAlign: 'center',
+      fontSize: 18,
+      color: '#8C2131', // Maroon to blend in (for now)
+      fontWeight: '600',
+    },
+    headerButton: {
+      paddingVertical: 5,
+      paddingHorizontal: 10,
+      backgroundColor: '#8C2131', // Maroon color
+      borderRadius: 3,
+      borderColor: '#F3CD00', // Gold color
+      borderWidth: 1,
+      marginVertical: 15,
+    },
+    headerButtonText: {
+      color: '#F3CD00', // Gold text for contrast
+      fontSize: 16,
+      fontWeight: '500',
+    },
+  });
