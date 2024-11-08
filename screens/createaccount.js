@@ -9,7 +9,7 @@ export default function CreateAccountScreen({ navigation }) {
 
     return (
         <View style={styles.Lcontainer}>
-        <StatusBar barStyle="light-content" />
+        <StatusBar backgroundColor="#8C2131" barStyle="light-content" />
         <Text style={styles.Ltitle}>Create an Account</Text>
 
         <TextInput

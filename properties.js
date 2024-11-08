@@ -112,6 +112,6 @@ const properties = [
     distance_from_campus: 0.3,
     pet_friendly: false,
   },
-];
+].sort((a, b) => a.rating < b.rating ? 1 : -1);
 
 export default properties;

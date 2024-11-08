@@ -9,7 +9,7 @@ export default function LogInScreen({ navigation }) {
 
     return (
    <View style={styles.Lcontainer}>
-      <StatusBar barStyle="light-content" />
+      <StatusBar backgroundColor="#8C2131" barStyle="light-content" />
       <Text style={styles.Ltitle}>Welcome Back</Text>
 
       <TextInput
