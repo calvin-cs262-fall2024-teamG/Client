@@ -10,7 +10,7 @@ export default function HomeScreen({ navigation }) {
             resizeMode="cover" // Ensure the image covers the entire screen
         >
             <View style={styles.homeContainer}>
-            <StatusBar style="light" />
+            <StatusBar backgroundColor="#8C2131" barStyle="light-content" />
                 <View style={styles.textBox}>
                     <Text style={styles.text1}>Welcome to</Text>
                     <Text style={styles.text2}>RentScout</Text>

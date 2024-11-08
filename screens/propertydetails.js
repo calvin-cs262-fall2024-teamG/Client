@@ -8,7 +8,7 @@ export default function PropertyDetailsScreen({ route, navigation }) {
 
     return (
       <ScrollView style={styles.propertiesContainer} contentContainerStyle={{ paddingBottom: 75 }}>
-        <StatusBar style="light" />
+        <StatusBar backgroundColor="#8C2131" barStyle="light-content" />
   
         {item.banner_image && (
           <Image

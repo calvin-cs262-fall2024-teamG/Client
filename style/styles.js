@@ -90,8 +90,8 @@ export default styles = StyleSheet.create({
   // Properties Title Banner
   titleBanner: {
     width: '100%',
-    height: 100,  
-    backgroundColor: '#8C2131', 
+    height: 100,
+    backgroundColor: '#8C2131',
     justifyContent: 'center',
     alignItems: 'center',
     paddingTop: 10,  // Padding to adjust the title position
@@ -107,17 +107,27 @@ export default styles = StyleSheet.create({
 
   // Container for filter button and results text
   filterAndResultsContainer: {
-    flexDirection: 'row', 
+    flexDirection: 'row',
     justifyContent: 'space-between',
     width: '100%',  // Take up full width of the screen
     marginTop: 0, // Align boxes flush with the banner
     marginBottom: 15, // Space below for property listings
   },
 
+  sortingBox: {
+    flex: 1,
+    backgroundColor: '#F3CD00',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 10, // Increase padding for a larger box
+    borderWidth: 1,
+    borderColor: '#000',
+  },
+
   // Box for filter button
   filterBox: {
-    flex: 1,  
-    backgroundColor: '#F3CD00',  
+    flex: 1,
+    backgroundColor: '#F3CD00',
     justifyContent: 'center',
     alignItems: 'center',
     padding: 10, // Increase padding for a larger box
@@ -127,8 +137,8 @@ export default styles = StyleSheet.create({
 
   // Box for results count
   resultsBox: {
-    flex: 1,  
-    backgroundColor: '#F3CD00',  
+    flex: 1,
+    backgroundColor: '#F3CD00',
     justifyContent: 'center',
     alignItems: 'center',
     padding: 10, // Increase padding for a larger box
@@ -151,13 +161,13 @@ export default styles = StyleSheet.create({
     marginVertical: 5,
     borderBottomWidth: 1,
     borderBottomColor: '#ccc',
-    borderWidth: 1,  
-    borderColor: '#000', 
-    borderRadius: 5, 
+    borderWidth: 1,
+    borderColor: '#000',
+    borderRadius: 5,
     marginBottom: 5,  // Space between each property listing
     marginTop: 0,  // Space between each property listing
   },
-  
+
   propertyItem: {
     padding: 10,
     fontSize: 18,
@@ -170,6 +180,13 @@ export default styles = StyleSheet.create({
   // Popup menu styles
   buttonRow: {
     flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginVertical: 5,
+  },
+
+  buttonColumn: {
+    flexDirection: 'column',
     justifyContent: 'space-between',
     alignItems: 'center',
     marginVertical: 5,
@@ -224,7 +241,7 @@ export default styles = StyleSheet.create({
     height: 40,
     width: 110,
     borderColor: 'gray',
-    borderWidth: 1,
+    borderWidth: 2,
     paddingHorizontal: 10,
     borderRadius: 5,
     marginRight: 5, // Add some space between the text input and the "miles" text
@@ -232,6 +249,11 @@ export default styles = StyleSheet.create({
   textInputError: {
     borderColor: 'red',
     borderWidth: 2,
+    height: 40,
+    width: 110,
+    paddingHorizontal: 10,
+    borderRadius: 5,
+    marginRight: 5,
   },
 
   //property details screen styles
@@ -244,7 +266,7 @@ export default styles = StyleSheet.create({
   //Log In and Create Account Screen Styles
   Lcontainer: {
     flex: 1,
-    backgroundColor: '#8C2131', 
+    backgroundColor: '#8C2131',
     alignItems: 'center',
     justifyContent: 'center',
     padding: 20,
@@ -294,35 +316,43 @@ export default styles = StyleSheet.create({
   },
 
   //Header styles
-    headerContainer: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      justifyContent: 'space-between',
-      paddingHorizontal: 10,
-      paddingVertical: 5,
-      backgroundColor: '#8C2131', // Maroon
-      borderBottomWidth: 1,
-      borderBottomColor: '#8C2131',
-    },
-    headerTitle: {
-      flex: 1,
-      textAlign: 'center',
-      fontSize: 18,
-      color: '#8C2131', // Maroon to blend in (for now)
-      fontWeight: '600',
-    },
-    headerButton: {
-      paddingVertical: 5,
-      paddingHorizontal: 10,
-      backgroundColor: '#8C2131', // Maroon color
-      borderRadius: 3,
-      borderColor: '#F3CD00', // Gold color
-      borderWidth: 1,
-      marginVertical: 15,
-    },
-    headerButtonText: {
-      color: '#F3CD00', // Gold text for contrast
-      fontSize: 16,
-      fontWeight: '500',
-    },
-  });
+  headerContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    backgroundColor: '#8C2131', // Maroon
+    borderBottomWidth: 1,
+    borderBottomColor: '#8C2131',
+  },
+  headerTitle: {
+    flex: 1,
+    textAlign: 'center',
+    fontSize: 18,
+    color: '#8C2131', // Maroon to blend in (for now)
+    fontWeight: '600',
+  },
+  headerButton: {
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+    backgroundColor: '#8C2131', // Maroon color
+    borderRadius: 3,
+    borderColor: '#F3CD00', // Gold color
+    borderWidth: 1,
+    marginVertical: 15,
+  },
+  headerButtonText: {
+    color: '#F3CD00', // Gold text for contrast
+    fontSize: 16,
+    fontWeight: '500',
+  },
+
+  resultsFoundText: {
+    alignSelf: 'flex-start',
+    fontSize: 16,
+    padding: 10,
+  },
+
+
+});
