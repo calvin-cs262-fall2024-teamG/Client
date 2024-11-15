@@ -151,6 +151,9 @@ export default function PropertiesScreen({ navigation }) {
       case 'Distance':
         sortedProperties.sort((a, b) => a.distance_from_campus > b.distance_from_campus ? 1 : -1); //> is low to high, < is high to low
         break;
+      case 'Bus Stop':
+        sortedProperties.sort((a, b) => a.distance_from_bus_stop > b.distance_from_bus_stop ? 1 : -1);
+        break;
       case 'Cost':
         sortedProperties.sort((a, b) => a.estimated_cost > b.estimated_cost ? 1 : -1);
         break;
@@ -241,7 +244,7 @@ export default function PropertiesScreen({ navigation }) {
                       onChangeText={(text) => {
                         setTempDistance(text);
                         setFilteredProperties(getFilteredProperties(tempSelectedFilters, text, tempBusDistance, tempPriceHigh));
-                        if (text == '') setDistanceStyle(styles.textInputError);
+                        if (text == '' && filters.includes('4')) setDistanceStyle(styles.textInputError);
                         else setDistanceStyle(styles.textInput);
                       }}
                     />
@@ -258,7 +261,7 @@ export default function PropertiesScreen({ navigation }) {
                       onChangeText={(text) => {
                         setTempBusDistance(text);
                         setFilteredProperties(getFilteredProperties(tempSelectedFilters, tempDistance, text, tempPriceHigh));
-                        if (text == '') setBusDistanceStyle(styles.textInputError);
+                        if (text == '' && filters.includes('5')) setBusDistanceStyle(styles.textInputError);
                         else setBusDistanceStyle(styles.textInput);
                       }}
                     />
@@ -275,7 +278,7 @@ export default function PropertiesScreen({ navigation }) {
                       onChangeText={(text) => {
                         setTempPriceHigh(text);
                         setFilteredProperties(getFilteredProperties(tempSelectedFilters, tempDistance, tempBusDistance, text));
-                        if (text == '') setPriceHighStyle(styles.textInputSmallError);
+                        if (text == '' && filters.includes('6')) setPriceHighStyle(styles.textInputSmallError);
                         else setPriceHighStyle(styles.textInputSmall);
                       }}
                     />
@@ -318,6 +321,9 @@ export default function PropertiesScreen({ navigation }) {
             <View style={styles.buttonColumn}>
               <TouchableOpacity style={[styles.filterMenuButton, { marginBottom: 5 }]} onPress={() => sortProperties('Distance')}>
                 <Text style={styles.filtersText}>Sort by Distance (low to high)</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={[styles.filterMenuButton, { marginBottom: 5 }]} onPress={() => sortProperties('Bus Stop')}>
+                <Text style={styles.filtersText}>Sort by Distance to Bus (low to high)</Text>
               </TouchableOpacity>
               <TouchableOpacity style={[styles.filterMenuButton, { marginBottom: 5 }]} onPress={() => sortProperties('Cost')}>
                 <Text style={styles.filtersText}>Sort by Cost (low to high)</Text>
