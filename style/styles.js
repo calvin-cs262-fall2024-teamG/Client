@@ -105,7 +105,7 @@ export default styles = StyleSheet.create({
     backgroundColor: '#8C2131',
     justifyContent: 'center',
     alignItems: 'center',
-    paddingTop: 15,  // Padding to adjust the title position
+    paddingTop: -10,  // Padding to adjust the title position
     paddingBottom: 30,  // Padding to adjust the title position
   },
 
@@ -355,7 +355,7 @@ export default styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 15,
-    paddingVertical: 10,
+    paddingVertical: 35,
     backgroundColor: '#8C2131',
     paddingTop: 50, // Adjust for status bar
   },
