@@ -78,23 +78,34 @@ export default styles = StyleSheet.create({
     textAlign: 'center',
   },
 
-  propertiesPageText: {
+  propertiesDetailsText: {
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 20,
     marginVertical: 10,
     marginHorizontal: 20,
     color: '#F3CD00',
+    marginLeft: 5,
+  },
+
+  contactInfoText: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 20,
+    marginVertical: 10,
+    marginHorizontal: 20,
+    color: '#F3CD00',
+    marginLeft: 25,
   },
 
   // Properties Title Banner
   titleBanner: {
     width: '100%',
-    height: 100,
+    height: 110,
     backgroundColor: '#8C2131',
     justifyContent: 'center',
     alignItems: 'center',
-    paddingTop: 10,  // Padding to adjust the title position
+    paddingTop: 15,  // Padding to adjust the title position
     paddingBottom: 30,  // Padding to adjust the title position
   },
 
@@ -301,14 +312,15 @@ export default styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
   },
+  Lfooter: {
+    flexDirection: 'row',
+    alignItems: 'center', // Align items in the center of the row
+    marginTop: 20,
+  },
   Llink: {
     color: '#F3CD00',
     fontSize: 16,
-    marginVertical: 10,
-  },
-  Lfooter: {
-    flexDirection: 'row',
-    marginTop: 20,
+    marginLeft: 5, // Add spacing between the footer text and the link
   },
   LfooterText: {
     color: '#FFFFFF',
@@ -320,39 +332,131 @@ export default styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-    backgroundColor: '#8C2131', // Maroon
-    borderBottomWidth: 1,
-    borderBottomColor: '#8C2131',
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+    backgroundColor: '#8C2131',
+    paddingTop: 50, // Adjust for status bar
   },
   headerTitle: {
+    color: '#F3CD00',
+    fontSize: 20,
+    fontWeight: 'bold',
     flex: 1,
     textAlign: 'center',
-    fontSize: 18,
-    color: '#8C2131', // Maroon to blend in (for now)
-    fontWeight: '600',
   },
   headerButton: {
     paddingVertical: 5,
     paddingHorizontal: 10,
-    backgroundColor: '#8C2131', // Maroon color
+    backgroundColor: '#8C2131',
     borderRadius: 3,
-    borderColor: '#F3CD00', // Gold color
+    borderColor: '#F3CD00',
     borderWidth: 1,
-    marginVertical: 15,
   },
   headerButtonText: {
-    color: '#F3CD00', // Gold text for contrast
-    fontSize: 16,
-    fontWeight: '500',
+    color: '#F3CD00',
+    fontSize: 14,
+    fontWeight: 'bold',
   },
+  favoriteButton: {
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+    backgroundColor: '#8C2131',
+    borderRadius: 3,
+    borderColor: '#F3CD00',
+    borderWidth: 1,
+  },
+  favoriteButtonText: {
+    color: '#F3CD00',
+    fontSize: 14,
+    fontWeight: 'bold',
+  },
+
+  favoriteButtonProperties: {
+    position: 'absolute',
+    top: 50, // Adjust this value to match your header padding
+    right: 15,
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+    backgroundColor: '#8C2131',
+    borderRadius: 3,
+    borderColor: '#F3CD00',
+    borderWidth: 1,
+    zIndex: 1, // This ensures the button stays on top of other elements
+},
 
   resultsFoundText: {
     alignSelf: 'flex-start',
     fontSize: 16,
-    padding: 10,
+    marginTop: -5,
+    marginLeft:21,
+    marginBottom: 10,
   },
 
+  //Add and remove favorites
+
+  editFavoritesButton: {
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+    backgroundColor: '#8C2131',
+    borderRadius: 3,
+    borderColor: '#F3CD00',
+    borderWidth: 1,
+    marginLeft: 10, // Add spacing between the title and button
+    marginTop: 10, 
+    alignSelf: 'flex-start',
+},
+
+editFavoritesButtonText: {
+    color: '#F3CD00',
+    fontSize: 14,
+    fontWeight: 'bold',
+},
+
+propertyDetailsTitleContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: 10,
+    marginHorizontal: 20,
+},
+
+//Favorites Scrolling
+scrollContainer: {
+  flex: 1,
+  width: '100%',
+},
+
+scrollContentContainer: {
+  flexGrow: 1,
+  paddingBottom: 20, // Adds padding at the bottom of the scroll
+},
+
+propertiesContainer: {
+  flex: 1,
+  backgroundColor: '#fff',
+},
+
+propertyList: {
+  backgroundColor: '#fff',
+  padding: 15,
+  marginHorizontal: 10,
+  marginTop: 10,
+  borderRadius: 5,
+  borderWidth: 1,
+  borderColor: '#ddd',
+  shadowColor: '#000',
+  shadowOffset: {
+      width: 0,
+      height: 2,
+  },
+  shadowOpacity: 0.25,
+  shadowRadius: 3.84,
+  elevation: 5,
+},
+
+itemDescription: {
+  fontSize: 16,
+  marginBottom: 5,
+  color: '#333',
+},
 
 });
