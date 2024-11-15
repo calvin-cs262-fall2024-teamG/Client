@@ -105,7 +105,7 @@ export default styles = StyleSheet.create({
     backgroundColor: '#8C2131',
     justifyContent: 'center',
     alignItems: 'center',
-    paddingTop: 15,  // Padding to adjust the title position
+    paddingTop: -10,  // Padding to adjust the title position
     paddingBottom: 30,  // Padding to adjust the title position
   },
 
@@ -194,6 +194,7 @@ export default styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     marginVertical: 5,
+    marginHorizontal: 1, //for some reason, not having this makes the "show # results", "clear filters" buttons not align properly on android at least
   },
 
   buttonColumn: {
@@ -255,8 +256,9 @@ export default styles = StyleSheet.create({
     borderWidth: 2,
     paddingHorizontal: 10,
     borderRadius: 5,
-    marginRight: 5, // Add some space between the text input and the "miles" text
+    marginRight: 2, // Add some space between the text input and the "miles" text
   },
+
   textInputError: {
     borderColor: 'red',
     borderWidth: 2,
@@ -264,7 +266,27 @@ export default styles = StyleSheet.create({
     width: 110,
     paddingHorizontal: 10,
     borderRadius: 5,
-    marginRight: 5,
+    marginRight: 2,
+  },
+
+  textInputSmall: {
+    height: 40,
+    width: 90,
+    borderColor: 'gray',
+    borderWidth: 2,
+    paddingHorizontal: 10,
+    borderRadius: 5,
+    marginRight: 2, // Add some space between the text input and the "miles" text
+  },
+  
+  textInputSmallError: {
+    borderColor: 'red',
+    borderWidth: 2,
+    height: 40,
+    width: 90,
+    paddingHorizontal: 10,
+    borderRadius: 5,
+    marginRight: 2,
   },
 
   //property details screen styles
@@ -333,7 +355,7 @@ export default styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 15,
-    paddingVertical: 10,
+    paddingVertical: 35,
     backgroundColor: '#8C2131',
     paddingTop: 50, // Adjust for status bar
   },
