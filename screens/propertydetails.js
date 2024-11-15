@@ -37,7 +37,7 @@ export default function PropertyDetailsScreen({ route, navigation }) {
       let favorites = savedFavorites ? JSON.parse(savedFavorites) : [];
       if (isFavorite) {
         // Remove from favorites
-
+        
       } else {
         // Add to favorites if not already present
         if (!favorites.some(fav => fav.id === item.id)) {
