@@ -9,6 +9,7 @@ import PropertyDetailsScreen from './screens/propertydetails'; //Import the Prop
 import LogInScreen from './screens/login'; //Import the LogInScreen from screens/login.js
 import CreateAccountScreen from './screens/createaccount'; //Import the CreateAccountScreen from screens/createaccount.js
 import Header from './screens/header'; //Import the Header from screens/header.js
+import FavoritesScreen from './screens/favorites';
 
 const Stack = createNativeStackNavigator();
 
@@ -17,10 +18,11 @@ function App() {
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="LogIn" component={LogInScreen_header} />
-        <Stack.Screen name="CreateAccount" component={CreateAccountScreen_header} />
+        <Stack.Screen name="LogIn" component={LogInScreen} />
+        <Stack.Screen name="CreateAccount" component={CreateAccountScreen} />
         <Stack.Screen name="Properties" component={PropertiesScreen_header} />
         <Stack.Screen name="PropertyDetails" component={PropertyDetailsScreen_header} />
+        <Stack.Screen name="Favorites" component={FavoritesScreen_header} />
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -52,6 +54,13 @@ const PropertyDetailsScreen_header = (props) => (
   <>
     <Header title="Property Details" />
     <PropertyDetailsScreen {...props} />
+  </>
+);
+
+const FavoritesScreen_header = (props) => (
+  <>
+    <Header title="Favorites" />
+    <FavoritesScreen {...props} />
   </>
 );
 
