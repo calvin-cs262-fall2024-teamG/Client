@@ -20,7 +20,7 @@ export default function PropertyDetailsScreen({ route, navigation }) {
   
         <Text style={styles.propertiesPageText}>Property Details</Text>
   
-        <Text style={styles.propertyItem}>ID: {item.id}</Text>
+        {/* <Text style={styles.propertyItem}>ID: {item.id}</Text> */}
         <Text style={styles.propertyItem}>Rating: {item.rating}</Text>
         <View style={styles.propertyItem}>
             <StarRating rating={item.rating} />
@@ -30,9 +30,11 @@ export default function PropertyDetailsScreen({ route, navigation }) {
         <Text style={styles.propertyItem}>Baths: {item.baths}</Text>
         <Text style={styles.propertyItem}>Estimated Cost: ${item.estimated_cost}</Text>
         <Text style={styles.propertyItem}>Distance from Campus: {item.distance_from_campus} miles</Text>
+        <Text style={styles.propertyItem}>Distance from Bus Stop: {item.distance_from_bus_stop} miles</Text>
         <Text style={styles.propertyItem}>Pet Friendly: {item.pet_friendly ? 'Yes' : 'No'}</Text>
   
         <Text style={styles.propertiesPageText}>Contact Information</Text>
+        <Text style={styles.propertyItem}>Landlord Name: {item.landlord_name}</Text>
         {item.contact_phone && (
           <Text style={styles.propertyItem}>Phone: {item.contact_phone}</Text>
         )}

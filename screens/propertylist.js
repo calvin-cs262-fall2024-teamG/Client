@@ -7,8 +7,10 @@ import properties from '../properties'; //Import the properties from properties.
 const filters = [
   { id: '1', label: 'Pet Friendly' },
   { id: '2', label: 'Has Contact' },
-  { id: '3', label: 'Has Banner' },
+  // { id: '3', label: 'Has Banner' },
   { id: '4', label: 'Distance Less than ' },
+  { id: '5', label: 'Bus Stop Less than ' },
+  { id: '6', label: 'Price Less than $' },
 ];
 
 export default function PropertiesScreen({ navigation }) {
@@ -22,6 +24,12 @@ export default function PropertiesScreen({ navigation }) {
   const [distance, setDistance] = useState('');
   const [tempDistance, setTempDistance] = useState('');
   const [distanceStyle, setDistanceStyle] = useState(styles.textInput);
+  const [busDistance, setBusDistance] = useState('');
+  const [tempBusDistance, setTempBusDistance] = useState('');
+  const [busDistanceStyle, setBusDistanceStyle] = useState(styles.textInput);
+  const [priceHigh, setPriceHigh] = useState('');
+  const [tempPriceHigh, setTempPriceHigh] = useState('');
+  const [priceHighStyle, setPriceHighStyle] = useState(styles.textInputSmall);
   const [sortType, setSortType] = useState('Rating');
 
   const toggleModalFiltering = () => {
@@ -29,6 +37,8 @@ export default function PropertiesScreen({ navigation }) {
     if (!modalFilteringVisible) { // If the modal is being opened
       setTempSelectedFilters(selectedFilters);
       setTempDistance(distance);
+      setTempBusDistance(busDistance);
+      setTempPriceHigh(priceHigh);
     }
     else { // If the modal is being closed
       sortProperties('');
@@ -52,6 +62,24 @@ export default function PropertiesScreen({ navigation }) {
 
         if (tempDistance == '') setDistanceStyle(styles.textInputError);
       }
+    } else if (filterId === '5') {
+      if (updatedFilters.includes(filterId)) {
+        updatedFilters = updatedFilters.filter(id => id !== filterId);
+        setBusDistanceStyle(styles.textInput);
+      } else {
+        updatedFilters.push(filterId);
+
+        if (tempBusDistance == '') setBusDistanceStyle(styles.textInputError);
+      }
+    } else if (filterId === '6') {
+      if (updatedFilters.includes(filterId)) {
+        updatedFilters = updatedFilters.filter(id => id !== filterId);
+        setPriceHighStyle(styles.textInputSmall);
+      } else {
+        updatedFilters.push(filterId);
+
+        if (tempPriceHigh == '') setPriceHighStyle(styles.textInputSmallError);
+      }
     } else {
       // Handle other filters
       if (updatedFilters.includes(filterId)) {
@@ -61,10 +89,10 @@ export default function PropertiesScreen({ navigation }) {
       }
     }
     setTempSelectedFilters(updatedFilters);
-    setFilteredProperties(getFilteredProperties(updatedFilters, tempDistance));
+    setFilteredProperties(getFilteredProperties(updatedFilters, tempDistance, tempBusDistance, tempPriceHigh));
   };
 
-  const getFilteredProperties = (filters, distance) => {
+  const getFilteredProperties = (filters, distance_in, busDistance_in, priceHigh_in) => {
     let filteredProperties = properties;
 
     if (filters.includes('1')) {
@@ -76,13 +104,22 @@ export default function PropertiesScreen({ navigation }) {
     if (filters.includes('3')) {
       filteredProperties = filteredProperties.filter((property) => property.banner_image);
     }
-    if (filters.includes('4') && distance) {
-      const distanceValue = parseFloat(distance);
+    if (filters.includes('4') && distance_in) {
+      const distanceValue = parseFloat(distance_in);
       if (!isNaN(distanceValue)) {
-        filteredProperties = filteredProperties.filter(property => {
-          // Assuming property.distance is the distance of the property
-          return property.distance_from_campus < distanceValue;
-        });
+        filteredProperties = filteredProperties.filter(property => (property.distance_from_campus < distanceValue));
+      }
+    }
+    if (filters.includes('5') && busDistance_in) {
+      const busDistanceValue = parseFloat(busDistance_in);
+      if (!isNaN(busDistanceValue)) {
+        filteredProperties = filteredProperties.filter(property => (property.distance_from_bus_stop < busDistanceValue));
+      }
+    }
+    if (filters.includes('6') && priceHigh_in) {
+      const priceHighValue = parseFloat(priceHigh_in);
+      if (!isNaN(priceHighValue)) {
+        filteredProperties = filteredProperties.filter(property => (property.estimated_cost < priceHighValue));
       }
     }
 
@@ -93,16 +130,18 @@ export default function PropertiesScreen({ navigation }) {
     toggleModalFiltering();
     setSelectedFilters(tempSelectedFilters);
     setDistance(tempDistance);
+    setBusDistance(tempBusDistance);
+    setPriceHigh(tempPriceHigh);
 
-    const filteredProperties = getFilteredProperties(tempSelectedFilters, tempDistance);
+    const filteredProperties = getFilteredProperties(tempSelectedFilters, tempDistance, tempBusDistance, tempPriceHigh);
 
     setDisplayedProperties(filteredProperties);
-    setNumAppliedFilters(tempSelectedFilters.length + (!tempDistance && tempSelectedFilters.includes('4') ? -1 : 0));
+    setNumAppliedFilters(tempSelectedFilters.length + (!tempDistance && tempSelectedFilters.includes('4') ? -1 : 0) + (!tempBusDistance && tempSelectedFilters.includes('5') ? -1 : 0) + (!tempPriceHigh && tempSelectedFilters.includes('6') ? -1 : 0));
   };
 
   const sortProperties = (sortType_in) => {
     toggleModalSorting();
-    
+
     let sortedProperties = [...displayedProperties];
     if (sortType_in != '') setSortType(sortType_in);
     else sortType_in = sortType;
@@ -201,12 +240,46 @@ export default function PropertiesScreen({ navigation }) {
                       value={tempDistance}
                       onChangeText={(text) => {
                         setTempDistance(text);
-                        setFilteredProperties(getFilteredProperties(tempSelectedFilters, text));
+                        setFilteredProperties(getFilteredProperties(tempSelectedFilters, text, tempBusDistance, tempPriceHigh));
                         if (text == '') setDistanceStyle(styles.textInputError);
                         else setDistanceStyle(styles.textInput);
                       }}
                     />
                     <Text style={styles.checkboxLabel}>miles</Text>
+                  </View>
+                ) : null}
+                {filter.id === '5' ? (
+                  <View style={styles.distanceInputContainer}>
+                    <TextInput
+                      style={busDistanceStyle}
+                      placeholder="Enter distance"
+                      keyboardType="numeric"
+                      value={tempBusDistance}
+                      onChangeText={(text) => {
+                        setTempBusDistance(text);
+                        setFilteredProperties(getFilteredProperties(tempSelectedFilters, tempDistance, text, tempPriceHigh));
+                        if (text == '') setBusDistanceStyle(styles.textInputError);
+                        else setBusDistanceStyle(styles.textInput);
+                      }}
+                    />
+                    <Text style={styles.checkboxLabel}>miles</Text>
+                  </View>
+                ) : null}
+                {filter.id === '6' ? (
+                  <View style={styles.distanceInputContainer}>
+                    <TextInput
+                      style={priceHighStyle}
+                      placeholder="Enter price"
+                      keyboardType="numeric"
+                      value={tempPriceHigh}
+                      onChangeText={(text) => {
+                        setTempPriceHigh(text);
+                        setFilteredProperties(getFilteredProperties(tempSelectedFilters, tempDistance, tempBusDistance, text));
+                        if (text == '') setPriceHighStyle(styles.textInputSmallError);
+                        else setPriceHighStyle(styles.textInputSmall);
+                      }}
+                    />
+                    <Text style={styles.checkboxLabel}>per month</Text>
                   </View>
                 ) : null}
               </View>
@@ -218,7 +291,9 @@ export default function PropertiesScreen({ navigation }) {
               <View style={{ width: 10 }} />
               <TouchableOpacity style={styles.filterMenuButton} onPress={() => {
                 setTempSelectedFilters([]);
-                setTempDistance('')
+                setTempDistance('');
+                setTempBusDistance('');
+                setTempPriceHigh('');
                 setFilteredProperties(getFilteredProperties([], ''));
               }}>
                 <Text style={styles.filtersText}>Clear Filters</Text>
