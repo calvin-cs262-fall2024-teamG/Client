@@ -41,7 +41,7 @@ const properties = [
     contact_phone: '616-111-2222',
     contact_email: 'ekraayeveld@gmail.com',
     estimated_cost: 2000,
-    distance_from_campus: 0.8, //actually 2.8 miles
+    distance_from_campus: 2.8,
     distance_from_bus_stop: 0.2,
     pet_friendly: false,
     rating: 4.0,
@@ -101,7 +101,7 @@ const properties = [
     contact_phone: '616-123-4567',
     contact_email: 'contact@continentalProperties.org',
     estimated_cost: 2280,
-    distance_from_campus: 0.8, //actually 4.8 miles
+    distance_from_campus: 4.8,
     distance_from_bus_stop: 0.3,
     pet_friendly: false,
     rating: 4.9,
@@ -146,7 +146,7 @@ const properties = [
     contact_phone: null,
     contact_email: null,
     estimated_cost: 1895,
-    distance_from_campus: 0.7, //actually 2.7 miles
+    distance_from_campus: 2.7,
     distance_from_bus_stop: 0.2,
     pet_friendly: false,
     rating: 4.7,
