@@ -1,3 +1,9 @@
+import structuredClone from '@ungap/structured-clone';
+
+if (typeof globalThis.structuredClone === 'undefined') {
+  globalThis.structuredClone = structuredClone;
+}
+
 import globals from "globals";
 import pluginJs from "@eslint/js";
 import tseslint from "typescript-eslint";
@@ -25,7 +31,3 @@ export default [
     }
   }
 ];
-
-if (typeof globalThis.structuredClone === 'undefined') {
-  globalThis.structuredClone = structuredClone;
-}
