@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { View, Text, ScrollView, TouchableOpacity, StatusBar } from 'react-native';
-import { useNavigation, useIsFocused } from '@react-navigation/native';
+import { useIsFocused } from '@react-navigation/native';
 import styles from '../style/styles';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -81,3 +82,14 @@ export default function FavoritesScreen({ navigation, route }) {
   );
 }
 
+FavoritesScreen.propTypes = {
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func.isRequired,
+    getParent: PropTypes.func.isRequired,
+  }).isRequired,
+  route: PropTypes.shape({
+    params: PropTypes.shape({
+      favoritesUpdated: PropTypes.bool,
+    }),
+  }).isRequired,
+};

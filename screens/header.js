@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, Button, StyleSheet } from 'react-native';
+import PropTypes from 'prop-types';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import styles from '../style/styles';
 
@@ -61,6 +62,10 @@ const Header = ({ title }) => {
       {renderHeaderContent()}
     </View>
   );
+};
+
+Header.propTypes = {
+  title: PropTypes.string.isRequired,
 };
 
 export default Header;

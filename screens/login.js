@@ -1,14 +1,14 @@
-import { ImageBackground, Image, StatusBar, Text, View, TouchableOpacity, Button, FlatList, TextInput } from 'react-native';
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import { StatusBar, Text, View, TouchableOpacity, TextInput } from 'react-native';
 import styles from '../style/styles'; //Import the styles from styles.js
 
-
 export default function LogInScreen({ navigation }) {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
-    return (
-   <View style={styles.Lcontainer}>
+  return (
+    <View style={styles.Lcontainer}>
       <StatusBar backgroundColor="#8C2131" barStyle="light-content" />
       <Text style={styles.Ltitle}>Welcome Back</Text>
 
@@ -37,11 +37,17 @@ export default function LogInScreen({ navigation }) {
       </TouchableOpacity>
 
       <View style={styles.Lfooter}>
-        <Text style={styles.LfooterText}>Don't have an account?</Text>
+        <Text style={styles.LfooterText}>Don&apos;t have an account?</Text>
         <TouchableOpacity onPress={() => navigation.navigate('CreateAccount')}>
           <Text style={styles.Llink}> Sign Up</Text>
         </TouchableOpacity>
       </View>
     </View>
-    );
+  );
 }
+
+LogInScreen.propTypes = {
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func.isRequired,
+  }).isRequired,
+};
