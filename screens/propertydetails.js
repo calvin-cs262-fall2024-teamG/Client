@@ -1,8 +1,8 @@
 import React, {useState, useEffect} from 'react';
-import { Image, StatusBar, Text, View, Button, FlatList, ScrollView, TouchableOpacity } from 'react-native';
+import PropTypes from 'prop-types';
+import { Image, StatusBar, Text, View, ScrollView, TouchableOpacity } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
 import styles from '../style/styles'; //Import the styles from styles.js
-import properties from '../properties'; //Import the properties from properties.js
 import StarRating from '../style/5stars'; //Import the StarRating from 5stars.js
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -106,3 +106,30 @@ export default function PropertyDetailsScreen({ route, navigation }) {
       </ScrollView>
     );
   }
+
+  PropertyDetailsScreen.propTypes = {
+    route: PropTypes.shape({
+      params: PropTypes.shape({
+        item: PropTypes.shape({
+          id: PropTypes.string.isRequired,
+          banner_image: PropTypes.string,
+          rating: PropTypes.number,
+          address: PropTypes.string,
+          beds: PropTypes.number,
+          baths: PropTypes.number,
+          estimated_cost: PropTypes.number,
+          distance_from_campus: PropTypes.number,
+          distance_from_bus_stop: PropTypes.number,
+          pet_friendly: PropTypes.bool,
+          landlord_name: PropTypes.string,
+          contact_phone: PropTypes.string,
+          contact_email: PropTypes.string,
+        }).isRequired,
+        favoritesUpdated: PropTypes.bool,
+      }).isRequired,
+    }).isRequired,
+    navigation: PropTypes.shape({
+      navigate: PropTypes.func.isRequired,
+      getParent: PropTypes.func.isRequired,
+    }).isRequired,
+  };

@@ -1,7 +1,6 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { View, Text } from 'react-native';
 
 import HomeScreen from './screens/home'; //Import the HomeScreen from screens/home.js
 import PropertiesScreen from './screens/propertylist'; //Import the PropertiesScreen from screens/propertylist.js
@@ -29,19 +28,19 @@ function App() {
 }
 
 
-const LogInScreen_header = (props) => (
-  <>
-    <Header title="Log In" />
-    <LogInScreen {...props} />
-  </>
-);
+// const LogInScreen_header = (props) => (
+//   <>
+//     <Header title="Log In" />
+//     <LogInScreen {...props} />
+//   </>
+// );
 
-const CreateAccountScreen_header = (props) => (
-  <>
-    <Header title="Create Account" />
-    <CreateAccountScreen {...props} />
-  </>
-);
+// const CreateAccountScreen_header = (props) => (
+//   <>
+//     <Header title="Create Account" />
+//     <CreateAccountScreen {...props} />
+//   </>
+// );
 
 const PropertiesScreen_header = (props) => (
   <>

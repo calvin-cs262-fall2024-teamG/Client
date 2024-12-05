@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import CheckBox from 'expo-checkbox';
-import { Image, StatusBar, Text, View, Button, FlatList, TouchableOpacity, Modal, TextInput } from 'react-native';
+import { StatusBar, Text, View, FlatList, TouchableOpacity, Modal, TextInput } from 'react-native';
 import styles from '../style/styles'; //Import the styles from styles.js
 import properties from '../properties'; //Import the properties from properties.js
 
@@ -349,5 +350,8 @@ export default function PropertiesScreen({ navigation }) {
   );
 }
 
-
-
+PropertiesScreen.propTypes = {
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func.isRequired,
+  }).isRequired,
+};
