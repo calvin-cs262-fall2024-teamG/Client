@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { Image, Text, View, Button, FlatList, TouchableOpacity, Modal, TextInput } from 'react-native';
+import { useIsFocused } from '@react-navigation/native';
 import CheckBox from 'expo-checkbox';
-import { Image, StatusBar, Text, View, Button, FlatList, TouchableOpacity, Modal, TextInput } from 'react-native';
-import styles from '../style/styles'; //Import the styles from styles.js
-import properties from '../properties'; //Import the properties from properties.js
+import ScreenHeader from '../components/ScreenHeader';
+import styles from '../style/styles';
+import tabStyles from '../style/tabStyles';
+import properties from '../properties';
 
 const filters = [
   { id: '1', label: 'Pet Friendly' },
   { id: '2', label: 'Has Contact' },
-  // { id: '3', label: 'Has Banner' },
   { id: '4', label: 'Distance Less than ' },
   { id: '5', label: 'Bus Stop Less than ' },
   { id: '6', label: 'Price Less than $' },
@@ -16,7 +18,7 @@ const filters = [
 export default function PropertiesScreen({ navigation }) {
   const [modalFilteringVisible, setModalFilteringVisible] = useState(false);
   const [modalSortingVisible, setModalSortingVisible] = useState(false);
-  const [displayedProperties, setDisplayedProperties] = useState(properties);
+  const [displayedProperties, setDisplayedProperties] = useState(properties); // Initialize with properties
   const [filteredProperties, setFilteredProperties] = useState(properties);
   const [selectedFilters, setSelectedFilters] = useState([]);
   const [tempSelectedFilters, setTempSelectedFilters] = useState([]);
@@ -32,19 +34,35 @@ export default function PropertiesScreen({ navigation }) {
   const [priceHighStyle, setPriceHighStyle] = useState(styles.textInputSmall);
   const [sortType, setSortType] = useState('Rating');
 
+  const isFocused = useIsFocused();
+
+  // Initialize properties when component mounts
+  useEffect(() => {
+    setDisplayedProperties(properties);
+  }, []); // Empty dependency array means this runs once on mount
+
+  // Handle focus effects
+  useEffect(() => {
+    if (isFocused) {
+      // Refresh the displayed properties when screen is focused
+      const filteredProps = getFilteredProperties(selectedFilters, distance, busDistance, priceHigh);
+      setDisplayedProperties(filteredProps);
+    }
+  }, [isFocused]);
+
   const toggleModalFiltering = () => {
     setModalFilteringVisible(!modalFilteringVisible);
-    if (!modalFilteringVisible) { // If the modal is being opened
+    if (!modalFilteringVisible) {
       setTempSelectedFilters(selectedFilters);
       setTempDistance(distance);
       setTempBusDistance(busDistance);
       setTempPriceHigh(priceHigh);
-    }
-    else { // If the modal is being closed
+    } else {
       sortProperties('');
       setModalSortingVisible(false);
     }
   };
+
 
   const toggleModalSorting = () => {
     setModalSortingVisible(!modalSortingVisible);
@@ -173,14 +191,9 @@ export default function PropertiesScreen({ navigation }) {
   };
 
   return (
-    <View style={styles.propertiesContainer}>
-      <StatusBar backgroundColor="#8C2131" barStyle="light-content" />
-      {/* Title Banner */}
-      <View style={styles.titleBanner}>
-        <Text style={styles.propertiesTitle}>Properties</Text>
-      </View>
+    <View style={[styles.propertiesContainer, tabStyles.container]}>
+      <ScreenHeader title="Properties" />
 
-      {/* Filter button and results count swapped and placed side by side */}
       <View style={styles.filterAndResultsContainer}>
         <TouchableOpacity style={styles.sortingBox} onPress={toggleModalSorting}>
           <Text style={styles.buttonText}>
@@ -188,7 +201,6 @@ export default function PropertiesScreen({ navigation }) {
           </Text>
         </TouchableOpacity>
 
-        {/* The entire filter box is now the button */}
         <TouchableOpacity style={styles.filterBox} onPress={toggleModalFiltering}>
           <Text style={styles.buttonText}>
             Filters
@@ -199,22 +211,26 @@ export default function PropertiesScreen({ navigation }) {
         </TouchableOpacity>
       </View>
 
-      {/* Properties List */}
       <Text style={styles.resultsFoundText}>{displayedProperties.length} results found</Text>
+      
       <FlatList
         data={displayedProperties}
         renderItem={({ item }) => (
-          <Text
-            style={styles.propertyList}
+          <TouchableOpacity
+            style={styles.propertyListItem}
             onPress={() => navigation.navigate('PropertyDetails', {
               item: item,
+              favoritesUpdated: false
             })}
           >
-            {item.name ? item.name : item.address}
-          </Text>
+            <Text style={styles.propertyList}>
+              {item.name ? item.name : item.address}
+            </Text>
+          </TouchableOpacity>
         )}
-        keyExtractor={item => item.id}
+        keyExtractor={item => item.id.toString()}
       />
+
 
       {/* Modal for Filters */}
       <Modal

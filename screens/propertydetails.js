@@ -1,20 +1,29 @@
 import React, {useState, useEffect} from 'react';
-import { Image, StatusBar, Text, View, Button, FlatList, ScrollView, TouchableOpacity } from 'react-native';
-import { useIsFocused } from '@react-navigation/native';
-import styles from '../style/styles'; //Import the styles from styles.js
-import properties from '../properties'; //Import the properties from properties.js
-import StarRating from '../style/5stars'; //Import the StarRating from 5stars.js
+import { Image, Text, View, ScrollView, TouchableOpacity, StatusBar } from 'react-native';
+import { useIsFocused, useRoute } from '@react-navigation/native';
+import styles from '../style/styles';
+import StarRating from '../style/5stars';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function PropertyDetailsScreen({ route, navigation }) {
-  const { item } = route.params;
+  const { item, favoritesUpdated, fromFavorites = false } = route.params || {};
   const [isFavorite, setIsFavorite] = useState(false);
   const isFocused = useIsFocused();
 
-  // Check favorite status when screen is focused or when favorites are updated
   useEffect(() => {
-    checkIfFavorite();
+    if (isFocused) {
+      checkIfFavorite();
+    }
   }, [isFocused, route.params?.favoritesUpdated]);
+
+  const handleBackPress = () => {
+    if (route.params?.fromFavorites) {
+      navigation.goBack(); // This will go back to FavoritesList
+    } else {
+      navigation.goBack(); // This will go back to PropertiesList
+    }
+  };
+  
 
   const checkIfFavorite = async () => {
     try {
@@ -35,11 +44,10 @@ export default function PropertyDetailsScreen({ route, navigation }) {
     try {
       const savedFavorites = await AsyncStorage.getItem('favorites');
       let favorites = savedFavorites ? JSON.parse(savedFavorites) : [];
+      
       if (isFavorite) {
-        // Remove from favorites
-        
+        favorites = favorites.filter(fav => fav.id !== item.id);
       } else {
-        // Add to favorites if not already present
         if (!favorites.some(fav => fav.id === item.id)) {
           favorites.push(item);
         }
@@ -48,61 +56,128 @@ export default function PropertyDetailsScreen({ route, navigation }) {
       await AsyncStorage.setItem('favorites', JSON.stringify(favorites));
       setIsFavorite(!isFavorite);
 
-      // Notify FavoritesScreen of the change
+      // Update the favorites screen
       if (navigation.getParent()) {
         navigation.getParent().setParams({ favoritesUpdated: Date.now() });
+      }
+
+      // If removing from favorites while in favorites view, navigate back
+      if (fromFavorites && isFavorite) {
+        navigation.goBack();
       }
     } catch (error) {
       console.error('Error updating favorites:', error);
     }
   };
 
-    return (
-      <ScrollView style={styles.propertiesContainer} contentContainerStyle={{ paddingBottom: 75 }}>
+  return (
+    <View style={styles.container}>
+      {/* Header Banner */}
+      <View style={styles.titleBanner}>
+        <TouchableOpacity 
+          onPress={handleBackPress} 
+          style={[styles.headerButton, { position: 'absolute', left: 10, bottom: 40 }]}
+        >
+          <Text style={[styles.headerButtonText, { color: '#F3CD00' }]}>&lt; Back</Text>
+        </TouchableOpacity>
+        <Text style={styles.propertiesTitle}>Details</Text>
+      </View>
+
+      <ScrollView style={styles.detailsContainer}>
         <StatusBar backgroundColor="#8C2131" barStyle="light-content" />
-  
+
         {item.banner_image && (
           <Image
             source={{ uri: item.banner_image }}
             style={styles.propertyImage}
-            imageAlign="center"
           />
         )}
-  
-      <View style={styles.propertyDetailsTitleContainer}>
-        <Text style={styles.propertiesDetailsText}>Property Details</Text>
-        <TouchableOpacity
-          style={styles.editFavoritesButton}
-          onPress={toggleFavorite}
-        >
-          <Text style={styles.editFavoritesButtonText}>
-            {isFavorite ? 'Remove' : 'Add to Favorites'}
-          </Text>
-        </TouchableOpacity>
-      </View>
-  
-        {/* <Text style={styles.propertyItem}>ID: {item.id}</Text> */}
-        <Text style={styles.propertyItem}>Rating: {item.rating}</Text>
-        <View style={styles.propertyItem}>
-            <StarRating rating={item.rating} />
+
+        <View style={styles.detailsContent}>
+          <View style={styles.sectionContainer}>
+            {/* Rating and Favorites Button Row */}
+            <View style={styles.ratingFavoriteRow}>
+  <View style={styles.ratingContainer}>
+    <Text style={styles.detailLabel}>Rating:</Text>
+    <View style={styles.starContainer}>
+      <StarRating rating={item.rating} />
+    </View>
+  </View>
+  <TouchableOpacity
+    style={styles.favoriteButton}
+    onPress={toggleFavorite}
+              >
+                <Text style={styles.favoriteButtonText}>
+                  {isFavorite ? 'Remove Favorites' : 'Add Favorites'}
+                </Text>
+              </TouchableOpacity>
+            </View>
+
+            {/* Property Details Section */}
+            <View style={styles.detailRow}>
+              <Text style={styles.detailLabel}>Address:</Text>
+              <View style={styles.addressContainer}>
+                <Text style={styles.addressText}>{item.address}</Text>
+              </View>
+            </View>
+
+            <View style={styles.detailRow}>
+              <Text style={styles.detailLabel}>Beds:</Text>
+              <Text style={styles.detailValue}>{item.beds}</Text>
+            </View>
+
+            <View style={styles.detailRow}>
+              <Text style={styles.detailLabel}>Baths:</Text>
+              <Text style={styles.detailValue}>{item.baths}</Text>
+            </View>
+
+            <View style={styles.detailRow}>
+              <Text style={styles.detailLabel}>Estimated Cost:</Text>
+              <Text style={styles.detailValue}>${item.estimated_cost}</Text>
+            </View>
+
+            <View style={styles.detailRow}>
+              <Text style={styles.detailLabel}>Distance from Campus:</Text>
+              <Text style={styles.detailValue}>{item.distance_from_campus} miles</Text>
+            </View>
+
+            <View style={styles.detailRow}>
+              <Text style={styles.detailLabel}>Distance from Bus Stop:</Text>
+              <Text style={styles.detailValue}>{item.distance_from_bus_stop} miles</Text>
+            </View>
+
+            <View style={styles.detailRow}>
+              <Text style={styles.detailLabel}>Pet Friendly:</Text>
+              <Text style={styles.detailValue}>{item.pet_friendly ? 'Yes' : 'No'}</Text>
+            </View>
+          </View>
+
+          {/* Contact Information Section */}
+          <View style={styles.sectionContainer}>
+            <Text style={styles.sectionTitle}>Contact Information</Text>
+            
+            <View style={styles.detailRow}>
+              <Text style={styles.detailLabel}>Landlord Name:</Text>
+              <Text style={styles.detailValue}>{item.landlord_name}</Text>
+            </View>
+
+            {item.contact_phone && (
+              <View style={styles.detailRow}>
+                <Text style={styles.detailLabel}>Phone:</Text>
+                <Text style={styles.detailValue}>{item.contact_phone}</Text>
+              </View>
+            )}
+
+            {item.contact_email && (
+              <View style={styles.detailRow}>
+                <Text style={styles.detailLabel}>Email:</Text>
+                <Text style={styles.detailValue}>{item.contact_email}</Text>
+              </View>
+            )}
+          </View>
         </View>
-        <Text style={styles.propertyItem}>Address: {item.address}</Text>
-        <Text style={styles.propertyItem}>Beds: {item.beds}</Text>
-        <Text style={styles.propertyItem}>Baths: {item.baths}</Text>
-        <Text style={styles.propertyItem}>Estimated Cost: ${item.estimated_cost}</Text>
-        <Text style={styles.propertyItem}>Distance from Campus: {item.distance_from_campus} miles</Text>
-        <Text style={styles.propertyItem}>Distance from Bus Stop: {item.distance_from_bus_stop} miles</Text>
-        <Text style={styles.propertyItem}>Pet Friendly: {item.pet_friendly ? 'Yes' : 'No'}</Text>
-  
-        <Text style={styles.contactInfoText}>Contact Information</Text>
-        <Text style={styles.propertyItem}>Landlord Name: {item.landlord_name}</Text>
-        {item.contact_phone && (
-          <Text style={styles.propertyItem}>Phone: {item.contact_phone}</Text>
-        )}
-        {item.contact_email && (
-          <Text style={styles.propertyItem}>Email: {item.contact_email}</Text>
-        )}
-        
       </ScrollView>
-    );
-  }
+    </View>
+  );
+}
+

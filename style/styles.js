@@ -101,19 +101,19 @@ export default styles = StyleSheet.create({
   // Properties Title Banner
   titleBanner: {
     width: '100%',
-    height: 110,
+    height: 120,
     backgroundColor: '#8C2131',
-    justifyContent: 'center',
+    justifyContent: 'flex-end', // Changed from 'center' to 'flex-end'
     alignItems: 'center',
-    paddingTop: -10,  // Padding to adjust the title position
-    paddingBottom: 30,  // Padding to adjust the title position
+    paddingBottom: 15, // Adjusted padding to move text lower
   },
 
   propertiesTitle: {
-    fontSize: 45,
+    fontSize: 40,
     fontWeight: 'bold',
-    color: 'white', // Or could be gold: #F3CD00 
+    color: 'white',
     fontStyle: 'italic',
+    marginTop: 40, // Added margin to push text down
   },
 
   // Container for filter button and results text
@@ -350,47 +350,148 @@ export default styles = StyleSheet.create({
   },
 
   //Header styles
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+  },
   headerContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 15,
-    paddingVertical: 35,
-    backgroundColor: '#8C2131',
-    paddingTop: 50, // Adjust for status bar
-  },
-  headerTitle: {
-    color: '#F3CD00',
-    fontSize: 20,
-    fontWeight: 'bold',
-    flex: 1,
-    textAlign: 'center',
+    padding: 16,
+    backgroundColor: '#fff',
+    borderBottomWidth: 1,
+    borderBottomColor: '#e0e0e0',
   },
   headerButton: {
-    paddingVertical: 5,
-    paddingHorizontal: 10,
-    backgroundColor: '#8C2131',
-    borderRadius: 3,
-    borderColor: '#F3CD00',
-    borderWidth: 1,
+    padding: 8,
+    position: 'absolute',
+    left: 10,
+    bottom: 40,
   },
   headerButtonText: {
-    color: '#F3CD00',
-    fontSize: 14,
+    fontSize: 20,
     fontWeight: 'bold',
+    color: '#F3CD00',
   },
+  headerTitle: {
+    flex: 1,
+    textAlign: 'center',
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#000',
+    marginRight: 40,
+  },
+  detailsContainer: {
+    flex: 1,
+    backgroundColor: '#fff',
+  },
+  detailsContent: {
+    padding: 16,
+  },
+  propertyImage: {
+    width: '100%',
+    height: 200,
+    resizeMode: 'cover',
+  },
+  sectionContainer: {
+    marginBottom: 24,
+    backgroundColor: '#fff',
+    borderRadius: 8,
+    padding: 16,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  titleRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+  sectionTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#000',
+    marginBottom: 16,
+  },
+  detailRow: {
+    flexDirection: 'row',
+    paddingVertical: 8,
+    borderBottomWidth: 1,
+    borderBottomColor: '#f0f0f0',
+    alignItems: 'flex-start', // Changed from 'center' to 'flex-start'
+  },
+  detailLabel: {
+    width: 120, // Fixed width for labels
+    fontSize: 16,
+    color: '#666',
+    fontWeight: '500',
+  },
+
+  addressContainer: {
+    flex: 1, // Takes remaining space
+  },
+
+  addressText: {
+    fontSize: 16,
+    color: '#333',
+    flexWrap: 'wrap',
+    textAlign: 'right',
+  },
+
+  detailValue: {
+    flex: 2,
+    fontSize: 16,
+    color: '#333',
+    textAlign: 'right',
+  },
+
+  ratingFavoriteRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingVertical: 10,
+    marginBottom: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: '#f0f0f0',
+  },
+
+  ratingContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flex: 1, // Takes up available space
+    marginRight: 10, // Adds space between rating and button
+  },
+
+  starContainer: {
+    marginLeft: -60, // Moves stars closer to the "Rating:" label
+  },
+
   favoriteButton: {
-    paddingVertical: 5,
-    paddingHorizontal: 10,
     backgroundColor: '#8C2131',
-    borderRadius: 3,
-    borderColor: '#F3CD00',
-    borderWidth: 1,
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 20,
+    minWidth: 120, // Ensures consistent button width
   },
+
   favoriteButtonText: {
-    color: '#F3CD00',
+    color: '#fff',
     fontSize: 14,
-    fontWeight: 'bold',
+    fontWeight: '500',
+    textAlign: 'center',
+  },
+
+  detailLabel: {
+    width: 120,
+    fontSize: 16,
+    color: '#000',
+    fontWeight: '500',
   },
 
   favoriteButtonProperties: {
