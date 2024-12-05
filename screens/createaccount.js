@@ -1,9 +1,9 @@
-import { ImageBackground, Image, StatusBar, Text, View, TouchableOpacity, Button, FlatList, TextInput } from 'react-native';
 import React, { useState } from 'react';
 import styles from '../style/styles';
 import { auth } from '../config/firebase'; 
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { Alert } from 'react-native';
+import { View, Text, TouchableOpacity, StatusBar, TextInput } from 'react-native';
 
 export default function CreateAccountScreen({ navigation }) {
     const [email, setEmail] = useState('');

@@ -4,6 +4,7 @@ import { useIsFocused, useRoute } from '@react-navigation/native';
 import styles from '../style/styles';
 import StarRating from '../style/5stars';
 import StarRatingReview from '../style/starsRating';
+import PropTypes from 'prop-types';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Modal, TextInput } from 'react-native';
 
@@ -353,3 +354,30 @@ export default function PropertyDetailsScreen({ route, navigation }) {
       </View>
     );
   }
+
+  PropertyDetailsScreen.propTypes = {
+    route: PropTypes.shape({
+      params: PropTypes.shape({
+        item: PropTypes.shape({
+          id: PropTypes.string.isRequired,
+          banner_image: PropTypes.string,
+          rating: PropTypes.number,
+          address: PropTypes.string,
+          beds: PropTypes.number,
+          baths: PropTypes.number,
+          estimated_cost: PropTypes.number,
+          distance_from_campus: PropTypes.number,
+          distance_from_bus_stop: PropTypes.number,
+          pet_friendly: PropTypes.bool,
+          landlord_name: PropTypes.string,
+          contact_phone: PropTypes.string,
+          contact_email: PropTypes.string,
+        }).isRequired,
+        favoritesUpdated: PropTypes.bool,
+      }).isRequired,
+    }).isRequired,
+    navigation: PropTypes.shape({
+      navigate: PropTypes.func.isRequired,
+      getParent: PropTypes.func.isRequired,
+    }).isRequired,
+  };

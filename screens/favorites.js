@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
 import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
 import ScreenHeader from '../components/ScreenHeader';
-import { useNavigation, useIsFocused } from '@react-navigation/native';
+import { useIsFocused } from '@react-navigation/native';
 import styles from '../style/styles';
 import tabStyles from '../style/tabStyles';
+import PropTypes from 'prop-types';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function FavoritesScreen({ navigation, route }) {
@@ -81,3 +82,14 @@ export default function FavoritesScreen({ navigation, route }) {
   );
 }
 
+FavoritesScreen.propTypes = {
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func.isRequired,
+    getParent: PropTypes.func.isRequired,
+  }).isRequired,
+  route: PropTypes.shape({
+    params: PropTypes.shape({
+      favoritesUpdated: PropTypes.bool,
+    }),
+  }).isRequired,
+};

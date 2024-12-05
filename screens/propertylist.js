@@ -223,7 +223,10 @@ export default function PropertiesScreen({ navigation }) {
     <TouchableOpacity
       style={styles.propertyListItem}
       onPress={() => navigation.navigate('PropertyDetails', {
-        item: item,
+        item: {
+          ...item,
+          id: item.id.toString()  // Convert number to string here
+        },
         favoritesUpdated: false,
         fromFavorites: false  
       })}

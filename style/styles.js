@@ -7,7 +7,7 @@ import { StyleSheet, Dimensions } from 'react-native';
 // black: 000000
 const { width } = Dimensions.get('window'); // Get the width of the screen
 
-export default styles = StyleSheet.create({
+export default StyleSheet.create({
   // Status bar styles remain the same
   statusBar: {
     backgroundColor: '#8C2131',
@@ -165,19 +165,19 @@ export default styles = StyleSheet.create({
     borderRadius: 5,
   },
 
-  propertyList: {
-    padding: 10,
-    fontSize: 18,
-    marginHorizontal: 20,
-    marginVertical: 5,
-    borderBottomWidth: 1,
-    borderBottomColor: '#ccc',
-    borderWidth: 1,
-    borderColor: '#000',
-    borderRadius: 5,
-    marginBottom: 5,  // Space between each property listing
-    marginTop: 0,  // Space between each property listing
-  },
+  // propertyList: {
+  //   padding: 10,
+  //   fontSize: 18,
+  //   marginHorizontal: 20,
+  //   marginVertical: 5,
+  //   borderBottomWidth: 1,
+  //   borderBottomColor: '#ccc',
+  //   borderWidth: 1,
+  //   borderColor: '#000',
+  //   borderRadius: 5,
+  //   marginBottom: 5,  // Space between each property listing
+  //   marginTop: 0,  // Space between each property listing
+  // },
 
   propertyItem: {
     padding: 10,
