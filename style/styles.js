@@ -70,6 +70,8 @@ export default StyleSheet.create({
     color: '#000',
     fontSize: 16,
     textAlign: 'center',
+    fontWeight: 'bold',
+    fontStyle: 'italic',
   },
 
   filtersText: {
@@ -131,8 +133,12 @@ export default StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 10, // Increase padding for a larger box
-    borderWidth: 1,
+    borderWidth: 2,
     borderColor: '#000',
+    borderRadius: 10, // Slightly rounded corners
+    marginLeft: 5, // Add space between sortingBox and edge of screen
+    marginRight: 3, // Add space between sortingBox and filterBox
+    marginTop: 3, // Align boxes with the banner
   },
 
   // Box for filter button
@@ -141,9 +147,13 @@ export default StyleSheet.create({
     backgroundColor: '#F3CD00',
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 10, // Increase padding for a larger box
-    borderWidth: 1,
+    padding: 7, // Increase padding for a larger box
+    borderWidth: 2,
     borderColor: '#000',
+    borderRadius: 10, // Slightly rounded corners
+    marginLeft: 3, // Add space between filterBox and sortingBox
+    marginRight: 5, // Add space between filterBox and edge of screen
+    marginTop: 3, // Align boxes with the banner
   },
 
   // Box for results count
@@ -220,7 +230,7 @@ export default StyleSheet.create({
   // },
 
   modalText: {
-    fontSize: 18,
+    fontSize: 20,
     marginBottom: 20,
   },
 
@@ -231,8 +241,8 @@ export default StyleSheet.create({
   },
 
   checkboxLabel: {
-    marginLeft: 8,
-    fontSize: 16,
+    marginLeft: 6,
+    fontSize: 15,
   },
 
   checkbox: {
@@ -256,7 +266,7 @@ export default StyleSheet.create({
     borderWidth: 2,
     paddingHorizontal: 10,
     borderRadius: 5,
-    marginRight: 2, // Add some space between the text input and the "miles" text
+    //marginRight: 2, // Add some space between the text input and the "miles" text
   },
 
   textInputError: {

@@ -1,19 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, FlatList, TouchableOpacity, Modal, TextInput } from 'react-native';
+import { Text, View, FlatList, TouchableOpacity, Modal, TextInput, ActivityIndicator } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
 import CheckBox from 'expo-checkbox';
 import ScreenHeader from '../components/ScreenHeader';
 import styles from '../style/styles';
 import tabStyles from '../style/tabStyles';
 import PropTypes from 'prop-types';
-import { ActivityIndicator } from 'react-native-web';
 
 const filters = [
   { id: '1', label: 'Pet Friendly' },
   { id: '2', label: 'Has Contact' },
   // { id: '3', label: 'Has Banner' },
-  { id: '4', label: 'Distance Less than ' },
-  { id: '5', label: 'Bus Stop Less than ' },
+  { id: '4', label: 'School, Less than ' },
+  { id: '5', label: 'Bus Stop, Less than ' },
   { id: '6', label: 'Price Less than $' },
 ];
 
@@ -56,7 +55,7 @@ export default function PropertiesScreen({ navigation }) {
       dataPropertyLandlords = jsonPropertyLandlords;
 
 
-      const tempProperties = [];
+      let tempProperties = [];
 
       for (let i = 0; i < dataProperties.length; i++) {
         tempProperties[i] = {
@@ -66,22 +65,21 @@ export default function PropertiesScreen({ navigation }) {
           beds: dataProperties[i].bedroomnum,
           baths: dataProperties[i].bathroomnum,
           landlord_name: dataLandlords[dataPropertyLandlords[i].landlordid - 1].name,
-          contact_phone: dataLandlords[dataPropertyLandlords[i].landlordid - 1].phoneNumber,
-          contact_email: dataLandlords[dataPropertyLandlords[i].landlordid - 1].emailAddress,
+          contact_phone: dataLandlords[dataPropertyLandlords[i].landlordid - 1].phonenumber,
+          contact_email: dataLandlords[dataPropertyLandlords[i].landlordid - 1].emailaddress,
           estimated_cost: dataProperties[i].price,
-          distance_from_campus: dataProperties[i].distanceToCalvin,
-          distance_from_bus_stop: dataProperties[i].distanceToBusStop,
+          distance_from_campus: dataProperties[i].distancetocalvin,
+          distance_from_bus_stop: dataProperties[i].distancetobusstop,
           pet_friendly: dataProperties[i].petfriendly,
           rating: dataProperties[i].rating,
         }
       }
-      console.log(jsonProperties);
-      console.log(tempProperties);
+
+      tempProperties = sortProperties(tempProperties, '');
+
       setProperties(tempProperties);
       setDisplayedProperties(tempProperties);
       setFilteredProperties(tempProperties);
-
-      return tempProperties;
 
     } catch (error) {
       console.error(error);
@@ -93,9 +91,7 @@ export default function PropertiesScreen({ navigation }) {
   // Initialize properties when component mounts
 
   useEffect(() => {
-    const tempProperties = getProperties();
-
-    setDisplayedProperties(tempProperties);
+    getProperties();
   }, []); // Empty dependency array means this runs once on mount
 
   // Handle focus effects
@@ -106,7 +102,6 @@ export default function PropertiesScreen({ navigation }) {
       const sortedProps = sortProperties(filteredProps, sortType);
       setModalSortingVisible(false);
       setDisplayedProperties(sortedProps);
-      console.log("Properties refreshed with sort type: " + sortType);
     }
   }, [isFocused]);
 
@@ -119,7 +114,7 @@ export default function PropertiesScreen({ navigation }) {
       setTempPriceHigh(priceHigh);
     }
     else { // If the modal is being closed
-      
+
     }
   };
 
@@ -209,17 +204,21 @@ export default function PropertiesScreen({ navigation }) {
     setBusDistance(tempBusDistance);
     setPriceHigh(tempPriceHigh);
 
-    const filteredProperties  = sortProperties(getFilteredProperties(tempSelectedFilters, tempDistance, tempBusDistance, tempPriceHigh), '');
-    
+    const filteredProperties = sortProperties(getFilteredProperties(tempSelectedFilters, tempDistance, tempBusDistance, tempPriceHigh), '');
+
     setNumAppliedFilters(tempSelectedFilters.length + (!tempDistance && tempSelectedFilters.includes('4') ? -1 : 0) + (!tempBusDistance && tempSelectedFilters.includes('5') ? -1 : 0) + (!tempPriceHigh && tempSelectedFilters.includes('6') ? -1 : 0));
     setDisplayedProperties(filteredProperties);
     setModalSortingVisible(false);
   };
 
+  const sortDefaultProperties = (sortType) => {
+    setDisplayedProperties(sortProperties(displayedProperties, sortType));
+  }
+
   const sortProperties = (sortedProperties, sortType_in) => {
+    console.log('Sorting by: ' + sortType_in);
     if (sortType_in != '') {
       setSortType(sortType_in);
-      toggleModalSorting();
     } else sortType_in = sortType;
 
     switch (sortType_in) {
@@ -235,7 +234,7 @@ export default function PropertiesScreen({ navigation }) {
       case 'Rating':
         sortedProperties.sort((a, b) => a.rating < b.rating ? 1 : -1);
         break;
-      case 'Beds':
+      case 'Rooms':
         sortedProperties.sort((a, b) => a.beds < b.beds ? 1 : -1);
         break;
       case 'Baths':
@@ -244,7 +243,8 @@ export default function PropertiesScreen({ navigation }) {
       default:
         console.log('Invalid sort type');
     }
-    return sortedProperties; 
+    setModalSortingVisible(false);
+    return sortedProperties;
   };
 
   return (
@@ -272,7 +272,8 @@ export default function PropertiesScreen({ navigation }) {
 
 
 
-      {/* Properties List */}
+      
+      {/* if loading database files, display loading circle, otherwise display property list */}
       {loading ? (
         <ActivityIndicator size="large" color="#0000ff" />
       ) : (
@@ -294,6 +295,8 @@ export default function PropertiesScreen({ navigation }) {
               >
                 <Text style={styles.propertyList}>
                   {item.name ? item.name : item.address}
+                  {'\n'}
+                  Rating: {item.rating}         |         Rent: ${item.estimated_cost}/month
                 </Text>
               </TouchableOpacity>
             )}
@@ -403,25 +406,25 @@ export default function PropertiesScreen({ navigation }) {
       >
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
-            <Text style={styles.modalText}>Sorting Menu</Text>
+            <Text style={styles.modalText}>Sort By:</Text>
             <View style={styles.buttonColumn}>
-              <TouchableOpacity style={[styles.filterMenuButton, { marginBottom: 5 }]} onPress={() => setDisplayedProperties(sortProperties(displayedProperties, 'Distance'))}>
-                <Text style={styles.filtersText}>Sort by Distance (low to high)</Text>
+              <TouchableOpacity style={[styles.filterMenuButton, { marginBottom: 5 }]} onPress={() => sortDefaultProperties('Distance')}>
+                <Text style={styles.filtersText}>Distance to school (low to high)</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={[styles.filterMenuButton, { marginBottom: 5 }]} onPress={() => setDisplayedProperties(sortProperties(displayedProperties, 'Bus Stop'))}>
-                <Text style={styles.filtersText}>Sort by Distance to Bus (low to high)</Text>
+              <TouchableOpacity style={[styles.filterMenuButton, { marginBottom: 5 }]} onPress={() => sortDefaultProperties('Bus Stop')}>
+                <Text style={styles.filtersText}>Distance to bus (low to high)</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={[styles.filterMenuButton, { marginBottom: 5 }]} onPress={() => setDisplayedProperties(sortProperties(displayedProperties, 'Cost'))}>
-                <Text style={styles.filtersText}>Sort by Cost (low to high)</Text>
+              <TouchableOpacity style={[styles.filterMenuButton, { marginBottom: 5 }]} onPress={() => sortDefaultProperties('Cost')}>
+                <Text style={styles.filtersText}>Cost ($/month) (low to high)</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={[styles.filterMenuButton, { marginBottom: 5 }]} onPress={() => setDisplayedProperties(sortProperties(displayedProperties, 'Rating'))}>
-                <Text style={styles.filtersText}>Sort by Rating (high to low)</Text>
+              <TouchableOpacity style={[styles.filterMenuButton, { marginBottom: 5 }]} onPress={() => sortDefaultProperties('Rating')}>
+                <Text style={styles.filtersText}>Rating (high to low)</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={[styles.filterMenuButton, { marginBottom: 5 }]} onPress={() => setDisplayedProperties(sortProperties(displayedProperties, 'Beds'))}>
-                <Text style={styles.filtersText}>Sort by # Beds (high to low)</Text>
+              <TouchableOpacity style={[styles.filterMenuButton, { marginBottom: 5 }]} onPress={() => sortDefaultProperties('Rooms')}>
+                <Text style={styles.filtersText}># Rooms (high to low)</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={[styles.filterMenuButton, { marginBottom: 5 }]} onPress={() => setDisplayedProperties(sortProperties(displayedProperties, 'Baths'))}>
-                <Text style={styles.filtersText}>Sort by # Baths (high to low)</Text>
+              <TouchableOpacity style={[styles.filterMenuButton, { marginBottom: 5 }]} onPress={() => sortDefaultProperties('Baths')}>
+                <Text style={styles.filtersText}># Bathrooms (high to low)</Text>
               </TouchableOpacity>
             </View>
             <View style={{ height: 5 }} />
