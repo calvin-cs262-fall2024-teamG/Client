@@ -103,7 +103,10 @@ export default function PropertiesScreen({ navigation }) {
     if (isFocused) {
       // Refresh the displayed properties when screen is focused
       const filteredProps = getFilteredProperties(selectedFilters, distance, busDistance, priceHigh);
-      setDisplayedProperties(filteredProps);
+      const sortedProps = sortProperties(filteredProps, sortType);
+      setModalSortingVisible(false);
+      setDisplayedProperties(sortedProps);
+      console.log("Properties refreshed with sort type: " + sortType);
     }
   }, [isFocused]);
 
@@ -115,9 +118,8 @@ export default function PropertiesScreen({ navigation }) {
       setTempBusDistance(busDistance);
       setTempPriceHigh(priceHigh);
     }
-    else {
-      sortProperties('');
-      setModalSortingVisible(false);
+    else { // If the modal is being closed
+      
     }
   };
 
@@ -168,37 +170,36 @@ export default function PropertiesScreen({ navigation }) {
   };
 
   const getFilteredProperties = (filters, distance_in, busDistance_in, priceHigh_in) => {
-    let filteredProperties = properties;
+    let filtered_Properties = properties;
 
     if (filters.includes('1')) {
-      filteredProperties = filteredProperties.filter((property) => property.pet_friendly);
+      filtered_Properties = filtered_Properties.filter((property) => property.pet_friendly);
     }
     if (filters.includes('2')) {
-      filteredProperties = filteredProperties.filter((property) => (property.contact_phone || property.contact_email));
+      filtered_Properties = filtered_Properties.filter((property) => (property.contact_phone || property.contact_email));
     }
     if (filters.includes('3')) {
-      filteredProperties = filteredProperties.filter((property) => property.banner_image);
+      filtered_Properties = filtered_Properties.filter((property) => property.banner_image);
     }
     if (filters.includes('4') && distance_in) {
       const distanceValue = parseFloat(distance_in);
       if (!isNaN(distanceValue)) {
-        filteredProperties = filteredProperties.filter(property => (property.distance_from_campus < distanceValue));
+        filtered_Properties = filtered_Properties.filter(property => (property.distance_from_campus < distanceValue));
       }
     }
     if (filters.includes('5') && busDistance_in) {
       const busDistanceValue = parseFloat(busDistance_in);
       if (!isNaN(busDistanceValue)) {
-        filteredProperties = filteredProperties.filter(property => (property.distance_from_bus_stop < busDistanceValue));
+        filtered_Properties = filtered_Properties.filter(property => (property.distance_from_bus_stop < busDistanceValue));
       }
     }
     if (filters.includes('6') && priceHigh_in) {
       const priceHighValue = parseFloat(priceHigh_in);
       if (!isNaN(priceHighValue)) {
-        filteredProperties = filteredProperties.filter(property => (property.estimated_cost < priceHighValue));
+        filtered_Properties = filtered_Properties.filter(property => (property.estimated_cost < priceHighValue));
       }
     }
-
-    return filteredProperties;
+    return filtered_Properties;
   }
 
   const applyFilters = () => {
@@ -208,21 +209,20 @@ export default function PropertiesScreen({ navigation }) {
     setBusDistance(tempBusDistance);
     setPriceHigh(tempPriceHigh);
 
-    const filteredProperties = getFilteredProperties(tempSelectedFilters, tempDistance, tempBusDistance, tempPriceHigh);
-
-    setDisplayedProperties(filteredProperties);
+    const filteredProperties  = sortProperties(getFilteredProperties(tempSelectedFilters, tempDistance, tempBusDistance, tempPriceHigh), '');
+    
     setNumAppliedFilters(tempSelectedFilters.length + (!tempDistance && tempSelectedFilters.includes('4') ? -1 : 0) + (!tempBusDistance && tempSelectedFilters.includes('5') ? -1 : 0) + (!tempPriceHigh && tempSelectedFilters.includes('6') ? -1 : 0));
+    setDisplayedProperties(filteredProperties);
+    setModalSortingVisible(false);
   };
 
-  const sortProperties = (sortType_in) => {
-    toggleModalSorting();
+  const sortProperties = (sortedProperties, sortType_in) => {
+    if (sortType_in != '') {
+      setSortType(sortType_in);
+      toggleModalSorting();
+    } else sortType_in = sortType;
 
-    let sortedProperties = [...displayedProperties];
-    if (sortType_in != '') setSortType(sortType_in);
-    else sortType_in = sortType;
     switch (sortType_in) {
-      case '':
-        break;
       case 'Distance':
         sortedProperties.sort((a, b) => a.distance_from_campus > b.distance_from_campus ? 1 : -1); //> is low to high, < is high to low
         break;
@@ -244,7 +244,7 @@ export default function PropertiesScreen({ navigation }) {
       default:
         console.log('Invalid sort type');
     }
-    setDisplayedProperties(sortedProperties);
+    return sortedProperties; 
   };
 
   return (
@@ -405,22 +405,22 @@ export default function PropertiesScreen({ navigation }) {
           <View style={styles.modalContent}>
             <Text style={styles.modalText}>Sorting Menu</Text>
             <View style={styles.buttonColumn}>
-              <TouchableOpacity style={[styles.filterMenuButton, { marginBottom: 5 }]} onPress={() => sortProperties('Distance')}>
+              <TouchableOpacity style={[styles.filterMenuButton, { marginBottom: 5 }]} onPress={() => setDisplayedProperties(sortProperties(displayedProperties, 'Distance'))}>
                 <Text style={styles.filtersText}>Sort by Distance (low to high)</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={[styles.filterMenuButton, { marginBottom: 5 }]} onPress={() => sortProperties('Bus Stop')}>
+              <TouchableOpacity style={[styles.filterMenuButton, { marginBottom: 5 }]} onPress={() => setDisplayedProperties(sortProperties(displayedProperties, 'Bus Stop'))}>
                 <Text style={styles.filtersText}>Sort by Distance to Bus (low to high)</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={[styles.filterMenuButton, { marginBottom: 5 }]} onPress={() => sortProperties('Cost')}>
+              <TouchableOpacity style={[styles.filterMenuButton, { marginBottom: 5 }]} onPress={() => setDisplayedProperties(sortProperties(displayedProperties, 'Cost'))}>
                 <Text style={styles.filtersText}>Sort by Cost (low to high)</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={[styles.filterMenuButton, { marginBottom: 5 }]} onPress={() => sortProperties('Rating')}>
+              <TouchableOpacity style={[styles.filterMenuButton, { marginBottom: 5 }]} onPress={() => setDisplayedProperties(sortProperties(displayedProperties, 'Rating'))}>
                 <Text style={styles.filtersText}>Sort by Rating (high to low)</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={[styles.filterMenuButton, { marginBottom: 5 }]} onPress={() => sortProperties('Beds')}>
+              <TouchableOpacity style={[styles.filterMenuButton, { marginBottom: 5 }]} onPress={() => setDisplayedProperties(sortProperties(displayedProperties, 'Beds'))}>
                 <Text style={styles.filtersText}>Sort by # Beds (high to low)</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={[styles.filterMenuButton, { marginBottom: 5 }]} onPress={() => sortProperties('Baths')}>
+              <TouchableOpacity style={[styles.filterMenuButton, { marginBottom: 5 }]} onPress={() => setDisplayedProperties(sortProperties(displayedProperties, 'Baths'))}>
                 <Text style={styles.filtersText}>Sort by # Baths (high to low)</Text>
               </TouchableOpacity>
             </View>
