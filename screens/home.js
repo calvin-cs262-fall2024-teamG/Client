@@ -1,11 +1,13 @@
-import { ImageBackground, Image, StatusBar, Text, View, TouchableOpacity, Button, FlatList } from 'react-native';
+import React from 'react';
+import PropTypes from 'prop-types';
+import { ImageBackground, StatusBar, Text, View, TouchableOpacity } from 'react-native';
 import styles from '../style/styles'; //Import the styles from styles.js
-
+import cityMapImage from '../style/city-map-4320755_640.png'
 
 export default function HomeScreen({ navigation }) {
     return (
         <ImageBackground
-            source={require('../style/city-map-4320755_640.png')}
+            source={cityMapImage}
             style={styles.backgroundImage}
             resizeMode="cover" // Ensure the image covers the entire screen
         >
@@ -18,7 +20,7 @@ export default function HomeScreen({ navigation }) {
                 <View style={{ padding: 10 }} />
                 <TouchableOpacity
                     style={styles.button}
-                    //onPress={() => navigation.navigate('Properties')}
+                    //onPress={() => navigation.navigate('MainTabs')}
                     onPress={() => navigation.navigate('LogIn')}
                 >
                     <Text style={styles.filtersText}>Log In</Text>
@@ -27,3 +29,9 @@ export default function HomeScreen({ navigation }) {
         </ImageBackground>
     );
 }
+
+HomeScreen.propTypes = {
+    navigation: PropTypes.shape({
+        navigate: PropTypes.func.isRequired,
+    }).isRequired,
+};

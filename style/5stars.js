@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { View, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome'; // Import the Icon component
 const StarRating = ({ rating }) => {
@@ -22,6 +23,10 @@ const StarRating = ({ rating }) => {
       </View>
     </View>
   );
+};
+
+StarRating.propTypes = {
+  rating: PropTypes.number.isRequired,
 };
 
 const styles = StyleSheet.create({
