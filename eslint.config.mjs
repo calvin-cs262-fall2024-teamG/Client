@@ -1,4 +1,4 @@
-import structuredClone from '@ungap/structured-clone';
+import '@ungap/structured-clone';
 
 if (typeof globalThis.structuredClone === 'undefined') {
   globalThis.structuredClone = structuredClone;
