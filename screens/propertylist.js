@@ -6,6 +6,7 @@ import ScreenHeader from '../components/ScreenHeader';
 import styles from '../style/styles';
 import tabStyles from '../style/tabStyles';
 import properties from '../properties';
+import PropTypes from 'prop-types';
 
 const filters = [
   { id: '1', label: 'Pet Friendly' },
@@ -373,5 +374,8 @@ export default function PropertiesScreen({ navigation }) {
   );
 }
 
-
-
+PropertiesScreen.propTypes = {
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func.isRequired,
+  }).isRequired,
+};

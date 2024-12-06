@@ -4,6 +4,7 @@ import { auth } from '../config/firebase';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { Alert } from 'react-native';
 import { View, Text, TouchableOpacity, StatusBar, TextInput } from 'react-native';
+import PropTypes from 'prop-types';
 
 export default function CreateAccountScreen({ navigation }) {
     const [email, setEmail] = useState('');
@@ -103,3 +104,8 @@ export default function CreateAccountScreen({ navigation }) {
     );
 }
 
+CreateAccountScreen.propTypes = {
+    navigation: PropTypes.shape({
+        navigate: PropTypes.func.isRequired,
+    }).isRequired,
+};
