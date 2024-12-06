@@ -230,17 +230,19 @@ export default function PropertiesScreen({ navigation }) {
         },
         favoritesUpdated: false,
         fromFavorites: false  
-      })}
-    >
-      <Text style={styles.propertyList}>
+            })}
+          >
+            <Text style={styles.propertyList}>
         {item.name ? item.name : item.address}
-      </Text>
-    </TouchableOpacity>
-  )}
-  keyExtractor={item => item.id.toString()}
-/>
+         {'\n'}
+         Rating: {item.rating}         |         Rent: ${item.estimated_cost}/month
+            </Text>
+          </TouchableOpacity>
+        )}
+        keyExtractor={item => item.id.toString()}
+            />
 
-      {/* Modal for Filters */}
+            {/* Modal for Filters */}
       <Modal
         animationType="fade"
         transparent={true}
@@ -341,25 +343,25 @@ export default function PropertiesScreen({ navigation }) {
       >
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
-            <Text style={styles.modalText}>Sorting Menu</Text>
+            <Text style={styles.modalText}>Sort By:</Text>
             <View style={styles.buttonColumn}>
               <TouchableOpacity style={[styles.filterMenuButton, { marginBottom: 5 }]} onPress={() => sortProperties('Distance')}>
-                <Text style={styles.filtersText}>Sort by Distance (low to high)</Text>
+                <Text style={styles.filtersText}>Distance to school (low to high)</Text>
               </TouchableOpacity>
               <TouchableOpacity style={[styles.filterMenuButton, { marginBottom: 5 }]} onPress={() => sortProperties('Bus Stop')}>
-                <Text style={styles.filtersText}>Sort by Distance to Bus (low to high)</Text>
+                <Text style={styles.filtersText}>Distance to bus (low to high)</Text>
               </TouchableOpacity>
               <TouchableOpacity style={[styles.filterMenuButton, { marginBottom: 5 }]} onPress={() => sortProperties('Cost')}>
-                <Text style={styles.filtersText}>Sort by Cost (low to high)</Text>
+                <Text style={styles.filtersText}>Cost ($/month) (low to high)</Text>
               </TouchableOpacity>
               <TouchableOpacity style={[styles.filterMenuButton, { marginBottom: 5 }]} onPress={() => sortProperties('Rating')}>
-                <Text style={styles.filtersText}>Sort by Rating (high to low)</Text>
+                <Text style={styles.filtersText}>Rating (high to low)</Text>
               </TouchableOpacity>
               <TouchableOpacity style={[styles.filterMenuButton, { marginBottom: 5 }]} onPress={() => sortProperties('Beds')}>
-                <Text style={styles.filtersText}>Sort by # Beds (high to low)</Text>
+                <Text style={styles.filtersText}># Rooms (high to low)</Text>
               </TouchableOpacity>
               <TouchableOpacity style={[styles.filterMenuButton, { marginBottom: 5 }]} onPress={() => sortProperties('Baths')}>
-                <Text style={styles.filtersText}>Sort by # Baths (high to low)</Text>
+                <Text style={styles.filtersText}># Bathrooms (high to low)</Text>
               </TouchableOpacity>
             </View>
             <View style={{ height: 5 }} />
