@@ -12,8 +12,8 @@ const filters = [
   { id: '1', label: 'Pet Friendly' },
   { id: '2', label: 'Has Contact' },
   // { id: '3', label: 'Has Banner' },
-  { id: '4', label: 'Distance Less than ' },
-  { id: '5', label: 'Bus Stop Less than ' },
+  { id: '4', label: 'School, Less than ' },
+  { id: '5', label: 'Bus Stop, Less than ' },
   { id: '6', label: 'Price Less than $' },
 ];
 
@@ -180,7 +180,7 @@ export default function PropertiesScreen({ navigation }) {
       case 'Rating':
         sortedProperties.sort((a, b) => a.rating < b.rating ? 1 : -1);
         break;
-      case 'Beds':
+      case 'Rooms':
         sortedProperties.sort((a, b) => a.beds < b.beds ? 1 : -1);
         break;
       case 'Baths':
@@ -239,7 +239,6 @@ export default function PropertiesScreen({ navigation }) {
   )}
   keyExtractor={item => item.id.toString()}
 />
-
 
       {/* Modal for Filters */}
       <Modal
