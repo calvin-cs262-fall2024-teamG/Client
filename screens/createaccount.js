@@ -3,6 +3,7 @@ import styles from '../style/styles';
 import { auth } from '../config/firebase'; 
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { Alert } from 'react-native';
+import PropTypes from 'prop-types';
 import { View, Text, TouchableOpacity, StatusBar, TextInput } from 'react-native';
 
 export default function CreateAccountScreen({ navigation }) {
@@ -103,3 +104,8 @@ export default function CreateAccountScreen({ navigation }) {
     );
 }
 
+CreateAccountScreen.propTypes = {
+    navigation: PropTypes.shape({
+        navigate: PropTypes.func.isRequired,
+    }).isRequired,
+};

@@ -3,6 +3,7 @@ import styles from '../style/styles';
 import { auth } from '../config/firebase'; // Update this path to where your firebase.js is located
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { Alert } from 'react-native';
+import PropTypes from 'prop-types';
 import { View, Text, TouchableOpacity, StatusBar, TextInput } from 'react-native';
 
 export default function LogInScreen({ navigation }) {
@@ -77,3 +78,9 @@ export default function LogInScreen({ navigation }) {
         </View>
     );
 }
+
+LogInScreen.propTypes = {
+    navigation: PropTypes.shape({
+      navigate: PropTypes.func.isRequired,
+    }).isRequired,
+  };
