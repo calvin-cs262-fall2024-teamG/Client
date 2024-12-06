@@ -5,8 +5,8 @@ import CheckBox from 'expo-checkbox';
 import ScreenHeader from '../components/ScreenHeader';
 import styles from '../style/styles';
 import tabStyles from '../style/tabStyles';
-import properties from '../properties';
 import PropTypes from 'prop-types';
+import { ActivityIndicator } from 'react-native-web';
 
 const filters = [
   { id: '1', label: 'Pet Friendly' },
@@ -20,8 +20,8 @@ const filters = [
 export default function PropertiesScreen({ navigation }) {
   const [modalFilteringVisible, setModalFilteringVisible] = useState(false);
   const [modalSortingVisible, setModalSortingVisible] = useState(false);
-  const [displayedProperties, setDisplayedProperties] = useState(properties); // Initialize with properties
-  const [filteredProperties, setFilteredProperties] = useState(properties);
+  const [displayedProperties, setDisplayedProperties] = useState([]); // Initialize with properties
+  const [filteredProperties, setFilteredProperties] = useState([]);
   const [selectedFilters, setSelectedFilters] = useState([]);
   const [tempSelectedFilters, setTempSelectedFilters] = useState([]);
   const [numAppliedFilters, setNumAppliedFilters] = useState(0);
@@ -35,12 +35,67 @@ export default function PropertiesScreen({ navigation }) {
   const [tempPriceHigh, setTempPriceHigh] = useState('');
   const [priceHighStyle, setPriceHighStyle] = useState(styles.textInputSmall);
   const [sortType, setSortType] = useState('Rating');
+  const [properties, setProperties] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const isFocused = useIsFocused();
 
+  const getProperties = async () => {
+    let dataProperties, dataLandlords, dataPropertyLandlords;
+    try {
+      const responseProperties = await fetch('https://cs262-webapp.azurewebsites.net/properties');
+      const reponseLandlords = await fetch('https://cs262-webapp.azurewebsites.net/landlords');
+      const responsePropertyLandlords = await fetch('https://cs262-webapp.azurewebsites.net/propertylandlords');
+
+      const jsonProperties = await responseProperties.json();
+      const jsonLandlords = await reponseLandlords.json();
+      const jsonPropertyLandlords = await responsePropertyLandlords.json();
+
+      dataProperties = jsonProperties;
+      dataLandlords = jsonLandlords;
+      dataPropertyLandlords = jsonPropertyLandlords;
+
+
+      const tempProperties = [];
+
+      for (let i = 0; i < dataProperties.length; i++) {
+        tempProperties[i] = {
+          id: i,
+          banner_image: dataProperties[i].bannerimage,
+          address: dataProperties[i].streetaddress,
+          beds: dataProperties[i].bedroomnum,
+          baths: dataProperties[i].bathroomnum,
+          landlord_name: dataLandlords[dataPropertyLandlords[i].landlordid - 1].name,
+          contact_phone: dataLandlords[dataPropertyLandlords[i].landlordid - 1].phoneNumber,
+          contact_email: dataLandlords[dataPropertyLandlords[i].landlordid - 1].emailAddress,
+          estimated_cost: dataProperties[i].price,
+          distance_from_campus: dataProperties[i].distanceToCalvin,
+          distance_from_bus_stop: dataProperties[i].distanceToBusStop,
+          pet_friendly: dataProperties[i].petfriendly,
+          rating: dataProperties[i].rating,
+        }
+      }
+      console.log(jsonProperties);
+      console.log(tempProperties);
+      setProperties(tempProperties);
+      setDisplayedProperties(tempProperties);
+      setFilteredProperties(tempProperties);
+
+      return tempProperties;
+
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
   // Initialize properties when component mounts
+
   useEffect(() => {
-    setDisplayedProperties(properties);
+    const tempProperties = getProperties();
+
+    setDisplayedProperties(tempProperties);
   }, []); // Empty dependency array means this runs once on mount
 
   // Handle focus effects
@@ -60,7 +115,7 @@ export default function PropertiesScreen({ navigation }) {
       setTempBusDistance(busDistance);
       setTempPriceHigh(priceHigh);
     }
-    else { 
+    else {
       sortProperties('');
       setModalSortingVisible(false);
     }
@@ -215,31 +270,37 @@ export default function PropertiesScreen({ navigation }) {
         </TouchableOpacity>
       </View>
 
-      {/* Properties List */}
-      <Text style={styles.resultsFoundText}>{displayedProperties.length} results found</Text>
-{/* Properties List */}
-<FlatList
-  data={displayedProperties}
-  renderItem={({ item }) => (
-    <TouchableOpacity
-      style={styles.propertyListItem}
-      onPress={() => navigation.navigate('PropertyDetails', {
-        item: {
-          ...item,
-          id: item.id.toString()  // Convert number to string here
-        },
-        favoritesUpdated: false,
-        fromFavorites: false  
-      })}
-    >
-      <Text style={styles.propertyList}>
-        {item.name ? item.name : item.address}
-      </Text>
-    </TouchableOpacity>
-  )}
-  keyExtractor={item => item.id.toString()}
-/>
 
+
+      {/* Properties List */}
+      {loading ? (
+        <ActivityIndicator size="large" color="#0000ff" />
+      ) : (
+        <>
+          <Text style={styles.resultsFoundText}>{displayedProperties.length} results found</Text>
+          <FlatList
+            data={displayedProperties}
+            renderItem={({ item }) => (
+              <TouchableOpacity
+                style={styles.propertyListItem}
+                onPress={() => navigation.navigate('PropertyDetails', {
+                  item: {
+                    ...item,
+                    id: item.id.toString()  // Convert number to string here
+                  },
+                  favoritesUpdated: false,
+                  fromFavorites: false
+                })}
+              >
+                <Text style={styles.propertyList}>
+                  {item.name ? item.name : item.address}
+                </Text>
+              </TouchableOpacity>
+            )}
+            keyExtractor={item => item.id.toString()}
+          />
+        </>
+      )}
 
       {/* Modal for Filters */}
       <Modal
