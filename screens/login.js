@@ -80,7 +80,7 @@ export default function LogInScreen({ navigation }) {
 }
 
 LogInScreen.propTypes = {
-    navigation: PropTypes.shape({
-      navigate: PropTypes.func.isRequired,
-    }).isRequired,
-  };
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func.isRequired,
+  }).isRequired,
+};
