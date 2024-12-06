@@ -48,7 +48,10 @@ export default function PropertiesScreen({ navigation }) {
     if (isFocused) {
       // Refresh the displayed properties when screen is focused
       const filteredProps = getFilteredProperties(selectedFilters, distance, busDistance, priceHigh);
-      setDisplayedProperties(filteredProps);
+      const sortedProps = sortProperties(filteredProps, sortType);
+      setModalSortingVisible(false);
+      setDisplayedProperties(sortedProps);
+      console.log("Properties refreshed with sort type: " + sortType);
     }
   }, [isFocused]);
 
