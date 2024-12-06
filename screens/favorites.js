@@ -1,8 +1,10 @@
 import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { View, Text, ScrollView, TouchableOpacity, StatusBar } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
+import ScreenHeader from '../components/ScreenHeader';
 import { useIsFocused } from '@react-navigation/native';
 import styles from '../style/styles';
+import tabStyles from '../style/tabStyles';
+import PropTypes from 'prop-types';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function FavoritesScreen({ navigation, route }) {
@@ -40,11 +42,8 @@ export default function FavoritesScreen({ navigation, route }) {
   };
 
   return (
-    <View style={styles.propertiesContainer}>
-      <StatusBar backgroundColor="#8C2131" barStyle="light-content" />
-      <View style={styles.titleBanner}>
-        <Text style={styles.propertiesTitle}>Favorites</Text>
-      </View>
+    <View style={[styles.propertiesContainer, tabStyles.container]}>
+      <ScreenHeader title="Favorites" />
       
       <ScrollView 
         style={styles.scrollContainer}
@@ -61,7 +60,8 @@ export default function FavoritesScreen({ navigation, route }) {
               style={styles.propertyList}
               onPress={() => navigation.navigate('PropertyDetails', { 
                 item: item,
-                favoritesUpdated: Date.now() 
+                favoritesUpdated: Date.now(), 
+                fromFavorites: true
               })}
             >
               <View>
