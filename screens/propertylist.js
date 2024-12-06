@@ -62,8 +62,8 @@ export default function PropertiesScreen({ navigation }) {
           id: i,
           banner_image: dataProperties[i].bannerimage,
           address: dataProperties[i].streetaddress,
-          beds: dataProperties[i].bedroomnum,
-          baths: dataProperties[i].bathroomnum,
+          bedrooms: dataProperties[i].bedroomnum,
+          bathrooms: dataProperties[i].bathroomnum,
           landlord_name: dataLandlords[dataPropertyLandlords[i].landlordid - 1].name,
           contact_phone: dataLandlords[dataPropertyLandlords[i].landlordid - 1].phonenumber,
           contact_email: dataLandlords[dataPropertyLandlords[i].landlordid - 1].emailaddress,
@@ -216,7 +216,6 @@ export default function PropertiesScreen({ navigation }) {
   }
 
   const sortProperties = (sortedProperties, sortType_in) => {
-    console.log('Sorting by: ' + sortType_in);
     if (sortType_in != '') {
       setSortType(sortType_in);
     } else sortType_in = sortType;
@@ -234,11 +233,11 @@ export default function PropertiesScreen({ navigation }) {
       case 'Rating':
         sortedProperties.sort((a, b) => a.rating < b.rating ? 1 : -1);
         break;
-      case 'Rooms':
-        sortedProperties.sort((a, b) => a.beds < b.beds ? 1 : -1);
+      case 'Bedrooms':
+        sortedProperties.sort((a, b) => a.bedrooms < b.bedrooms ? 1 : -1);
         break;
-      case 'Baths':
-        sortedProperties.sort((a, b) => a.baths < b.baths ? 1 : -1);
+      case 'Bathrooms':
+        sortedProperties.sort((a, b) => a.bathrooms < b.bathrooms ? 1 : -1);
         break;
       default:
         console.log('Invalid sort type');
@@ -420,10 +419,10 @@ export default function PropertiesScreen({ navigation }) {
               <TouchableOpacity style={[styles.filterMenuButton, { marginBottom: 5 }]} onPress={() => sortDefaultProperties('Rating')}>
                 <Text style={styles.filtersText}>Rating (high to low)</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={[styles.filterMenuButton, { marginBottom: 5 }]} onPress={() => sortDefaultProperties('Rooms')}>
-                <Text style={styles.filtersText}># Rooms (high to low)</Text>
+              <TouchableOpacity style={[styles.filterMenuButton, { marginBottom: 5 }]} onPress={() => sortDefaultProperties('Bedrooms')}>
+                <Text style={styles.filtersText}># Bedrooms (high to low)</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={[styles.filterMenuButton, { marginBottom: 5 }]} onPress={() => sortDefaultProperties('Baths')}>
+              <TouchableOpacity style={[styles.filterMenuButton, { marginBottom: 5 }]} onPress={() => sortDefaultProperties('Bathrooms')}>
                 <Text style={styles.filtersText}># Bathrooms (high to low)</Text>
               </TouchableOpacity>
             </View>

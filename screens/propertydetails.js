@@ -197,13 +197,13 @@ export default function PropertyDetailsScreen({ route, navigation }) {
             </View>
 
             <View style={styles.detailRow}>
-              <Text style={styles.detailLabel}>Beds:</Text>
-              <Text style={styles.detailValue}>{item.beds}</Text>
+              <Text style={styles.detailLabel}>Bedrooms:</Text>
+              <Text style={styles.detailValue}>{item.bedrooms}</Text>
             </View>
 
             <View style={styles.detailRow}>
-              <Text style={styles.detailLabel}>Baths:</Text>
-              <Text style={styles.detailValue}>{item.baths}</Text>
+              <Text style={styles.detailLabel}>Bathrooms:</Text>
+              <Text style={styles.detailValue}>{item.bathrooms}</Text>
             </View>
 
             <View style={styles.detailRow}>
@@ -361,8 +361,8 @@ PropertyDetailsScreen.propTypes = {
         banner_image: PropTypes.string,
         rating: PropTypes.number,
         address: PropTypes.string,
-        beds: PropTypes.number,
-        baths: PropTypes.number,
+        bedrooms: PropTypes.number,
+        bathrooms: PropTypes.number,
         estimated_cost: PropTypes.number,
         distance_from_campus: PropTypes.number,
         distance_from_bus_stop: PropTypes.number,
