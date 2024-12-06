@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import { Image, Text, View, ScrollView, TouchableOpacity, StatusBar } from 'react-native';
-import { useIsFocused, useRoute } from '@react-navigation/native';
+import { useIsFocused } from '@react-navigation/native';
 import styles from '../style/styles';
 import StarRating from '../style/5stars';
 import StarRatingReview from '../style/starsRating';
