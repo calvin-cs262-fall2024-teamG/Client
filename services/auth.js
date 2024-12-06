@@ -41,20 +41,20 @@ export const loginUser = async (email, password) => {
   if (!validateCalvinEmail(email)) {
     throw new Error('Only @calvin.edu email addresses are allowed');
   }
-  try {
+  // try {
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
     return userCredential.user;
-  } catch (error) {
-    throw error;
-  }
+  // } catch (error) {
+  //   throw error;
+  // }
 };
 
 export const logoutUser = async () => {
-  try {
+  // try {
     await signOut(auth);
-  } catch (error) {
-    throw error;
-  }
+  // } catch (error) {
+  //   throw error;
+  // }
 };
 
 

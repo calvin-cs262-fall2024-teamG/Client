@@ -13,17 +13,17 @@ const Stack = createNativeStackNavigator();
 // Properties Stack Navigator
 const PropertiesStackNavigator = () => {
   return (
-    <Stack.Navigator 
+    <Stack.Navigator
       initialRouteName="PropertiesList"
       screenOptions={{ headerShown: false, detachInactiveScreens: false }}
     >
-      <Stack.Screen 
-        name="PropertiesList" 
-        component={PropertiesScreen} 
+      <Stack.Screen
+        name="PropertiesList"
+        component={PropertiesScreen}
       />
-      <Stack.Screen 
-        name="PropertyDetails" 
-        component={PropertyDetailsScreen} 
+      <Stack.Screen
+        name="PropertyDetails"
+        component={PropertyDetailsScreen}
         options={{
           gestureEnabled: true
         }}
@@ -35,17 +35,17 @@ const PropertiesStackNavigator = () => {
 // Favorites Stack Navigator
 const FavoritesStackNavigator = () => {
   return (
-    <Stack.Navigator 
+    <Stack.Navigator
       initialRouteName="FavoritesList"
-      screenOptions={{ headerShown: false, detachInactiveScreens: false  }}
+      screenOptions={{ headerShown: false, detachInactiveScreens: false }}
     >
-      <Stack.Screen 
-        name="FavoritesList" 
-        component={FavoritesScreen} 
+      <Stack.Screen
+        name="FavoritesList"
+        component={FavoritesScreen}
       />
-      <Stack.Screen 
-        name="PropertyDetails" 
-        component={PropertyDetailsScreen} 
+      <Stack.Screen
+        name="PropertyDetails"
+        component={PropertyDetailsScreen}
         options={{
           gestureEnabled: true
         }}
@@ -89,38 +89,39 @@ const TabNavigator = () => {
         },
       })}
     >
-      <Tab.Screen 
-        name="Properties" 
+      <Tab.Screen
+        name="Properties"
         component={PropertiesStackNavigator}
-        listeners={({ navigation }) => ({
-          tabPress: (e) => {
-            // Only prevent navigation if we're on PropertyDetails
-            const state = navigation.getState();
-            const routes = state.routes[state.index].state?.routes;
-            // if (routes && routes[routes.length - 1].name === 'PropertyDetails') {
-            //   e.preventDefault();
-            // }
-          }
-        })}
+        // listeners={({ navigation }) => ({
+        //   tabPress: () => {
+        //     // Only prevent navigation if we're on PropertyDetails
+        //     // const state = navigation.getState();
+        //     // const routes = state.routes[state.index].state?.routes;
+        //     // if (routes && routes[routes.length - 1].name === 'PropertyDetails') {
+        //     //   e.preventDefault();
+        //     // }
+        //   }
+        // })}
+        
       />
-      <Tab.Screen 
-        name="Favorites" 
+      <Tab.Screen
+        name="Favorites"
         component={FavoritesStackNavigator}
-        listeners={({ navigation }) => ({
-          tabPress: (e) => {
-            // Only prevent navigation if we're on PropertyDetails
-            const state = navigation.getState();
-            const routes = state.routes[state.index].state?.routes;
-            // if (routes && routes[routes.length - 1].name === 'PropertyDetails') {
-            //   e.preventDefault();
-            // }
-          }
-        })}
+        // listeners={({ navigation }) => ({
+        //   tabPress: () => {
+        //     // Only prevent navigation if we're on PropertyDetails
+        //     // const state = navigation.getState();
+        //     // const routes = state.routes[state.index].state?.routes;
+        //     // if (routes && routes[routes.length - 1].name === 'PropertyDetails') {
+        //     //   e.preventDefault();
+        //     // }
+        //   }
+        // })}
       />
 
-      <Tab.Screen 
-        name="Profile" 
-        component={ProfileScreen} 
+      <Tab.Screen
+        name="Profile"
+        component={ProfileScreen}
       />
     </Tab.Navigator>
   );

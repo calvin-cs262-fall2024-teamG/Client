@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, StyleSheet, TouchableOpacity } from 'react-native';
+import PropTypes from 'prop-types';
+import { View, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome'; // This imports FontAwesome as Icon
 
 const StarRatingReview = ({ rating, onRatingChange, starSize = 20, interactive = false }) => {
@@ -24,35 +25,46 @@ const StarRatingReview = ({ rating, onRatingChange, starSize = 20, interactive =
   );
 };
 
+StarRatingReview.propTypes = {
+  rating: PropTypes.number.isRequired,
+  onRatingChange: PropTypes.func.isRequired,
+  starSize: PropTypes.number,
+  interactive: PropTypes.bool,
+};
 
-const styles = StyleSheet.create({
-    starContainer: {
-      flexDirection: 'row',
-      position: 'relative',
-      width: 100, // Adjust the width as needed
-      height: 20, // Adjust the height as needed
-    },
-    emptyStars: {
-      flexDirection: 'row',
-      position: 'absolute',
-      top: 0,
-      left: 0,
-    },
-    filledStars: {
-      flexDirection: 'row',
-      position: 'absolute',
-      top: 0,
-      left: 0,
-      overflow: 'hidden',
-    },
-    star: {
-      fontSize: 20, // Adjust the size as needed
-      color: '#ccc', // Color for empty stars
-      marginRight: 2,
-    },
-    filledStar: {
-      color: '#FFD700', // Color for filled stars
-    },
-});
+StarRatingReview.defaultProps = {
+  starSize: 20,
+  interactive: false,
+};
+
+// const styles = StyleSheet.create({
+//     starContainer: {
+//       flexDirection: 'row',
+//       position: 'relative',
+//       width: 100, // Adjust the width as needed
+//       height: 20, // Adjust the height as needed
+//     },
+//     emptyStars: {
+//       flexDirection: 'row',
+//       position: 'absolute',
+//       top: 0,
+//       left: 0,
+//     },
+//     filledStars: {
+//       flexDirection: 'row',
+//       position: 'absolute',
+//       top: 0,
+//       left: 0,
+//       overflow: 'hidden',
+//     },
+//     star: {
+//       fontSize: 20, // Adjust the size as needed
+//       color: '#ccc', // Color for empty stars
+//       marginRight: 2,
+//     },
+//     filledStar: {
+//       color: '#FFD700', // Color for filled stars
+//     },
+// });
 
 export default StarRatingReview;

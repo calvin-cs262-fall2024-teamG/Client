@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Image, Text, View, Button, FlatList, TouchableOpacity, Modal, TextInput } from 'react-native';
+import { Text, View, FlatList, TouchableOpacity, Modal, TextInput } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
 import CheckBox from 'expo-checkbox';
 import ScreenHeader from '../components/ScreenHeader';

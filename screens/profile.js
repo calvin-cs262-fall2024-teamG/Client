@@ -1,4 +1,4 @@
-import firebase from '../config/firebase';
+// import firebase from '../config/firebase';
 import React, { useState, useEffect } from 'react';
 import {
   View,

@@ -211,13 +211,13 @@ export default StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.5)',
   },
 
-  modalContent: {
-    width: 400,
-    padding: 20,
-    backgroundColor: '#fff',
-    borderRadius: 10,
-    alignItems: 'center',
-  },
+  // modalContent: {
+  //   width: 400,
+  //   padding: 20,
+  //   backgroundColor: '#fff',
+  //   borderRadius: 10,
+  //   alignItems: 'center',
+  // },
 
   modalText: {
     fontSize: 18,
@@ -403,11 +403,11 @@ export default StyleSheet.create({
   detailsContent: {
     padding: 16,
   },
-  propertyImage: {
-    width: '100%',
-    height: 200,
-    resizeMode: 'cover',
-  },
+  // propertyImage: {
+  //   width: '100%',
+  //   height: 200,
+  //   resizeMode: 'cover',
+  // },
   sectionContainer: {
     marginBottom: 24,
     backgroundColor: '#fff',
@@ -441,12 +441,12 @@ export default StyleSheet.create({
     borderBottomColor: '#f0f0f0',
     alignItems: 'flex-start', // Changed from 'center' to 'flex-start'
   },
-  detailLabel: {
-    width: 120, // Fixed width for labels
-    fontSize: 16,
-    color: '#666',
-    fontWeight: '500',
-  },
+  // detailLabel: {
+  //   width: 120, // Fixed width for labels
+  //   fontSize: 16,
+  //   color: '#666',
+  //   fontWeight: '500',
+  // },
 
   addressContainer: {
     flex: 1, // Takes remaining space

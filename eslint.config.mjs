@@ -11,41 +11,17 @@ import pluginReact from "eslint-plugin-react";
 
 /** @type {import('eslint').Linter.Config[]} */
 export default [
-
-  {
-    files: ["**/*.{js,mjs,cjs,jsx,ts,tsx}"],
-    languageOptions: {
-      ecmaVersion: 2022,
-      sourceType: "module",
-      globals: {
-        ...globals.browser,
-        ...globals.es2021
-      },
-    }
-  },
-
+  {files: ["**/*.{js,mjs,cjs,ts,jsx,tsx}"]},
+  {files: ["**/*.js"], languageOptions: {sourceType: "script"}},
+  {languageOptions: { globals: globals.browser }},
   pluginJs.configs.recommended,
   ...tseslint.configs.recommended,
   {
     ...pluginReact.configs.flat.recommended,
     settings: {
       react: {
-        version: "detect"
+        version: "detect" // Automatically detect the React version
       }
-    },
-    rules: {
-      "react/prop-types": "error",
-      "react/jsx-uses-react": "error",
-      "react/jsx-uses-vars": "error",
-      "no-unused-vars": "warn",
-      "no-console": ["warn", { allow: ["warn", "error"] }],
-      "prefer-const": "warn",
-      "no-var": "error",
-      "eqeqeq": ["error", "always"],
-      "curly": "error",
-      "indent": ["error", 2],
-      "quotes": ["error", "single"],
-      "semi": ["error", "always"]
     }
   },
   {
