@@ -7,7 +7,7 @@ import { StyleSheet, Dimensions } from 'react-native';
 // black: 000000
 const { width } = Dimensions.get('window'); // Get the width of the screen
 
-export default styles = StyleSheet.create({
+export default StyleSheet.create({
   // Status bar styles remain the same
   statusBar: {
     backgroundColor: '#8C2131',
@@ -78,46 +78,67 @@ export default styles = StyleSheet.create({
     textAlign: 'center',
   },
 
-  propertiesPageText: {
+  propertiesDetailsText: {
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 20,
     marginVertical: 10,
     marginHorizontal: 20,
     color: '#F3CD00',
+    marginLeft: 5,
+  },
+
+  contactInfoText: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 20,
+    marginVertical: 10,
+    marginHorizontal: 20,
+    color: '#F3CD00',
+    marginLeft: 25,
   },
 
   // Properties Title Banner
   titleBanner: {
     width: '100%',
-    height: 100,  
-    backgroundColor: '#8C2131', 
-    justifyContent: 'center',
+    height: 120,
+    backgroundColor: '#8C2131',
+    justifyContent: 'flex-end',
     alignItems: 'center',
-    paddingTop: 10,  // Padding to adjust the title position
-    paddingBottom: 30,  // Padding to adjust the title position
+    paddingBottom: 15,  
   },
 
   propertiesTitle: {
-    fontSize: 45,
+    fontSize: 40,
     fontWeight: 'bold',
     color: 'white', // Or could be gold: #F3CD00 
     fontStyle: 'italic',
+    arginTop: 40,
   },
 
   // Container for filter button and results text
   filterAndResultsContainer: {
-    flexDirection: 'row', 
+    flexDirection: 'row',
     justifyContent: 'space-between',
     width: '100%',  // Take up full width of the screen
     marginTop: 0, // Align boxes flush with the banner
     marginBottom: 15, // Space below for property listings
   },
 
+  sortingBox: {
+    flex: 1,
+    backgroundColor: '#F3CD00',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 10, // Increase padding for a larger box
+    borderWidth: 1,
+    borderColor: '#000',
+  },
+
   // Box for filter button
   filterBox: {
-    flex: 1,  
-    backgroundColor: '#F3CD00',  
+    flex: 1,
+    backgroundColor: '#F3CD00',
     justifyContent: 'center',
     alignItems: 'center',
     padding: 10, // Increase padding for a larger box
@@ -127,8 +148,8 @@ export default styles = StyleSheet.create({
 
   // Box for results count
   resultsBox: {
-    flex: 1,  
-    backgroundColor: '#F3CD00',  
+    flex: 1,
+    backgroundColor: '#F3CD00',
     justifyContent: 'center',
     alignItems: 'center',
     padding: 10, // Increase padding for a larger box
@@ -144,20 +165,20 @@ export default styles = StyleSheet.create({
     borderRadius: 5,
   },
 
-  propertyList: {
-    padding: 10,
-    fontSize: 18,
-    marginHorizontal: 20,
-    marginVertical: 5,
-    borderBottomWidth: 1,
-    borderBottomColor: '#ccc',
-    borderWidth: 1,  
-    borderColor: '#000', 
-    borderRadius: 5, 
-    marginBottom: 5,  // Space between each property listing
-    marginTop: 0,  // Space between each property listing
-  },
-  
+  // propertyList: {
+  //   padding: 10,
+  //   fontSize: 18,
+  //   marginHorizontal: 20,
+  //   marginVertical: 5,
+  //   borderBottomWidth: 1,
+  //   borderBottomColor: '#ccc',
+  //   borderWidth: 1,
+  //   borderColor: '#000',
+  //   borderRadius: 5,
+  //   marginBottom: 5,  // Space between each property listing
+  //   marginTop: 0,  // Space between each property listing
+  // },
+
   propertyItem: {
     padding: 10,
     fontSize: 18,
@@ -173,6 +194,14 @@ export default styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     marginVertical: 5,
+    marginHorizontal: 1, //for some reason, not having this makes the "show # results", "clear filters" buttons not align properly on android at least
+  },
+
+  buttonColumn: {
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginVertical: 5,
   },
 
   modalContainer: {
@@ -182,13 +211,13 @@ export default styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.5)',
   },
 
-  modalContent: {
-    width: 400,
-    padding: 20,
-    backgroundColor: '#fff',
-    borderRadius: 10,
-    alignItems: 'center',
-  },
+  // modalContent: {
+  //   width: 400,
+  //   padding: 20,
+  //   backgroundColor: '#fff',
+  //   borderRadius: 10,
+  //   alignItems: 'center',
+  // },
 
   modalText: {
     fontSize: 18,
@@ -224,14 +253,40 @@ export default styles = StyleSheet.create({
     height: 40,
     width: 110,
     borderColor: 'gray',
-    borderWidth: 1,
+    borderWidth: 2,
     paddingHorizontal: 10,
     borderRadius: 5,
-    marginRight: 5, // Add some space between the text input and the "miles" text
+    marginRight: 2, // Add some space between the text input and the "miles" text
   },
+
   textInputError: {
     borderColor: 'red',
     borderWidth: 2,
+    height: 40,
+    width: 110,
+    paddingHorizontal: 10,
+    borderRadius: 5,
+    marginRight: 2,
+  },
+
+  textInputSmall: {
+    height: 40,
+    width: 90,
+    borderColor: 'gray',
+    borderWidth: 2,
+    paddingHorizontal: 10,
+    borderRadius: 5,
+    marginRight: 2, // Add some space between the text input and the "miles" text
+  },
+  
+  textInputSmallError: {
+    borderColor: 'red',
+    borderWidth: 2,
+    height: 40,
+    width: 90,
+    paddingHorizontal: 10,
+    borderRadius: 5,
+    marginRight: 2,
   },
 
   //property details screen styles
@@ -244,7 +299,7 @@ export default styles = StyleSheet.create({
   //Log In and Create Account Screen Styles
   Lcontainer: {
     flex: 1,
-    backgroundColor: '#8C2131', 
+    backgroundColor: '#8C2131',
     alignItems: 'center',
     justifyContent: 'center',
     padding: 20,
@@ -279,50 +334,403 @@ export default styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
   },
+  Lfooter: {
+    flexDirection: 'row',
+    alignItems: 'center', // Align items in the center of the row
+    marginTop: 20,
+  },
   Llink: {
     color: '#F3CD00',
     fontSize: 16,
-    marginVertical: 10,
-  },
-  Lfooter: {
-    flexDirection: 'row',
-    marginTop: 20,
+    marginLeft: 5, // Add spacing between the footer text and the link
   },
   LfooterText: {
     color: '#FFFFFF',
     fontSize: 16,
   },
 
+  helperTextContainer: {
+    position: 'absolute',
+    bottom: 90, // Adjust this value to position above the footer text
+    width: '100%',
+    alignItems: 'center',
+  },
+  helperText: {
+    color: '#F3CD00', // Matching your gold accent color
+    fontSize: 14,
+    textAlign: 'center',
+  },
+  
+
   //Header styles
-    headerContainer: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      justifyContent: 'space-between',
-      paddingHorizontal: 10,
-      paddingVertical: 5,
-      backgroundColor: '#8C2131', // Maroon
-      borderBottomWidth: 1,
-      borderBottomColor: '#8C2131',
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+  },
+  headerContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 16,
+    backgroundColor: '#fff',
+    borderBottomWidth: 1,
+    borderBottomColor: '#e0e0e0',
+  },
+  headerTitle: {
+    flex: 1,
+    textAlign: 'center',
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#000',
+    marginRight: 40,
+  },
+  headerButton: {
+    padding: 8,
+    position: 'absolute',
+    left: 10,
+    bottom: 40,
+  },
+  headerButtonText: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#F3CD00',
+  },
+
+  detailsContainer: {
+    flex: 1,
+    backgroundColor: '#fff',
+  },
+
+  detailsContent: {
+    padding: 16,
+  },
+  // propertyImage: {
+  //   width: '100%',
+  //   height: 200,
+  //   resizeMode: 'cover',
+  // },
+  sectionContainer: {
+    marginBottom: 24,
+    backgroundColor: '#fff',
+    borderRadius: 8,
+    padding: 16,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
     },
-    headerTitle: {
-      flex: 1,
-      textAlign: 'center',
-      fontSize: 18,
-      color: '#8C2131', // Maroon to blend in (for now)
-      fontWeight: '600',
-    },
-    headerButton: {
-      paddingVertical: 5,
-      paddingHorizontal: 10,
-      backgroundColor: '#8C2131', // Maroon color
-      borderRadius: 3,
-      borderColor: '#F3CD00', // Gold color
-      borderWidth: 1,
-      marginVertical: 15,
-    },
-    headerButtonText: {
-      color: '#F3CD00', // Gold text for contrast
-      fontSize: 16,
-      fontWeight: '500',
-    },
-  });
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  titleRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+  sectionTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#000',
+    marginBottom: 16,
+  },
+  detailRow: {
+    flexDirection: 'row',
+    paddingVertical: 8,
+    borderBottomWidth: 1,
+    borderBottomColor: '#f0f0f0',
+    alignItems: 'flex-start', // Changed from 'center' to 'flex-start'
+  },
+  // detailLabel: {
+  //   width: 120, // Fixed width for labels
+  //   fontSize: 16,
+  //   color: '#666',
+  //   fontWeight: '500',
+  // },
+
+  addressContainer: {
+    flex: 1, // Takes remaining space
+  },
+
+  addressText: {
+    fontSize: 16,
+    color: '#333',
+    flexWrap: 'wrap',
+    textAlign: 'right',
+  },
+
+  detailValue: {
+    flex: 2,
+    fontSize: 16,
+    color: '#333',
+    textAlign: 'right',
+  },
+
+  ratingFavoriteRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingVertical: 10,
+    marginBottom: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: '#f0f0f0',
+  },
+
+  ratingContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flex: 1, // Takes up available space
+    marginRight: 10, // Adds space between rating and button
+  },
+
+  starContainer: {
+    marginLeft: -60, // Moves stars closer to the "Rating:" label
+  },
+
+  favoriteButton: {
+    backgroundColor: '#8C2131',
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 20,
+    minWidth: 120, 
+  },
+  favoriteButtonText: {
+    color: '#fff',
+    fontSize: 14,
+    fontWeight: '500',
+    textAlign: 'center',
+  },
+
+  detailLabel: {
+    width: 120,
+    fontSize: 16,
+    color: '#000',
+    fontWeight: '500',
+  },
+
+  favoriteButtonProperties: {
+    position: 'absolute',
+    top: 50, // Adjust this value to match your header padding
+    right: 15,
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+    backgroundColor: '#8C2131',
+    borderRadius: 3,
+    borderColor: '#F3CD00',
+    borderWidth: 1,
+    zIndex: 1, // This ensures the button stays on top of other elements
+},
+
+  resultsFoundText: {
+    alignSelf: 'flex-start',
+    fontSize: 16,
+    marginTop: -5,
+    marginLeft:21,
+    marginBottom: 10,
+  },
+
+  //Add and remove favorites
+
+  editFavoritesButton: {
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+    backgroundColor: '#8C2131',
+    borderRadius: 3,
+    borderColor: '#F3CD00',
+    borderWidth: 1,
+    marginLeft: 10, // Add spacing between the title and button
+    marginTop: 10, 
+    alignSelf: 'flex-start',
+},
+
+editFavoritesButtonText: {
+    color: '#F3CD00',
+    fontSize: 14,
+    fontWeight: 'bold',
+},
+
+propertyDetailsTitleContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: 10,
+    marginHorizontal: 20,
+},
+
+//Favorites Scrolling
+scrollContainer: {
+  flex: 1,
+  width: '100%',
+},
+
+scrollContentContainer: {
+  flexGrow: 1,
+  paddingBottom: 20, // Adds padding at the bottom of the scroll
+},
+
+propertiesContainer: {
+  flex: 1,
+  backgroundColor: '#fff',
+},
+
+propertyList: {
+  backgroundColor: '#fff',
+  padding: 15,
+  marginHorizontal: 10,
+  marginTop: 10,
+  borderRadius: 5,
+  borderWidth: 1,
+  borderColor: '#ddd',
+  shadowColor: '#000',
+  shadowOffset: {
+      width: 0,
+      height: 2,
+  },
+  shadowOpacity: 0.25,
+  shadowRadius: 3.84,
+  elevation: 5,
+},
+
+itemDescription: {
+  fontSize: 16,
+  marginBottom: 5,
+  color: '#333',
+},
+
+// Reviews Section Styles
+reviewHeaderContainer: {
+  flexDirection: 'row',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  marginBottom: 16,
+},
+leaveReviewButton: {
+  backgroundColor: '#8C2131',
+  paddingHorizontal: 16,
+  paddingVertical: 8,
+  borderRadius: 20,
+  alignItems: 'center',
+  justifyContent: 'center',
+  marginTop: -15,
+},
+leaveReviewButtonText: {
+  color: '#fff',
+  fontSize: 14,
+  fontWeight: '500',
+},
+reviewsContainer: {
+  marginTop: 10,
+},
+noReviewsText: {
+  textAlign: 'center',
+  color: '#666',
+  marginTop: 10,
+},
+reviewDate: {
+  color: '#666',
+  fontSize: 12,
+},
+reviewRating: {
+  marginVertical: 5,
+},
+reviewText: {
+  fontSize: 14,
+  color: '#333',
+},
+reviewHeader: {
+  flexDirection: 'row',
+  justifyContent: 'space-between',
+  marginBottom: 5,
+},
+reviewItem: {
+  backgroundColor: '#f8f8f8',
+  padding: 15,
+  marginVertical: 5,
+  borderRadius: 8,
+},
+
+//Review Modal
+modalOverlay: {
+  flex: 1,
+  backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  justifyContent: 'center',
+  alignItems: 'center',
+},
+modalContent: {
+  backgroundColor: 'white',
+  borderRadius: 20,
+  padding: 20,
+  width: '90%',
+  maxWidth: 400,
+  alignItems: 'center',
+  shadowColor: '#000',
+  shadowOffset: {
+    width: 0,
+    height: 2,
+  },
+  shadowOpacity: 0.25,
+  shadowRadius: 4,
+  elevation: 5,
+},
+modalTitle: {
+  fontSize: 20,
+  fontWeight: 'bold',
+  marginBottom: 20,
+  color: '#333',
+},
+reviewInput: {
+  width: '100%',
+  borderWidth: 1,
+  borderColor: '#ddd',
+  borderRadius: 8,
+  padding: 10,
+  minHeight: 100,
+  textAlignVertical: 'top',
+  marginBottom: 20,
+},
+modalButtons: {
+  flexDirection: 'row',
+  justifyContent: 'space-between',
+  width: '100%',
+},
+modalButton: {
+  flex: 1,
+  padding: 15,
+  borderRadius: 8,
+  marginHorizontal: 5,
+  alignItems: 'center',
+},
+cancelButton: {
+  backgroundColor: '#f2f2f2',
+},
+submitButton: {
+  backgroundColor: '#8C2131',
+},
+cancelButtonText: {
+  color: '#666',
+  fontWeight: '600',
+},
+submitButtonText: {
+  color: '#fff',
+  fontWeight: '600',
+},
+
+starRatingContainer: {
+  alignItems: 'center',
+  marginBottom: 20,
+},
+
+starRatingLabel: {
+  fontSize: 16,
+  marginBottom: 10,
+  color: '#666',
+},
+
+starStarContainer: {
+  flexDirection: 'row',
+  justifyContent: 'center',
+  marginBottom: 10,
+},
+
+
+});
+
