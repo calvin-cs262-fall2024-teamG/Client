@@ -31,16 +31,11 @@ export default StyleSheet.create({
   text2: {
     color: '#fff',
     fontFamily: 'Impact',
-    //fontStyle: 'italic',
     fontSize: 50,
   },
 
   textBox: {
-    borderWidth: 6,
-    borderColor: '#000000', // Border color
-    padding: 30, // Padding inside the box
-    backgroundColor: "#8C2131", // Optional: background color with opacity
-    borderRadius: 5, // Optional: rounded corners
+    padding: 0, // Padding inside the box
   },
 
   backgroundImage: {
@@ -50,6 +45,24 @@ export default StyleSheet.create({
     width: '100%',
     height: '100%',
   },
+
+  redBoxContainer: {
+    backgroundColor: '#8C2131', // Changed to match your theme's red
+    padding: 30,
+    borderRadius: 10,
+    width: '90%',
+    maxWidth: 400,
+    alignItems: 'center', // Center items horizontally within the red box
+    justifyContent: 'center', // Center items vertically within the red box
+    shadowColor: "#000",
+    shadowOffset: {
+        width: 0,
+        height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+},
 
   // button and link styles
   link: {
@@ -215,6 +228,7 @@ export default StyleSheet.create({
   },
 
   modalContainer: {
+    marginTop: -220,
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
@@ -309,11 +323,11 @@ export default StyleSheet.create({
   //Log In and Create Account Screen Styles
   Lcontainer: {
     flex: 1,
-    backgroundColor: '#8C2131',
-    alignItems: 'center',
     justifyContent: 'center',
-    padding: 20,
-  },
+    alignItems: 'center',
+    width: '100%',
+},
+
   Ltitle: {
     fontSize: 30,
     color: '#FFFFFF',
@@ -329,26 +343,32 @@ export default StyleSheet.create({
     marginBottom: 20,
     fontSize: 16,
     color: '#333333',
+    width: '100%',             // Take full width of the red box
+    marginVertical: 10,    
   },
   Lbutton: {
     width: '100%',
     height: 50,
-    backgroundColor: '#F3CD00', // Gold color
+    backgroundColor: '#F3CD00',
     borderRadius: 8,
     alignItems: 'center',
     justifyContent: 'center',
-    marginVertical: 10,
-  },
-  LbuttonText: {
-    color: '#8C2131',
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
+    marginBottom: 40, // Add space below the button
+},
+LbuttonText: {
+  color: '#8C2131',
+  fontSize: 18,
+  fontWeight: 'bold',
+  textAlign: 'center',
+  width: 'auto', // Remove fixed width to allow natural text positioning
+  alignSelf: 'center', // Center the text within the button
+},
   Lfooter: {
     flexDirection: 'row',
-    alignItems: 'center', // Align items in the center of the row
-    marginTop: 20,
-  },
+    alignItems: 'center',
+    justifyContent: 'center', // Center the footer content
+    width: '100%',
+},
   Llink: {
     color: '#F3CD00',
     fontSize: 16,
@@ -360,11 +380,10 @@ export default StyleSheet.create({
   },
 
   helperTextContainer: {
-    position: 'absolute',
-    bottom: 90, // Adjust this value to position above the footer text
     width: '100%',
     alignItems: 'center',
-  },
+    marginBottom: 20, // Add space below the helper text
+},
   helperText: {
     color: '#F3CD00', // Matching your gold accent color
     fontSize: 14,
@@ -636,15 +655,16 @@ noReviewsText: {
   marginTop: 10,
 },
 reviewDate: {
-  color: '#666',
   fontSize: 12,
+  color: '#666',
 },
 reviewRating: {
-  marginVertical: 5,
+  marginBottom: 5,
 },
 reviewText: {
   fontSize: 14,
   color: '#333',
+  marginBottom: 10,
 },
 reviewHeader: {
   flexDirection: 'row',
@@ -656,6 +676,11 @@ reviewItem: {
   padding: 15,
   marginVertical: 5,
   borderRadius: 8,
+  shadowColor: '#000',
+  shadowOffset: { width: 0, height: 1 },
+  shadowOpacity: 0.2,
+  shadowRadius: 1.5,
+  elevation: 3,
 },
 
 //Review Modal
@@ -739,6 +764,52 @@ starStarContainer: {
   flexDirection: 'row',
   justifyContent: 'center',
   marginBottom: 10,
+},
+
+//help button
+// Add these to your existing styles
+helpButton: {
+  position: 'absolute',
+  top: 40, // Adjust based on your screen's safe area
+  right: 20, // Adjust based on desired spacing
+  backgroundColor: '#8C2131',
+  padding: 10,
+  borderRadius: 50,
+  zIndex: 10, // Ensure it appears above other elements
+},
+
+helpText: {
+  color: '#fff',
+  fontSize: 16,
+  fontWeight: 'bold',
+  marginLeft: 8,
+},
+
+//Help screen items
+Htitle: {
+  fontSize: 24,
+  fontWeight: 'bold',
+  marginBottom: 20,
+  color: '#007BFF',
+},
+HsectionTitle: {
+  fontSize: 20,
+  fontWeight: 'bold',
+  marginVertical: 15,
+  color: '#333',
+},
+HsubTitle: {
+  fontSize: 18,
+  fontWeight: '600',
+  marginTop: 10,
+  marginBottom: 5,
+  color: '#555',
+},
+Htext: {
+  fontSize: 16,
+  lineHeight: 22,
+  marginBottom: 10,
+  color: '#000',
 },
 
 

@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import styles from '../style/styles';
 import { auth } from '../config/firebase';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { Alert } from 'react-native';
+import { Alert, ImageBackground } from 'react-native';
 import PropTypes from 'prop-types';
 import { View, Text, TouchableOpacity, StatusBar, TextInput } from 'react-native';
+import cityMapImage from '../style/city-map-4320755_640.png'
+import { Ionicons } from '@expo/vector-icons';
 
 export default function CreateAccountScreen({ navigation }) {
   const [email, setEmail] = useState('');
@@ -40,9 +42,29 @@ export default function CreateAccountScreen({ navigation }) {
   };
 
   return (
-    <View style={styles.Lcontainer}>
-      <StatusBar backgroundColor="#8C2131" barStyle="light-content" />
-      <Text style={styles.Ltitle}>Create Account</Text>
+     <ImageBackground
+            source={cityMapImage}
+            style={styles.backgroundImage}
+            resizeMode="cover"
+        >
+            <View style={styles.Lcontainer}>
+                <StatusBar backgroundColor="#8C2131" barStyle="light-content" />
+
+                      {/* Help Button */}
+      <TouchableOpacity
+        style={styles.helpButton}
+        onPress={() => navigation.navigate('Help')}
+      >
+        <Ionicons name="help-circle-outline" size={24} color="#fff" />
+      </TouchableOpacity>
+                
+                {/* New red box container */}
+                <View style={styles.redBoxContainer}>
+                    <View style={styles.textBox}>
+                        <Text style={styles.text1}>Welcome to</Text>
+                        <Text style={styles.text2}>RentScout</Text>
+                    </View>
+                    <View style={{ padding: 10 }} />
 
       <TextInput
         style={styles.Linput}
@@ -104,6 +126,8 @@ export default function CreateAccountScreen({ navigation }) {
         </TouchableOpacity>
       </View>
     </View>
+    </View>
+    </ImageBackground>
   );
 }
 

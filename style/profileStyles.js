@@ -190,12 +190,28 @@ const styles = StyleSheet.create({
   },
   reviewContent: {
     fontSize: 14,
-    lineHeight: 20,
+    color: '#666',
   },
   noReviewsText: {
     textAlign: 'center',
     color: '#666',
     marginTop: 20,
+  },
+  helpButton: {
+    position: 'absolute',
+    top: 40, // Adjust based on your screen's safe area
+    right: 20, // Adjust based on desired spacing
+    backgroundColor: '#8C2131',
+    padding: 10,
+    borderRadius: 50,
+    zIndex: 10, // Ensure it appears above other elements
+  },
+  
+  helpText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginLeft: 8,
   },
 });
 

@@ -6,6 +6,7 @@ import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import LogInScreen from './screens/login';
 import CreateAccountScreen from './screens/createaccount';
+import HelpScreen from './screens/help';
 
 const Stack = createStackNavigator();
 
@@ -17,6 +18,7 @@ export default function App() {
           <Stack.Screen name="Auth" component={LogInScreen} />
           <Stack.Screen name="CreateAccount" component={CreateAccountScreen} />
           <Stack.Screen name="Main" component={TabNavigator} />
+          <Stack.Screen name="Help" component={HelpScreen} />
         </Stack.Navigator>
         <StatusBar style="auto" />
       </NavigationContainer>

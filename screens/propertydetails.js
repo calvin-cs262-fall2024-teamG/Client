@@ -7,6 +7,7 @@ import StarRatingReview from '../style/starsRating';
 import PropTypes from 'prop-types';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Modal, TextInput } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 
 export default function PropertyDetailsScreen({ route, navigation }) {
   const { item } = route.params || {};
@@ -93,8 +94,8 @@ export default function PropertyDetailsScreen({ route, navigation }) {
       text: reviewText,
       date: new Date().toISOString(),
       // Add user information if available
-      //  userId: currentUser.id,
-      //  userName: currentUser.name,
+      userId: auth.currentUser.id,
+      userName: currentUser.name,
     };
 
     try {
@@ -147,6 +148,7 @@ export default function PropertyDetailsScreen({ route, navigation }) {
 
   return (
     <View style={styles.container}>
+      
       {/* Header Banner */}
       <View style={styles.titleBanner}>
         <TouchableOpacity

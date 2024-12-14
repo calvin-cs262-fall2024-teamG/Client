@@ -6,6 +6,7 @@ import styles from '../style/styles';
 import tabStyles from '../style/tabStyles';
 import PropTypes from 'prop-types';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Ionicons } from '@expo/vector-icons';
 
 export default function FavoritesScreen({ navigation, route }) {
   const [favorites, setFavorites] = React.useState([]);
@@ -44,6 +45,13 @@ export default function FavoritesScreen({ navigation, route }) {
   return (
     <View style={[styles.propertiesContainer, tabStyles.container]}>
       <ScreenHeader title="Favorites" />
+            {/* Help Button */}
+            <TouchableOpacity
+        style={styles.helpButton}
+        onPress={() => navigation.navigate('Help')}
+      >
+        <Ionicons name="help-circle-outline" size={24} color="#fff" />
+      </TouchableOpacity>
       
       <ScrollView 
         style={styles.scrollContainer}

@@ -6,14 +6,16 @@ import ScreenHeader from '../components/ScreenHeader';
 import styles from '../style/styles';
 import tabStyles from '../style/tabStyles';
 import PropTypes from 'prop-types';
+import { Ionicons } from '@expo/vector-icons';
 
 const filters = [
-  { id: '1', label: 'Pet Friendly' },
-  { id: '2', label: 'Has Contact' },
+  { id: '1', label: ' Pet Friendly' },
+  { id: '2', label: ' Has Contact' },
   // { id: '3', label: 'Has Banner' },
-  { id: '4', label: 'School, Less than ' },
-  { id: '5', label: 'Bus Stop, Less than ' },
-  { id: '6', label: 'Price Less than $' },
+  { id: '4', label: ' School, Less than ' },
+  { id: '5', label: ' Bus Stop, Less than ' },
+  { id: '6', label: ' Price Less than $' },
+  { id: '7', label: ' Bedrooms Equal to ' },
 ];
 
 export default function PropertiesScreen({ navigation }) {
@@ -36,6 +38,10 @@ export default function PropertiesScreen({ navigation }) {
   const [sortType, setSortType] = useState('Rating');
   const [properties, setProperties] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [bedrooms, setBedrooms] = useState('');
+  const [tempBedrooms, setTempBedrooms] = useState('');
+  const [bedroomsStyle, setBedroomsStyle] = useState(styles.textInput);
+
 
   const isFocused = useIsFocused();
 
@@ -152,7 +158,16 @@ export default function PropertiesScreen({ navigation }) {
 
         if (tempPriceHigh == '') setPriceHighStyle(styles.textInputSmallError);
       }
-    } else {
+    } else if (filterId === '') {
+      if (updatedFilters.includes(filterId)) {
+        updatedFilters = updatedFilters.filter(id => id !== filterId);
+        setBedroomsStyle(styles.textInput);
+      } else {
+        updatedFilters.push(filterId);
+        if (tempBedrooms == '') setBedroomsStyle(styles.textInputError);
+      }
+    } 
+    else {
       // Handle other filters
       if (updatedFilters.includes(filterId)) {
         updatedFilters = updatedFilters.filter(id => id !== filterId);
@@ -164,7 +179,7 @@ export default function PropertiesScreen({ navigation }) {
     setFilteredProperties(getFilteredProperties(updatedFilters, tempDistance, tempBusDistance, tempPriceHigh));
   };
 
-  const getFilteredProperties = (filters, distance_in, busDistance_in, priceHigh_in) => {
+  const getFilteredProperties = (filters, distance_in, busDistance_in, priceHigh_in, bedrooms_in) => {
     let filtered_Properties = properties;
 
     if (filters.includes('1')) {
@@ -194,6 +209,14 @@ export default function PropertiesScreen({ navigation }) {
         filtered_Properties = filtered_Properties.filter(property => (property.estimated_cost < priceHighValue));
       }
     }
+    if (filters.includes('7') && bedrooms_in) {
+      const bedroomsValue = parseInt(bedrooms_in);
+      if (!isNaN(bedroomsValue)) {
+        filtered_Properties = filtered_Properties.filter(property => 
+          property.bedrooms === bedroomsValue
+        );
+      }
+    }
     return filtered_Properties;
   }
 
@@ -203,10 +226,12 @@ export default function PropertiesScreen({ navigation }) {
     setDistance(tempDistance);
     setBusDistance(tempBusDistance);
     setPriceHigh(tempPriceHigh);
+    setBedrooms(tempBedrooms);
 
-    const filteredProperties = sortProperties(getFilteredProperties(tempSelectedFilters, tempDistance, tempBusDistance, tempPriceHigh), '');
+    const filteredProperties = sortProperties(getFilteredProperties(tempSelectedFilters, tempDistance, tempBusDistance, tempPriceHigh, tempBedrooms), '');
 
-    setNumAppliedFilters(tempSelectedFilters.length + (!tempDistance && tempSelectedFilters.includes('4') ? -1 : 0) + (!tempBusDistance && tempSelectedFilters.includes('5') ? -1 : 0) + (!tempPriceHigh && tempSelectedFilters.includes('6') ? -1 : 0));
+    setNumAppliedFilters(tempSelectedFilters.length + (!tempDistance && tempSelectedFilters.includes('4') ? -1 : 0) + (!tempBusDistance && tempSelectedFilters.includes('5') ? -1 : 0) + (!tempPriceHigh && tempSelectedFilters.includes('6') ? -1 : 0) +
+    (!tempBedrooms && tempSelectedFilters.includes('7') ? -1 : 0));
     setDisplayedProperties(filteredProperties);
     setModalSortingVisible(false);
   };
@@ -249,6 +274,13 @@ export default function PropertiesScreen({ navigation }) {
   return (
     <View style={[styles.propertiesContainer, tabStyles.container]}>
       <ScreenHeader title="Properties" />
+            {/* Help Button */}
+            <TouchableOpacity
+        style={styles.helpButton}
+        onPress={() => navigation.navigate('Help')}
+      >
+        <Ionicons name="help-circle-outline" size={24} color="#fff" />
+      </TouchableOpacity>
 
       {/* Filter button and results count swapped and placed side by side */}
       <View style={styles.filterAndResultsContainer}>
@@ -373,11 +405,27 @@ export default function PropertiesScreen({ navigation }) {
                     <Text style={styles.checkboxLabel}>per month</Text>
                   </View>
                 ) : null}
+                {filter.id === '7' ? (
+                  <View style={styles.distanceInputContainer}>
+                    <TextInput
+                      style={bedroomsStyle}
+                      placeholder="Enter bedrooms"
+                      keyboardType="numeric"
+                      value={tempBedrooms}
+                      onChangeText={(text) => {
+                        setTempBedrooms(text);
+                        setFilteredProperties(getFilteredProperties(tempSelectedFilters, tempDistance, tempBusDistance, tempPriceHigh, text));
+                        if (text == '' && filters.includes('7')) setBedroomsStyle(styles.textInputSmallError);
+                        else setBedroomsStyle(styles.textInputSmall);
+                      }}
+                    />
+                  </View>
+                ) : null}
               </View>
             ))}
             <View style={styles.buttonRow}>
               <TouchableOpacity style={styles.filterMenuButton} onPress={applyFilters}>
-                <Text style={styles.filtersText}>Show {filteredProperties.length} Results</Text>
+                <Text style={styles.filtersText}>Show {displayedProperties.length} Results</Text>
               </TouchableOpacity>
               <View style={{ width: 10 }} />
               <TouchableOpacity style={styles.filterMenuButton} onPress={() => {
