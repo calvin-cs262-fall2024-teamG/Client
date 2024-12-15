@@ -91,7 +91,7 @@ export default function LogInScreen({ navigation }) {
                     </View>
 
                     <View style={styles.Lfooter}>
-                        <Text style={styles.LfooterText}>Don't have an account?</Text>
+                        <Text style={styles.LfooterText}>Don&apos;t have an account?</Text>
                         <TouchableOpacity onPress={() => navigation.navigate('CreateAccount')}>
                             <Text style={styles.Llink}> Sign Up</Text>
                         </TouchableOpacity>

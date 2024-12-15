@@ -104,7 +104,7 @@ export default function PropertiesScreen({ navigation }) {
   useEffect(() => {
     if (isFocused) {
       // Refresh the displayed properties when screen is focused
-      const filteredProps = getFilteredProperties(selectedFilters, distance, busDistance, priceHigh);
+      const filteredProps = getFilteredProperties(selectedFilters, distance, busDistance, priceHigh, bedrooms);
       const sortedProps = sortProperties(filteredProps, sortType);
       setModalSortingVisible(false);
       setDisplayedProperties(sortedProps);
@@ -228,10 +228,12 @@ export default function PropertiesScreen({ navigation }) {
     setPriceHigh(tempPriceHigh);
     setBedrooms(tempBedrooms);
 
-    const filteredProperties = sortProperties(getFilteredProperties(tempSelectedFilters, tempDistance, tempBusDistance, tempPriceHigh, tempBedrooms), '');
+    // const filteredProperties = sortProperties(getFilteredProperties(tempSelectedFilters, tempDistance, tempBusDistance, tempPriceHigh, tempBedrooms), '');
+    // this might be necessary but I'm not sure! It makes eslint mad if this isn't commented
 
     setNumAppliedFilters(tempSelectedFilters.length + (!tempDistance && tempSelectedFilters.includes('4') ? -1 : 0) + (!tempBusDistance && tempSelectedFilters.includes('5') ? -1 : 0) + (!tempPriceHigh && tempSelectedFilters.includes('6') ? -1 : 0) +
     (!tempBedrooms && tempSelectedFilters.includes('7') ? -1 : 0));
+
     setDisplayedProperties(filteredProperties);
     setModalSortingVisible(false);
   };
@@ -363,7 +365,7 @@ export default function PropertiesScreen({ navigation }) {
                       value={tempDistance}
                       onChangeText={(text) => {
                         setTempDistance(text);
-                        setFilteredProperties(getFilteredProperties(tempSelectedFilters, text, tempBusDistance, tempPriceHigh));
+                        setFilteredProperties(getFilteredProperties(tempSelectedFilters, text, tempBusDistance, tempPriceHigh, tempBedrooms));
                         if (text == '' && filters.includes('4')) setDistanceStyle(styles.textInputError);
                         else setDistanceStyle(styles.textInput);
                       }}
@@ -380,7 +382,7 @@ export default function PropertiesScreen({ navigation }) {
                       value={tempBusDistance}
                       onChangeText={(text) => {
                         setTempBusDistance(text);
-                        setFilteredProperties(getFilteredProperties(tempSelectedFilters, tempDistance, text, tempPriceHigh));
+                        setFilteredProperties(getFilteredProperties(tempSelectedFilters, tempDistance, text, tempPriceHigh, tempBedrooms));
                         if (text == '' && filters.includes('5')) setBusDistanceStyle(styles.textInputError);
                         else setBusDistanceStyle(styles.textInput);
                       }}
@@ -397,7 +399,7 @@ export default function PropertiesScreen({ navigation }) {
                       value={tempPriceHigh}
                       onChangeText={(text) => {
                         setTempPriceHigh(text);
-                        setFilteredProperties(getFilteredProperties(tempSelectedFilters, tempDistance, tempBusDistance, text));
+                        setFilteredProperties(getFilteredProperties(tempSelectedFilters, tempDistance, tempBusDistance, text, tempBedrooms));
                         if (text == '' && filters.includes('6')) setPriceHighStyle(styles.textInputSmallError);
                         else setPriceHighStyle(styles.textInputSmall);
                       }}

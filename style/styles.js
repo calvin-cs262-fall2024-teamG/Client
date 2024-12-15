@@ -335,7 +335,6 @@ export default StyleSheet.create({
     marginBottom: 40,
   },
   Linput: {
-    width: '100%',
     height: 50,
     backgroundColor: '#FFFFFF',
     borderRadius: 8,
@@ -814,4 +813,3 @@ Htext: {
 
 
 });
-

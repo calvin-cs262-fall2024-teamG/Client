@@ -7,7 +7,8 @@ import StarRatingReview from '../style/starsRating';
 import PropTypes from 'prop-types';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Modal, TextInput } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+// import { Ionicons } from '@expo/vector-icons';
+import { auth, currentUser } from 'firebase/auth';
 
 export default function PropertyDetailsScreen({ route, navigation }) {
   const { item } = route.params || {};
