@@ -19,29 +19,54 @@ const filters = [
 ];
 
 export default function PropertiesScreen({ navigation }) {
+  // State variables
+
+  // Modal visibility
+
   const [modalFilteringVisible, setModalFilteringVisible] = useState(false);
   const [modalSortingVisible, setModalSortingVisible] = useState(false);
-  const [displayedProperties, setDisplayedProperties] = useState([]); // Initialize with properties
+
+  // Property Variables
+
+  const [properties, setProperties] = useState([]);
+  const [displayedProperties, setDisplayedProperties] = useState([]);
   const [filteredProperties, setFilteredProperties] = useState([]);
+
+  // General Filter Variables
+
   const [selectedFilters, setSelectedFilters] = useState([]);
   const [tempSelectedFilters, setTempSelectedFilters] = useState([]);
   const [numAppliedFilters, setNumAppliedFilters] = useState(0);
+
+  // Various specific filter variables
+
+  // The first variable, e.g. distance, is the actual value
+  // The second variable, e.g. tempDistance, is the temporary value for cases where we want to change filters but maintain the original filters
+  // The third variable, e.g. distanceStyle, is the style of the text input. This is used to change the color of the text input to red when the user doesn't enter a value
+
   const [distance, setDistance] = useState('');
   const [tempDistance, setTempDistance] = useState('');
   const [distanceStyle, setDistanceStyle] = useState(styles.textInput);
+
   const [busDistance, setBusDistance] = useState('');
   const [tempBusDistance, setTempBusDistance] = useState('');
   const [busDistanceStyle, setBusDistanceStyle] = useState(styles.textInput);
+
   const [priceHigh, setPriceHigh] = useState('');
   const [tempPriceHigh, setTempPriceHigh] = useState('');
   const [priceHighStyle, setPriceHighStyle] = useState(styles.textInputSmall);
-  const [sortType, setSortType] = useState('Rating');
-  const [properties, setProperties] = useState([]);
-  const [loading, setLoading] = useState(true);
+
   const [bedrooms, setBedrooms] = useState('');
   const [tempBedrooms, setTempBedrooms] = useState('');
   const [bedroomsStyle, setBedroomsStyle] = useState(styles.textInput);
 
+  // Sorting Type Variable
+
+  const [sortType, setSortType] = useState('Rating');
+
+  // Loading State Variables
+
+  const [propertyLoading, setPropertyLoading] = useState(true); 
 
   const isFocused = useIsFocused();
 
@@ -90,7 +115,7 @@ export default function PropertiesScreen({ navigation }) {
     } catch (error) {
       console.error(error);
     } finally {
-      setLoading(false);
+      setPropertyLoading(false);
     }
   }
 
@@ -166,7 +191,7 @@ export default function PropertiesScreen({ navigation }) {
         updatedFilters.push(filterId);
         if (tempBedrooms == '') setBedroomsStyle(styles.textInputError);
       }
-    } 
+    }
     else {
       // Handle other filters
       if (updatedFilters.includes(filterId)) {
@@ -212,7 +237,7 @@ export default function PropertiesScreen({ navigation }) {
     if (filters.includes('7') && bedrooms_in) {
       const bedroomsValue = parseInt(bedrooms_in);
       if (!isNaN(bedroomsValue)) {
-        filtered_Properties = filtered_Properties.filter(property => 
+        filtered_Properties = filtered_Properties.filter(property =>
           property.bedrooms === bedroomsValue
         );
       }
@@ -232,7 +257,7 @@ export default function PropertiesScreen({ navigation }) {
     // this might be necessary but I'm not sure! It makes eslint mad if this isn't commented
 
     setNumAppliedFilters(tempSelectedFilters.length + (!tempDistance && tempSelectedFilters.includes('4') ? -1 : 0) + (!tempBusDistance && tempSelectedFilters.includes('5') ? -1 : 0) + (!tempPriceHigh && tempSelectedFilters.includes('6') ? -1 : 0) +
-    (!tempBedrooms && tempSelectedFilters.includes('7') ? -1 : 0));
+      (!tempBedrooms && tempSelectedFilters.includes('7') ? -1 : 0));
 
     setDisplayedProperties(filteredProperties);
     setModalSortingVisible(false);
@@ -276,8 +301,8 @@ export default function PropertiesScreen({ navigation }) {
   return (
     <View style={[styles.propertiesContainer, tabStyles.container]}>
       <ScreenHeader title="Properties" />
-            {/* Help Button */}
-            <TouchableOpacity
+      {/* Help Button */}
+      <TouchableOpacity
         style={styles.helpButton}
         onPress={() => navigation.navigate('Help')}
       >
@@ -305,9 +330,9 @@ export default function PropertiesScreen({ navigation }) {
 
 
 
-      
+
       {/* if loading database files, display loading circle, otherwise display property list */}
-      {loading ? (
+      {propertyLoading ? (
         <ActivityIndicator size="large" color="#0000ff" />
       ) : (
         <>

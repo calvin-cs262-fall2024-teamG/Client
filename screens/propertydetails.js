@@ -20,6 +20,14 @@ export default function PropertyDetailsScreen({ route, navigation }) {
   const [reviews, setReviews] = useState([]);
 
 
+  const getReviews = async () => {
+
+  }
+
+  useEffect(() => {
+    getReviews();
+  }, []); // Empty dependency array means this runs once on mount
+
   // Check favorite status when screen is focused or when favorites are updated
   useEffect(() => {
     if (isFocused) {
@@ -149,7 +157,7 @@ export default function PropertyDetailsScreen({ route, navigation }) {
 
   return (
     <View style={styles.container}>
-      
+
       {/* Header Banner */}
       <View style={styles.titleBanner}>
         <TouchableOpacity
