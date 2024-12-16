@@ -19,6 +19,7 @@
     "@react-navigation/native-stack": "^6.11.0",
     "@react-navigation/stack": "^6.3.21",
     "@ungap/structured-clone": "^1.2.0",
+    "cors": "^2.8.5",
     "expo": "^52.0.18",
     "expo-checkbox": "~4.0.0",
     "expo-status-bar": "~2.0.0",

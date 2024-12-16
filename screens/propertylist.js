@@ -18,7 +18,10 @@ const filters = [
   { id: '7', label: ' Bedrooms Equal to ' },
 ];
 
-export default function PropertiesScreen({ navigation }) {
+export default function PropertiesScreen({ route, navigation }) {
+
+  const email = route.params;
+
   // State variables
 
   // Modal visibility
@@ -74,15 +77,15 @@ export default function PropertiesScreen({ navigation }) {
     try {
       const responseProperties = await fetch('https://cs262-webapp.azurewebsites.net/properties');
       const reponseLandlords = await fetch('https://cs262-webapp.azurewebsites.net/landlords');
-      const responsePropertyLandlords = await fetch('https://cs262-webapp.azurewebsites.net/propertylandlords');
+      const responseReviews = await fetch('https://cs262-webapp.azurewebsites.net/reviews');
 
       const jsonProperties = await responseProperties.json();
       const jsonLandlords = await reponseLandlords.json();
-      const jsonPropertyLandlords = await responsePropertyLandlords.json();
+      const jsonReviews = await responseReviews.json();
 
       const dataProperties = jsonProperties;
       const dataLandlords = jsonLandlords;
-      const dataPropertyLandlords = jsonPropertyLandlords;
+      const dataReviews = jsonReviews;
 
 
       let tempProperties = [];
@@ -94,15 +97,90 @@ export default function PropertiesScreen({ navigation }) {
           address: dataProperties[i].streetaddress,
           bedrooms: dataProperties[i].bedroomnum,
           bathrooms: dataProperties[i].bathroomnum,
-          landlord_name: dataLandlords[dataPropertyLandlords[i].landlordid - 1].name,
-          contact_phone: dataLandlords[dataPropertyLandlords[i].landlordid - 1].phonenumber,
-          contact_email: dataLandlords[dataPropertyLandlords[i].landlordid - 1].emailaddress,
+          landlord_name: dataLandlords[dataProperties[i].landlordid - 1].name,
+          contact_phone: dataLandlords[dataProperties[i].landlordid - 1].phonenumber,
+          contact_email: dataLandlords[dataProperties[i].landlordid - 1].emailaddress,
           estimated_cost: dataProperties[i].price,
           distance_from_campus: dataProperties[i].distancetocalvin,
           distance_from_bus_stop: dataProperties[i].distancetobusstop,
           pet_friendly: dataProperties[i].petfriendly,
-          rating: dataProperties[i].rating,
         }
+      }
+      
+      // Ratings as a concept are difficult, as a property with one review of 5 stars
+      //  is worth much less than a property with 100 reviews of 4.9 stars, despite the
+      //  latter having a lower average rating.
+      // This is especially important as the default sorting is by rating.
+      //
+      // To solve this, we will use the Bayesian average rating
+      // This is a weighted average that takes into account the number of reviews
+      //  and the average rating of all reviews
+      //
+      // The formula is:
+      // (v * R + m * C) / (v + m)
+      // Where:
+      //  v is the number of reviews
+      //  m is the minimum number of reviews to be considered
+      //  R is the average rating of the property
+      //  C is the average rating of all properties
+      //
+      // We will use m = 2 due to our small sample size
+      // The rest of the values will be calculated below.
+      // Calculating the average of all reviews is possible given our small sample size
+      //  but in a real-world scenario, this would have to be done in the backend
+      // 
+      // -@jtlun
+
+      // The follow two loops could be combined into one, but I separated them for clarity
+      // First, calculate the average rating of all properties
+
+      let totalRating = 0;
+      for(let i = 0; i < dataReviews.length; i++) {
+        totalRating += dataReviews[i].rating;
+      }
+      const averageRating = totalRating / dataReviews.length;
+
+      // Next, calculate the average rating and number of reviews of each property individually
+      
+      let propertyNumReviews = [];
+      let propertyTotalRating = [];
+
+      // Initialize arrays
+
+      for(let i = 0; i < tempProperties.length; i++) {
+        propertyNumReviews[i] = 0;
+        propertyTotalRating[i] = 0;
+      }
+      
+      // Calculating Total Rating and Number of Reviews
+      
+      for(let i = 0; i < dataReviews.length; i++) {
+        propertyNumReviews[dataReviews[i].propertyid - 1]++;
+        propertyTotalRating[dataReviews[i].propertyid - 1] += dataReviews[i].rating;
+      }
+      
+      let propertyAverageRating = [];
+
+      // Calculating Average Rating
+
+      for(let i = 0; i < propertyNumReviews.length; i++) {
+        propertyAverageRating[i] = propertyTotalRating[i] / propertyNumReviews[i];
+      }
+
+      // Now, calculate the Bayesian average rating for each property
+      // Round it to one decimal place
+      // and set this value to the tempProperties.rating field
+      // for clarity, we'll use the same variable names as the formula above
+
+      const m = 2; // Minimum number of reviews to be considered
+      const C = averageRating; // Average rating of all properties
+      const R = propertyAverageRating; // Average rating of the property
+      const v = propertyNumReviews; // Number of reviews
+
+      for(let i = 0; i < tempProperties.length; i++) {
+        // If there are no reviews, set the rating to 0, else continue with the formula
+        if (v[i] == 0) tempProperties[i].rating = 0;
+        else tempProperties[i].rating = Math.round((v[i] * R[i] + m * C)/(v[i] + m) * 10) / 10;
       }
 
       tempProperties = sortProperties(tempProperties, '');
@@ -346,6 +424,7 @@ export default function PropertiesScreen({ navigation }) {
                     ...item,
                     id: item.id.toString()  // Convert number to string here
                   },
+                  email,
                   favoritesUpdated: false,
                   fromFavorites: false
                 })}
@@ -512,6 +591,11 @@ export default function PropertiesScreen({ navigation }) {
 }
 
 PropertiesScreen.propTypes = {
+  route: PropTypes.shape({
+    params: PropTypes.shape({
+      email: PropTypes.string.isRequired,
+    }).isRequired,
+  }).isRequired,
   navigation: PropTypes.shape({
     navigate: PropTypes.func.isRequired,
   }).isRequired,
