@@ -1,6 +1,7 @@
 # RentScout Authentication Implementation
 
 ## Overview
+
 The authentication system has been implemented with the following features:
 
 1. **Email Restriction**
@@ -31,12 +32,14 @@ The authentication system has been implemented with the following features:
    - Profile view with user information
 
 ## Implementation Details
+
 - `auth.js`: Contains all authentication logic and Firebase integration
 - `login.js`: Handles user login with email/password
 - `createaccount.js`: Manages new user registration
 - `profile.js`: Displays user information and logout functionality
 
 ## Next Steps
+
 1. Enable email verification
 2. Add password reset functionality
 3. Implement session persistence
