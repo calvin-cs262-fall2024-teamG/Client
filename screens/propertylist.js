@@ -71,7 +71,6 @@ export default function PropertiesScreen({ navigation }) {
   const isFocused = useIsFocused();
 
   const getProperties = async () => {
-    let dataProperties, dataLandlords, dataPropertyLandlords;
     try {
       const responseProperties = await fetch('https://cs262-webapp.azurewebsites.net/properties');
       const reponseLandlords = await fetch('https://cs262-webapp.azurewebsites.net/landlords');
@@ -81,9 +80,9 @@ export default function PropertiesScreen({ navigation }) {
       const jsonLandlords = await reponseLandlords.json();
       const jsonPropertyLandlords = await responsePropertyLandlords.json();
 
-      dataProperties = jsonProperties;
-      dataLandlords = jsonLandlords;
-      dataPropertyLandlords = jsonPropertyLandlords;
+      const dataProperties = jsonProperties;
+      const dataLandlords = jsonLandlords;
+      const dataPropertyLandlords = jsonPropertyLandlords;
 
 
       let tempProperties = [];
@@ -333,7 +332,7 @@ export default function PropertiesScreen({ navigation }) {
 
       {/* if loading database files, display loading circle, otherwise display property list */}
       {propertyLoading ? (
-        <ActivityIndicator size="large" color="#0000ff" />
+        <ActivityIndicator size="large" color="#8C2131" />
       ) : (
         <>
           <Text style={styles.resultsFoundText}>{displayedProperties.length} results found</Text>

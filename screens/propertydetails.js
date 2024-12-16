@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Image, Text, View, ScrollView, TouchableOpacity, StatusBar } from 'react-native';
+import { Image, Text, View, ScrollView, TouchableOpacity, StatusBar, ActivityIndicator } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
 import styles from '../style/styles';
 import StarRating from '../style/5stars';
@@ -10,6 +10,7 @@ import { Modal, TextInput } from 'react-native';
 // import { Ionicons } from '@expo/vector-icons';
 import { auth, currentUser } from 'firebase/auth';
 
+
 export default function PropertyDetailsScreen({ route, navigation }) {
   const { item } = route.params || {};
   const [isFavorite, setIsFavorite] = useState(false);
@@ -19,9 +20,45 @@ export default function PropertyDetailsScreen({ route, navigation }) {
   const [rating, setRating] = useState(0);
   const [reviews, setReviews] = useState([]);
 
+  const [reviewLoading, setReviewLoading] = useState(true);
 
   const getReviews = async () => {
+    try {
+      const responseReviews = await fetch('https://cs262-webapp.azurewebsites.net/reviews');
+      const responseStudents = await fetch('https://cs262-webapp.azurewebsites.net/students');
 
+      console.log(responseReviews);
+      console.log(responseStudents);
+
+      const jsonReviews = await responseReviews.json();
+      const jsonStudents = await responseStudents.json();
+
+      console.log(jsonReviews);
+      console.log(jsonStudents);
+
+      const dataReviews = jsonReviews;
+      const dataStudents = jsonStudents;
+
+      let tempReviews = [];
+
+      for (let i = 0; i < dataReviews.length; i++) {
+        tempReviews[i] = {
+          id: 0,
+          propertyId: dataReviews[i].propertyId,
+          rating: dataReviews[i].rating,
+          text: dataReviews[i].text,
+          date: 0,
+          userId: dataReviews[i].studentid,
+          userName: dataStudents[dataReviews[i].studentid].name,
+        }
+      }
+
+      setReviews(tempReviews);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setReviewLoading(false);
+    }
   }
 
   useEffect(() => {
@@ -131,25 +168,27 @@ export default function PropertyDetailsScreen({ route, navigation }) {
     }
   };
 
-  const loadReviews = async () => {
-    try {
-      const savedReviews = await AsyncStorage.getItem('propertyReviews');
-      if (savedReviews) {
-        const allReviews = JSON.parse(savedReviews);
-        // Filter reviews for this specific property
-        const propertyReviews = allReviews.filter(review => review.propertyId === item.id);
-        setReviews(propertyReviews);
-      }
-    } catch (error) {
-      console.error('Error loading reviews:', error);
-    }
-  };
+  // old firebase review code
+  // const loadReviews = async () => {
+  //   try {
+  //     const savedReviews = await AsyncStorage.getItem('propertyReviews');
+  //     if (savedReviews) {
+  //       const allReviews = JSON.parse(savedReviews);
+  //       // Filter reviews for this specific property
+  //       const propertyReviews = allReviews.filter(review => review.propertyId === item.id);
+  //       setReviews(propertyReviews);
+  //     }
+  //   } catch (error) {
+  //     console.error('Error loading reviews:', error);
+  //   }
+  // };
 
   // Add this to your useEffect
   useEffect(() => {
     if (isFocused) {
       checkIfFavorite();
-      loadReviews(); // Load reviews when screen is focused
+      // old firebase review code
+      // loadReviews(); // Load reviews when screen is focused
     }
   }, [isFocused]);
 
@@ -277,24 +316,31 @@ export default function PropertyDetailsScreen({ route, navigation }) {
 
             {/* Reviews list */}
             <View style={styles.reviewsContainer}>
-              {reviews.length === 0 ? (
-                <Text style={styles.noReviewsText}>No reviews yet</Text>
+              {reviewLoading ? (
+                <ActivityIndicator size="large" color="#8C2131" />
               ) : (
-                reviews.map(review => (
-                  <View key={review.id} style={styles.reviewItem}>
-                    <View style={styles.reviewHeader}>
-                      {/* Add user name here if available */}
-                      <Text style={styles.reviewDate}>
-                        {new Date(review.date).toLocaleDateString()}
-                      </Text>
-                    </View>
-                    <View style={styles.reviewRating}>
-                      <StarRating rating={review.rating} />
-                    </View>
-                    <Text style={styles.reviewText}>{review.text}</Text>
-                  </View>
-                ))
+                <>
+                  {reviews.length === 0 ? (
+                    <Text style={styles.noReviewsText}>No reviews yet</Text>
+                  ) : (
+                    reviews.map(review => (
+                      <View key={review.id} style={styles.reviewItem}>
+                        <View style={styles.reviewHeader}>
+                          {/* Add user name here if available */}
+                          <Text style={styles.reviewDate}>
+                            {new Date(review.date).toLocaleDateString()}
+                          </Text>
+                        </View>
+                        <View style={styles.reviewRating}>
+                          <StarRating rating={review.rating} />
+                        </View>
+                        <Text style={styles.reviewText}>{review.text}</Text>
+                      </View>
+                    ))
+                  )}
+                </>
               )}
+
             </View>
 
           </View>
