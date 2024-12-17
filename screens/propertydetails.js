@@ -9,10 +9,11 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Modal, TextInput } from 'react-native';
 // import { Ionicons } from '@expo/vector-icons';
 import { reviewExists, createReview } from '../services/controllers';
+import { auth } from '../config/firebase';
 
 export default function PropertyDetailsScreen({ route, navigation }) {
   //I don't know why you have to do .email.email ;-;
-  const email = route.params.email.email;
+  const email = auth.currentUser?.email;
 
   const { item } = route.params || {};
   const [isFavorite, setIsFavorite] = useState(false);

@@ -18,9 +18,7 @@ const filters = [
   { id: '7', label: ' Bedrooms Equal to ' },
 ];
 
-export default function PropertiesScreen({ route, navigation }) {
-
-  const email = route.params;
+export default function PropertiesScreen({ navigation }) {
 
   // State variables
 
@@ -424,7 +422,6 @@ export default function PropertiesScreen({ route, navigation }) {
                     ...item,
                     id: item.id.toString()  // Convert number to string here
                   },
-                  email,
                   favoritesUpdated: false,
                   fromFavorites: false
                 })}

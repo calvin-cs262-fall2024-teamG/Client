@@ -23,7 +23,9 @@ export default function LogInScreen({ navigation }) {
             console.log('Signed in:', userCredential.user);
             navigation.navigate('Main', {
                 screen: 'Properties',
-                params: { screen: 'PropertiesList', params: { email: email } }
+                params: {
+                    screen: 'PropertiesList',
+                }
               });
         } catch (error) {
             Alert.alert('Error', error.message);
