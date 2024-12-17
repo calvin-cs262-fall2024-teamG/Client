@@ -10,6 +10,7 @@ import { Modal, TextInput } from 'react-native';
 // import { Ionicons } from '@expo/vector-icons';
 import { reviewExists, createReview } from '../services/controllers';
 import { auth } from '../config/firebase';
+import { Ionicons } from '@expo/vector-icons';
 
 export default function PropertyDetailsScreen({ route, navigation }) {
   //I don't know why you have to do .email.email ;-;
@@ -170,6 +171,13 @@ export default function PropertyDetailsScreen({ route, navigation }) {
           <Text style={[styles.headerButtonText, { color: '#F3CD00' }]}>&lt; Back</Text>
         </TouchableOpacity>
         <Text style={styles.propertiesTitle}>Details</Text>
+                {/* Help Button */}
+                <TouchableOpacity
+        style={styles.helpButton}
+        onPress={() => navigation.navigate('Help')}
+        >
+        <Ionicons name="help-circle-outline" size={24} color="#fff" />
+      </TouchableOpacity>
       </View>
 
       <ScrollView style={styles.detailsContainer}>

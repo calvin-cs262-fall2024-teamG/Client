@@ -776,7 +776,15 @@ helpButton: {
   borderRadius: 50,
   zIndex: 10, // Ensure it appears above other elements
 },
-
+helpButton: {
+  positionDetails: 'absolute',
+  top: 6, // Adjust based on your screen's safe area
+  right: 20, // Adjust based on desired spacing
+  backgroundColor: '#8C2131',
+  padding: 10,
+  borderRadius: 50,
+  zIndex: 10, // Ensure it appears above other elements
+},
 helpText: {
   color: '#fff',
   fontSize: 16,
@@ -790,12 +798,15 @@ Htitle: {
   fontWeight: 'bold',
   marginBottom: 20,
   color: '#007BFF',
+  marginLeft: 10,
 },
 HsectionTitle: {
   fontSize: 20,
   fontWeight: 'bold',
   marginVertical: 15,
   color: '#333',
+  marginLeft: 10,
+
 },
 HsubTitle: {
   fontSize: 18,
@@ -803,12 +814,14 @@ HsubTitle: {
   marginTop: 10,
   marginBottom: 5,
   color: '#555',
+  marginLeft: 10,
 },
 Htext: {
   fontSize: 16,
   lineHeight: 22,
   marginBottom: 10,
   color: '#000',
+  marginLeft: 30,
 },
 
 

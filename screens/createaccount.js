@@ -15,10 +15,21 @@ export default function CreateAccountScreen({ navigation }) {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
+    // Add this function definition
+    const validateCalvinEmail = (email) => {
+      return email.toLowerCase().endsWith('@calvin.edu');
+    };
+
   const signUp = async (email, password) => {
     try {
       if (password !== confirmPassword) {
         Alert.alert('Error', 'Passwords do not match');
+        return;
+      }
+
+      // Add email validation
+      if (!validateCalvinEmail(email)) {
+        Alert.alert('Error', 'Please use your Calvin email address (@calvin.edu)');
         return;
       }
 
@@ -30,7 +41,7 @@ export default function CreateAccountScreen({ navigation }) {
       navigation.navigate('Main', {
         screen: 'Properties',
         params: {screen: 'PropertiesList' }
-        });
+      });
     } catch (error) {
       let errorMessage = error.message;
       // Customize error messages for better user experience
