@@ -84,15 +84,37 @@ export default function PropertyDetailsScreen({ route, navigation }) {
   const getReviews = async () => {
     try {
       const propertyID = parseInt(item.id, 10) + 1;
+
       const responseReviews = await fetch('https://cs262-webapp.azurewebsites.net/reviews/' + propertyID);
       const responseStudents = await fetch('https://cs262-webapp.azurewebsites.net/students');
-      // ... rest of the function
+
+      const jsonReviews = await responseReviews.json();
+      const jsonStudents = await responseStudents.json();
+
+      const dataReviews = jsonReviews;
+      const dataStudents = jsonStudents;
+
+      let tempReviews = [];
+
+      for (let i = 0; i < dataReviews.length; i++) {
+        tempReviews[i] = {
+          id: i,
+          propertyId: dataReviews[i].propertyId,
+          rating: dataReviews[i].rating,
+          text: dataReviews[i].reviewtext,
+          date: new Date(Date.now() - Math.random() * 3 * 365 * 24 * 60 * 60 * 1000), // Random date in the past 3 years
+          userId: dataReviews[i].studentid,
+          userName: dataStudents[dataReviews[i].studentid - 1].email,
+        }
+      }
+
+      setReviews(tempReviews);
     } catch (error) {
       console.error(error);
     } finally {
       setReviewLoading(false);
     }
-  };
+  }
 
   /**
    * Effect hook to fetch reviews on component mount
