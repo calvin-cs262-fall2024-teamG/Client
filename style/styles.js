@@ -5,6 +5,7 @@ import { StyleSheet, Dimensions } from 'react-native';
 // white: FFFFFF
 // grey: 808080
 // black: 000000
+
 const { width } = Dimensions.get('window'); // Get the width of the screen
 
 export default StyleSheet.create({
@@ -14,9 +15,9 @@ export default StyleSheet.create({
     barStyle: 'light-content',
   },
 
+  // Basic containers and components
   homeContainer: {
     flex: 1,
-    //backgroundColor: '#8C2131',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -35,9 +36,10 @@ export default StyleSheet.create({
   },
 
   textBox: {
-    padding: 0, // Padding inside the box
+    padding: 0,
   },
 
+  // Log In Screen Layout
   backgroundImage: {
     flex: 1,
     justifyContent: 'center',
@@ -47,13 +49,13 @@ export default StyleSheet.create({
   },
 
   redBoxContainer: {
-    backgroundColor: '#8C2131', // Changed to match your theme's red
+    backgroundColor: '#8C2131',
     padding: 30,
     borderRadius: 10,
     width: '90%',
     maxWidth: 400,
-    alignItems: 'center', // Center items horizontally within the red box
-    justifyContent: 'center', // Center items vertically within the red box
+    alignItems: 'center',
+    justifyContent: 'center',
     shadowColor: "#000",
     shadowOffset: {
         width: 0,
@@ -74,7 +76,7 @@ export default StyleSheet.create({
   button: {
     width: '30%',
     borderWidth: 4,
-    borderColor: '#000', // Border color
+    borderColor: '#000',
     backgroundColor: '#8C2131',
     padding: 10,
     borderRadius: 5,
@@ -126,7 +128,7 @@ export default StyleSheet.create({
   propertiesTitle: {
     fontSize: 40,
     fontWeight: 'bold',
-    color: 'white', // Or could be gold: #F3CD00 
+    color: 'white',
     fontStyle: 'italic',
     arginTop: 40,
   },
@@ -135,9 +137,9 @@ export default StyleSheet.create({
   filterAndResultsContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    width: '100%',  // Take up full width of the screen
-    marginTop: 0, // Align boxes flush with the banner
-    marginBottom: 15, // Space below for property listings
+    width: '100%',  
+    marginTop: 0,
+    marginBottom: 15,
   },
 
   sortingBox: {
@@ -145,13 +147,13 @@ export default StyleSheet.create({
     backgroundColor: '#F3CD00',
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 10, // Increase padding for a larger box
+    padding: 10, 
     borderWidth: 2,
     borderColor: '#000',
-    borderRadius: 10, // Slightly rounded corners
-    marginLeft: 5, // Add space between sortingBox and edge of screen
-    marginRight: 3, // Add space between sortingBox and filterBox
-    marginTop: 3, // Align boxes with the banner
+    borderRadius: 10, 
+    marginLeft: 5, 
+    marginRight: 3, 
+    marginTop: 3, 
   },
 
   // Box for filter button
@@ -160,13 +162,13 @@ export default StyleSheet.create({
     backgroundColor: '#F3CD00',
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 7, // Increase padding for a larger box
+    padding: 7, 
     borderWidth: 2,
     borderColor: '#000',
-    borderRadius: 10, // Slightly rounded corners
-    marginLeft: 3, // Add space between filterBox and sortingBox
-    marginRight: 5, // Add space between filterBox and edge of screen
-    marginTop: 3, // Align boxes with the banner
+    borderRadius: 10, 
+    marginLeft: 3,
+    marginRight: 5, 
+    marginTop: 3, 
   },
 
   // Box for results count
@@ -175,7 +177,7 @@ export default StyleSheet.create({
     backgroundColor: '#F3CD00',
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 10, // Increase padding for a larger box
+    padding: 10, 
     borderWidth: 1,
     borderColor: '#000',
   },
@@ -187,20 +189,6 @@ export default StyleSheet.create({
     padding: 10,
     borderRadius: 5,
   },
-
-  // propertyList: {
-  //   padding: 10,
-  //   fontSize: 18,
-  //   marginHorizontal: 20,
-  //   marginVertical: 5,
-  //   borderBottomWidth: 1,
-  //   borderBottomColor: '#ccc',
-  //   borderWidth: 1,
-  //   borderColor: '#000',
-  //   borderRadius: 5,
-  //   marginBottom: 5,  // Space between each property listing
-  //   marginTop: 0,  // Space between each property listing
-  // },
 
   propertyItem: {
     padding: 10,
@@ -217,7 +205,7 @@ export default StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     marginVertical: 5,
-    marginHorizontal: 1, //for some reason, not having this makes the "show # results", "clear filters" buttons not align properly on android at least
+    marginHorizontal: 1, 
   },
 
   buttonColumn: {
@@ -234,14 +222,6 @@ export default StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'rgba(0,0,0,0.5)',
   },
-
-  // modalContent: {
-  //   width: 400,
-  //   padding: 20,
-  //   backgroundColor: '#fff',
-  //   borderRadius: 10,
-  //   alignItems: 'center',
-  // },
 
   modalText: {
     fontSize: 20,
@@ -260,7 +240,7 @@ export default StyleSheet.create({
   },
 
   checkbox: {
-    transform: [{ scaleX: 1.5 }, { scaleY: 1.5 }], // Adjust the scale as needed
+    transform: [{ scaleX: 1.5 }, { scaleY: 1.5 }], 
   },
 
   resultsText: {
@@ -280,7 +260,6 @@ export default StyleSheet.create({
     borderWidth: 2,
     paddingHorizontal: 10,
     borderRadius: 5,
-    //marginRight: 2, // Add some space between the text input and the "miles" text
   },
 
   textInputError: {
@@ -300,7 +279,7 @@ export default StyleSheet.create({
     borderWidth: 2,
     paddingHorizontal: 10,
     borderRadius: 5,
-    marginRight: 2, // Add some space between the text input and the "miles" text
+    marginRight: 2, 
   },
   
   textInputSmallError: {
@@ -342,7 +321,7 @@ export default StyleSheet.create({
     marginBottom: 20,
     fontSize: 16,
     color: '#333333',
-    width: '100%',             // Take full width of the red box
+    width: '100%',         
     marginVertical: 10,    
   },
   Lbutton: {
@@ -352,26 +331,26 @@ export default StyleSheet.create({
     borderRadius: 8,
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 40, // Add space below the button
+    marginBottom: 40, 
 },
 LbuttonText: {
   color: '#8C2131',
   fontSize: 18,
   fontWeight: 'bold',
   textAlign: 'center',
-  width: 'auto', // Remove fixed width to allow natural text positioning
-  alignSelf: 'center', // Center the text within the button
+  width: 'auto', 
+  alignSelf: 'center', 
 },
   Lfooter: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center', // Center the footer content
+    justifyContent: 'center', 
     width: '100%',
 },
   Llink: {
     color: '#F3CD00',
     fontSize: 16,
-    marginLeft: 5, // Add spacing between the footer text and the link
+    marginLeft: 5, 
   },
   LfooterText: {
     color: '#FFFFFF',
@@ -381,10 +360,10 @@ LbuttonText: {
   helperTextContainer: {
     width: '100%',
     alignItems: 'center',
-    marginBottom: 20, // Add space below the helper text
+    marginBottom: 20, 
 },
   helperText: {
-    color: '#F3CD00', // Matching your gold accent color
+    color: '#F3CD00', 
     fontSize: 14,
     textAlign: 'center',
   },
@@ -431,11 +410,6 @@ LbuttonText: {
   detailsContent: {
     padding: 16,
   },
-  // propertyImage: {
-  //   width: '100%',
-  //   height: 200,
-  //   resizeMode: 'cover',
-  // },
   sectionContainer: {
     marginBottom: 24,
     backgroundColor: '#fff',
@@ -467,17 +441,11 @@ LbuttonText: {
     paddingVertical: 8,
     borderBottomWidth: 1,
     borderBottomColor: '#f0f0f0',
-    alignItems: 'flex-start', // Changed from 'center' to 'flex-start'
+    alignItems: 'flex-start', 
   },
-  // detailLabel: {
-  //   width: 120, // Fixed width for labels
-  //   fontSize: 16,
-  //   color: '#666',
-  //   fontWeight: '500',
-  // },
 
   addressContainer: {
-    flex: 1, // Takes remaining space
+    flex: 1,
   },
 
   addressText: {
@@ -507,12 +475,12 @@ LbuttonText: {
   ratingContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    flex: 1, // Takes up available space
-    marginRight: 10, // Adds space between rating and button
+    flex: 1, 
+    marginRight: 10,
   },
 
   starContainer: {
-    marginLeft: -60, // Moves stars closer to the "Rating:" label
+    marginLeft: -60,
   },
 
   favoriteButton: {
@@ -538,7 +506,7 @@ LbuttonText: {
 
   favoriteButtonProperties: {
     position: 'absolute',
-    top: 50, // Adjust this value to match your header padding
+    top: 50, 
     right: 15,
     paddingVertical: 5,
     paddingHorizontal: 10,
@@ -546,7 +514,7 @@ LbuttonText: {
     borderRadius: 3,
     borderColor: '#F3CD00',
     borderWidth: 1,
-    zIndex: 1, // This ensures the button stays on top of other elements
+    zIndex: 1, 
 },
 
   resultsFoundText: {
@@ -566,7 +534,7 @@ LbuttonText: {
     borderRadius: 3,
     borderColor: '#F3CD00',
     borderWidth: 1,
-    marginLeft: 10, // Add spacing between the title and button
+    marginLeft: 10, 
     marginTop: 10, 
     alignSelf: 'flex-start',
 },
@@ -592,7 +560,7 @@ scrollContainer: {
 
 scrollContentContainer: {
   flexGrow: 1,
-  paddingBottom: 20, // Adds padding at the bottom of the scroll
+  paddingBottom: 20,
 },
 
 propertiesContainer: {
@@ -766,15 +734,14 @@ starStarContainer: {
 },
 
 //help button
-// Add these to your existing styles
 helpButton: {
   position: 'absolute',
-  top: 40, // Adjust based on your screen's safe area
-  right: 20, // Adjust based on desired spacing
+  top: 40,
+  right: 20,
   backgroundColor: '#8C2131',
   padding: 10,
   borderRadius: 50,
-  zIndex: 10, // Ensure it appears above other elements
+  zIndex: 10,
 },
 
 helpText: {
@@ -810,6 +777,4 @@ Htext: {
   marginBottom: 10,
   color: '#000',
 },
-
-
 });

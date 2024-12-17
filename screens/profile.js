@@ -13,13 +13,47 @@ import { collection, query, where, getDocs } from 'firebase/firestore';
 import { auth, db } from '../config/firebase';
 import { logoutUser } from '../services/auth';
 
+/**
+ * Profile Screen Component that displays user information and reviews
+ * @module ProfileScreen
+ * @returns {JSX.Element} Rendered ProfileScreen component
+ */
 export default function ProfileScreen() {
+  
+  /**
+   * Navigation object for screen transitions
+   * @type {object}
+   */
   const navigation = useNavigation();
+
+  /**
+   * State for user email
+   * @type {[string, function]} userEmail - Email state and setter
+   */
   const [userEmail, setUserEmail] = useState('');
+
+  /**
+   * State for loading indicator
+   * @type {[boolean, function]} isLoading - Loading state and setter
+   */
   const [isLoading, setIsLoading] = useState(true);
+
+  /**
+   * State for user reviews
+   * @type {[Array, function]} userReviews - Array of user reviews and setter
+   */
   const [userReviews, setUserReviews] = useState([]);
+
+  /**
+   * State for reviews loading indicator
+   * @type {[boolean, function]} isLoadingReviews - Reviews loading state and setter
+   */
   const [isLoadingReviews, setIsLoadingReviews] = useState(true);
 
+  /**
+   * Effect hook to initialize user data and fetch reviews
+   * @function
+   */
   useEffect(() => {
     const user = auth.currentUser;
     if (user) {
@@ -34,26 +68,37 @@ export default function ProfileScreen() {
     }
   }, []);
 
+  /**
+   * Fetches user reviews from Firestore
+   * @async
+   * @param {string} userId - The ID of the current user
+   * @returns {Promise<void>}
+   */
   const fetchUserReviews = async (userId) => {
     try {
       setIsLoadingReviews(true);
       const reviewsRef = collection(db, 'reviews');
-      const q = query(reviewsRef, where('userId', '==', userId)); // Filter by userId
-  
+      const q = query(reviewsRef, where('userId', '==', userId));
+      
       const snapshot = await getDocs(q);
       const reviews = [];
       snapshot.forEach((doc) => {
         reviews.push({ id: doc.id, ...doc.data() });
       });
-      setUserReviews(reviews); // Set the fetched reviews in state
+      setUserReviews(reviews);
     } catch (error) {
       console.error('Error fetching reviews:', error);
       Alert.alert('Error', 'Failed to load reviews');
     } finally {
       setIsLoadingReviews(false);
     }
-  };  
+  };
 
+  /**
+   * Handles user logout
+   * @async
+   * @returns {Promise<void>}
+   */
   const handleLogout = async () => {
     try {
       await logoutUser();
@@ -66,6 +111,10 @@ export default function ProfileScreen() {
     }
   };
 
+  /**
+   * Generates user initials from email address
+   * @returns {string} User initials or default value
+   */
   const getInitials = () => {
     if (!userEmail) return 'CS';
     return userEmail
@@ -75,6 +124,10 @@ export default function ProfileScreen() {
       .join('');
   };
 
+  /**
+   * Generates display name from email address
+   * @returns {string} Formatted display name or default value
+   */
   const getDisplayName = () => {
     if (!userEmail) return 'Calvin Student';
     return userEmail
@@ -83,6 +136,7 @@ export default function ProfileScreen() {
       .map((name) => name.charAt(0).toUpperCase() + name.slice(1))
       .join(' ');
   };
+
 
   return (
     <View style={styles.container}>

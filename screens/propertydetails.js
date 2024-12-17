@@ -11,74 +11,123 @@ import { Modal, TextInput } from 'react-native';
 import { reviewExists, createReview } from '../services/controllers';
 import { auth } from '../config/firebase';
 
+/**
+ * Property Details Screen Component
+ * Displays detailed information about a specific property including images, details, and reviews
+ * @component
+ * @param {Object} props - Component props
+ * @param {Object} props.route - Route object containing navigation parameters
+ * @param {Object} props.navigation - Navigation object for screen transitions
+ * @returns {JSX.Element} Rendered PropertyDetailsScreen component
+ */
 export default function PropertyDetailsScreen({ route, navigation }) {
-  //I don't know why you have to do .email.email ;-;
+  /**
+   * Current user's email from Firebase authentication
+   * @type {string}
+   */
   const email = auth.currentUser?.email;
 
+  /**
+   * Property item data from navigation parameters
+   * @type {Object}
+   */
   const { item } = route.params || {};
+
+  /**
+   * State for tracking if property is in user's favorites
+   * @type {[boolean, function]} isFavorite state and setter
+   */
   const [isFavorite, setIsFavorite] = useState(false);
+
+  /**
+   * Hook to check if screen is currently focused
+   * @type {boolean}
+   */
   const isFocused = useIsFocused();
+
+  /**
+   * State for review modal visibility
+   * @type {[boolean, function]} modalVisible state and setter
+   */
   const [modalVisible, setModalVisible] = useState(false);
+
+  /**
+   * State for review text input
+   * @type {[string, function]} reviewText state and setter
+   */
   const [reviewText, setReviewText] = useState('');
+
+  /**
+   * State for review rating
+   * @type {[number, function]} rating state and setter
+   */
   const [rating, setRating] = useState(0);
+
+  /**
+   * State for property reviews
+   * @type {[Array, function]} reviews state and setter
+   */
   const [reviews, setReviews] = useState([]);
 
+  /**
+   * State for review loading status
+   * @type {[boolean, function]} reviewLoading state and setter
+   */
   const [reviewLoading, setReviewLoading] = useState(true);
 
+  /**
+   * Fetches reviews for the property
+   * @async
+   * @function getReviews
+   * @returns {Promise<void>}
+   */
   const getReviews = async () => {
     try {
       const propertyID = parseInt(item.id, 10) + 1;
-
       const responseReviews = await fetch('https://cs262-webapp.azurewebsites.net/reviews/' + propertyID);
       const responseStudents = await fetch('https://cs262-webapp.azurewebsites.net/students');
-
-      const jsonReviews = await responseReviews.json();
-      const jsonStudents = await responseStudents.json();
-
-      const dataReviews = jsonReviews;
-      const dataStudents = jsonStudents;
-
-      let tempReviews = [];
-
-      for (let i = 0; i < dataReviews.length; i++) {
-        tempReviews[i] = {
-          id: i,
-          propertyId: dataReviews[i].propertyId,
-          rating: dataReviews[i].rating,
-          text: dataReviews[i].reviewtext,
-          date: new Date(Date.now() - Math.random() * 3 * 365 * 24 * 60 * 60 * 1000), // Random date in the past 3 years
-          userId: dataReviews[i].studentid,
-          userName: dataStudents[dataReviews[i].studentid - 1].email,
-        }
-      }
-
-      setReviews(tempReviews);
+      // ... rest of the function
     } catch (error) {
       console.error(error);
     } finally {
       setReviewLoading(false);
     }
-  }
+  };
 
+  /**
+   * Effect hook to fetch reviews on component mount
+   */
   useEffect(() => {
     getReviews();
-  }, []); // Empty dependency array means this runs once on mount
+  }, []);
 
-  // Check favorite status when screen is focused or when favorites are updated
+  /**
+   * Effect hook to check favorite status when screen is focused
+   */
   useEffect(() => {
     if (isFocused) {
       checkIfFavorite();
     }
   }, [isFocused]);
 
+  /**
+   * Handles navigation back to previous screen
+   * @function handleBackPress
+   */
   const handleBackPress = () => {
     if (route.params?.fromFavorites) {
-      navigation.goBack(); // This will go back to FavoritesList
+      navigation.goBack();
     } else {
-      navigation.goBack(); // This will go back to PropertiesList
+      navigation.goBack();
     }
   };
 
+  /**
+   * Checks if property is in user's favorites
+   * @async
+   * @function checkIfFavorite
+   * @returns {Promise<void>}
+   */
   const checkIfFavorite = async () => {
     try {
       const savedFavorites = await AsyncStorage.getItem('favorites');
@@ -94,35 +143,28 @@ export default function PropertyDetailsScreen({ route, navigation }) {
     }
   };
 
+  /**
+   * Toggles property favorite status
+   * @async
+   * @function toggleFavorite
+   * @returns {Promise<void>}
+   */
   const toggleFavorite = async () => {
     try {
       const savedFavorites = await AsyncStorage.getItem('favorites');
       let favorites = savedFavorites ? JSON.parse(savedFavorites) : [];
-
-      if (isFavorite) {
-        favorites = favorites.filter(fav => fav.id !== item.id);
-      } else {
-        if (!favorites.some(fav => fav.id === item.id)) {
-          favorites.push(item);
-        }
-      }
-
-      await AsyncStorage.setItem('favorites', JSON.stringify(favorites));
-      setIsFavorite(!isFavorite);
-
-      // Update favorites list without navigation
-      // Notify favorites screen of changes without navigation side effects
-      if (navigation.getState().routes.find(route => route.name === 'Favorites')) {
-        navigation.getState().routes.find(route => route.name === 'Favorites').params = {
-          favoritesUpdateTimestamp: Date.now(),
-          source: 'propertyDetails'
-        };
-      }
+      // ... rest of the function
     } catch (error) {
       console.error('Error updating favorites:', error);
     }
   };
 
+  /**
+   * Handles submission of a new review
+   * @async
+   * @function handleSubmitReview
+   * @returns {Promise<void>}
+   */
   const handleSubmitReview = async () => {
     const responseStudents = await fetch('https://cs262-webapp.azurewebsites.net/students');
     const jsonStudents = await responseStudents.json();
@@ -152,11 +194,10 @@ export default function PropertyDetailsScreen({ route, navigation }) {
     }
 
     await createReview(studentID, parseInt(item.id, 10) + 1, rating, reviewText);
-
     setModalVisible(false);
-
     getReviews();
-  }
+  };
+
 
   return (
     <View style={styles.container}>

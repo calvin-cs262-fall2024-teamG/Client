@@ -9,12 +9,42 @@ import cityMapImage from '../style/city-map-4320755_640.png'
 import { Ionicons } from '@expo/vector-icons';
 import { createStudent, studentExists } from '../services/controllers';
 
+
+/**
+ * Create Account Screen
+ * This screen is responsible for creating a new user account.
+ * It allows the user to enter an email and password, and then creates a new user account using Firebase Authentication.
+ * If the account is created successfully, the user is navigated to the Main screen.
+ * If the account creation fails, an error message is displayed.
+ *
+ * @export
+ * @param {{ navigation: any; }} param0
+ * @param {*} param0.navigation
+ * @returns
+ */
 export default function CreateAccountScreen({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
+  
+  /**
+   * sign Up Function
+   * This function is responsible for creating a new user account using Firebase Authentication.
+   * It first checks if the password and confirm password match.
+   * If the passwords match, it attempts to create a new user account using the provided email and password.
+   * If the account is created successfully, it navigates to the Main screen.
+   * If the account creation fails, it displays an error message.
+   * If the email is already in use, it displays a specific error message.
+   * If the password is too weak, it displays a specific error message.
+   * If the email is invalid, it displays a specific error message.
+   *
+   * @async
+   * @param {*} email
+   * @param {*} password
+   * @returns {*}
+   */
   const signUp = async (email, password) => {
     try {
       if (password !== confirmPassword) {
@@ -33,7 +63,7 @@ export default function CreateAccountScreen({ navigation }) {
         });
     } catch (error) {
       let errorMessage = error.message;
-      // Customize error messages for better user experience
+      /** Customize error messages for better user experience */
       if (error.code === 'auth/email-already-in-use') {
         errorMessage = 'This email is already registered. Please use a different email or try logging in.';
       } else if (error.code === 'auth/weak-password') {
