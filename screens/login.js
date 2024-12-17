@@ -9,11 +9,39 @@ import cityMapImage from '../style/city-map-4320755_640.png'
 import { Ionicons } from '@expo/vector-icons';
 import { createStudent, studentExists } from '../services/controllers';
 
+/**
+ * Login Screen Component that handles user authentication
+ * @param {object} props - Component props
+ * @param {object} props.navigation - Navigation object for screen transitions
+ * @returns {JSX.Element} Rendered LogInScreen component
+ */
 export default function LogInScreen({ navigation }) {
+    /**
+     * State for user email
+     * @type {[string, function]} email - Email state and setter
+     */
     const [email, setEmail] = useState('');
+
+    /**
+     * State for user password
+     * @type {[string, function]} password - Password state and setter
+     */
     const [password, setPassword] = useState('');
+
+    /**
+     * State for loading indicator
+     * @type {[boolean, function]} isLoading - Loading state and setter
+     */
     const [isLoading, setIsLoading] = useState(false);
 
+    /**
+     * Handles user sign-in process
+     * @async
+     * @param {string} email - User's email address
+     * @param {string} password - User's password
+     * @returns {Promise<void>}
+     * @throws {Error} When authentication fails
+     */
     const signIn = async (email, password) => {
         try {
             const userCredential = await signInWithEmailAndPassword(auth, email, password);

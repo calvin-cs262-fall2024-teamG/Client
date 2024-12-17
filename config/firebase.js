@@ -3,6 +3,11 @@ import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 
 
+/**
+ * Firebase Configuration
+ *
+ * @type {{ apiKey: string; authDomain: string; projectId: string; storageBucket: string; messagingSenderId: string; appId: string; measurementId: string; }}
+ */
 const firebaseConfig = {
   apiKey: "AIzaSyDr7F3iYKfHa5HLqSMI3hZr8t-bNredsZE",
   authDomain: "rentscout-ad42d.firebaseapp.com",
@@ -13,7 +18,11 @@ const firebaseConfig = {
   measurementId: "G-6TZDD6MZ23"
 };
 
-// Initialize Firebase
+/**
+ * Initialize Firebase
+ *
+ * @type {*}
+ */
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);

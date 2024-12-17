@@ -4,6 +4,15 @@ import { ImageBackground, StatusBar, Text, View, TouchableOpacity } from 'react-
 import styles from '../style/styles'; //Import the styles from styles.js
 import cityMapImage from '../style/city-map-4320755_640.png'
 
+
+/**
+ * Home Screen Component 
+ *
+ * @export
+ * @param {{ navigation: any; }} param0
+ * @param {*} param0.navigation
+ * @returns
+ */
 export default function HomeScreen({ navigation }) {
     return (
         <ImageBackground

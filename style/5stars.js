@@ -1,9 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { View, StyleSheet } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome'; // Import the Icon component
+import Icon from 'react-native-vector-icons/FontAwesome';
+
+/**
+ * Star Rating Component
+ * Displays a 5-star rating visualization using overlapping filled and empty stars
+ * @component
+ * @param {Object} props - Component properties
+ * @param {number} props.rating - Rating value between 0 and 5
+ * @returns {JSX.Element} Rendered StarRating component
+ */
 const StarRating = ({ rating }) => {
-  const percentage = (rating / 5) * 100; // Assuming the rating is out of 5
+  /**
+   * Calculates the percentage width for filled stars
+   * @type {number}
+   */
+  const percentage = (rating / 5) * 100; 
 
   return (
     <View style={styles.starContainer}>
@@ -25,10 +38,19 @@ const StarRating = ({ rating }) => {
   );
 };
 
+/**
+ * PropTypes for the StarRating component
+ * @type {Object}
+ */
 StarRating.propTypes = {
   rating: PropTypes.number.isRequired,
 };
 
+/**
+ * Styles for the StarRating component
+ * @constant
+ * @type {Object}
+ */
 const styles = StyleSheet.create({
     starContainer: {
       flexDirection: 'row',

@@ -1,6 +1,4 @@
 import { StyleSheet } from 'react-native';
-// import { Dimensions } from 'react-native';
-// const { width } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
 
@@ -111,8 +109,8 @@ const styles = StyleSheet.create({
     padding: 15,
     borderRadius: 10,
     marginTop: 30,
-    alignSelf: 'center', // Centers the button horizontally
-    width: '80%', // Controls the width of the button
+    alignSelf: 'center', 
+    width: '80%',
   },
   logoutText: {
     color: '#fff',
@@ -197,14 +195,16 @@ const styles = StyleSheet.create({
     color: '#666',
     marginTop: 20,
   },
+
+  //Help Button
   helpButton: {
     position: 'absolute',
-    top: 40, // Adjust based on your screen's safe area
-    right: 20, // Adjust based on desired spacing
+    top: 40,
+    right: 20,
     backgroundColor: '#8C2131',
     padding: 10,
     borderRadius: 50,
-    zIndex: 10, // Ensure it appears above other elements
+    zIndex: 10, 
   },
   
   helpText: {
