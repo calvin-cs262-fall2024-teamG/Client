@@ -10,6 +10,7 @@ import { Modal, TextInput } from 'react-native';
 // import { Ionicons } from '@expo/vector-icons';
 import { reviewExists, createReview } from '../services/controllers';
 import { auth } from '../config/firebase';
+import { Ionicons } from '@expo/vector-icons';
 
 /**
  * Property Details Screen Component
@@ -253,6 +254,14 @@ export default function PropertyDetailsScreen({ route, navigation }) {
         </TouchableOpacity>
         <Text style={styles.propertiesTitle}>Details</Text>
       </View>
+
+      {/* Help Button */}
+      <TouchableOpacity
+        style={styles.helpButton}
+        onPress={() => navigation.navigate('Help')}
+      >
+        <Ionicons name="help-circle-outline" size={24} color="#fff" />
+      </TouchableOpacity>
 
       <ScrollView style={styles.detailsContainer}>
         <StatusBar backgroundColor="#8C2131" barStyle="light-content" />
