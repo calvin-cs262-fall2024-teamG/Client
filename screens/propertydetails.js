@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Image, Text, View, ScrollView, TouchableOpacity, StatusBar } from 'react-native';
+import { Image, Text, View, ScrollView, TouchableOpacity, StatusBar, ActivityIndicator } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
 import styles from '../style/styles';
 import StarRating from '../style/5stars';
@@ -8,9 +8,13 @@ import PropTypes from 'prop-types';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Modal, TextInput } from 'react-native';
 // import { Ionicons } from '@expo/vector-icons';
-import { auth, currentUser } from 'firebase/auth';
+import { reviewExists, createReview } from '../services/controllers';
+import { auth } from '../config/firebase';
 
 export default function PropertyDetailsScreen({ route, navigation }) {
+  //I don't know why you have to do .email.email ;-;
+  const email = auth.currentUser?.email;
+
   const { item } = route.params || {};
   const [isFavorite, setIsFavorite] = useState(false);
   const isFocused = useIsFocused();
@@ -19,6 +23,46 @@ export default function PropertyDetailsScreen({ route, navigation }) {
   const [rating, setRating] = useState(0);
   const [reviews, setReviews] = useState([]);
 
+  const [reviewLoading, setReviewLoading] = useState(true);
+
+  const getReviews = async () => {
+    try {
+      const propertyID = parseInt(item.id, 10) + 1;
+
+      const responseReviews = await fetch('https://cs262-webapp.azurewebsites.net/reviews/' + propertyID);
+      const responseStudents = await fetch('https://cs262-webapp.azurewebsites.net/students');
+
+      const jsonReviews = await responseReviews.json();
+      const jsonStudents = await responseStudents.json();
+
+      const dataReviews = jsonReviews;
+      const dataStudents = jsonStudents;
+
+      let tempReviews = [];
+
+      for (let i = 0; i < dataReviews.length; i++) {
+        tempReviews[i] = {
+          id: i,
+          propertyId: dataReviews[i].propertyId,
+          rating: dataReviews[i].rating,
+          text: dataReviews[i].reviewtext,
+          date: new Date(Date.now() - Math.random() * 3 * 365 * 24 * 60 * 60 * 1000), // Random date in the past 3 years
+          userId: dataReviews[i].studentid,
+          userName: dataStudents[dataReviews[i].studentid - 1].email,
+        }
+      }
+
+      setReviews(tempReviews);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setReviewLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    getReviews();
+  }, []); // Empty dependency array means this runs once on mount
 
   // Check favorite status when screen is focused or when favorites are updated
   useEffect(() => {
@@ -79,77 +123,44 @@ export default function PropertyDetailsScreen({ route, navigation }) {
     }
   };
 
-
-
   const handleSubmitReview = async () => {
+    const responseStudents = await fetch('https://cs262-webapp.azurewebsites.net/students');
+    const jsonStudents = await responseStudents.json();
+    const dataStudents = jsonStudents;
+
+    let studentID = -1;
+    for(let i = 0; i < dataStudents.length; i++) {
+      if(dataStudents[i].email === email) {
+        studentID = dataStudents[i].id;
+        break;
+      }
+    }
+
+    if (studentID === -1) {
+      alert('Login error: try logging out and back in');
+      return;
+    }
+
+    if(await reviewExists(studentID, parseInt(item.id, 10) + 1)) {
+      alert('You have already reviewed this property');
+      return;
+    }
+    
     if (!rating || !reviewText.trim()) {
-      // Add validation
       alert('Please provide both a rating and review text');
       return;
     }
 
-    const newReview = {
-      id: Date.now(), // temporary ID
-      propertyId: item.id,
-      rating: rating,
-      text: reviewText,
-      date: new Date().toISOString(),
-      // Add user information if available
-      userId: auth.currentUser.id,
-      userName: currentUser.name,
-    };
+    await createReview(studentID, parseInt(item.id, 10) + 1, rating, reviewText);
 
-    try {
-      // Get existing reviews from AsyncStorage
-      const savedReviews = await AsyncStorage.getItem('propertyReviews');
-      let allReviews = savedReviews ? JSON.parse(savedReviews) : [];
+    setModalVisible(false);
 
-      // Add new review
-      allReviews.push(newReview);
-
-      // Save to AsyncStorage
-      await AsyncStorage.setItem('propertyReviews', JSON.stringify(allReviews));
-
-      // Update local state
-      setReviews(prevReviews => [...prevReviews, newReview]);
-
-      // Reset form and close modal
-      setReviewText('');
-      setRating(0);
-      setModalVisible(false);
-    } catch (error) {
-      console.error('Error saving review:', error);
-      alert('Failed to save review. Please try again.');
-    }
-  };
-
-  const loadReviews = async () => {
-    try {
-      const savedReviews = await AsyncStorage.getItem('propertyReviews');
-      if (savedReviews) {
-        const allReviews = JSON.parse(savedReviews);
-        // Filter reviews for this specific property
-        const propertyReviews = allReviews.filter(review => review.propertyId === item.id);
-        setReviews(propertyReviews);
-      }
-    } catch (error) {
-      console.error('Error loading reviews:', error);
-    }
-  };
-
-  // Add this to your useEffect
-  useEffect(() => {
-    if (isFocused) {
-      checkIfFavorite();
-      loadReviews(); // Load reviews when screen is focused
-    }
-  }, [isFocused]);
-
-
+    getReviews();
+  }
 
   return (
     <View style={styles.container}>
-      
+
       {/* Header Banner */}
       <View style={styles.titleBanner}>
         <TouchableOpacity
@@ -269,24 +280,32 @@ export default function PropertyDetailsScreen({ route, navigation }) {
 
             {/* Reviews list */}
             <View style={styles.reviewsContainer}>
-              {reviews.length === 0 ? (
-                <Text style={styles.noReviewsText}>No reviews yet</Text>
+              {reviewLoading ? (
+                <ActivityIndicator size="large" color="#8C2131" />
               ) : (
-                reviews.map(review => (
-                  <View key={review.id} style={styles.reviewItem}>
-                    <View style={styles.reviewHeader}>
-                      {/* Add user name here if available */}
-                      <Text style={styles.reviewDate}>
-                        {new Date(review.date).toLocaleDateString()}
-                      </Text>
-                    </View>
-                    <View style={styles.reviewRating}>
-                      <StarRating rating={review.rating} />
-                    </View>
-                    <Text style={styles.reviewText}>{review.text}</Text>
-                  </View>
-                ))
+                <>
+                  {reviews.length === 0 ? (
+                    <Text style={styles.noReviewsText}>No reviews yet</Text>
+                  ) : (
+                    reviews.map(review => (
+                      <View key={review.id} style={styles.reviewItem}>
+                        <View style={styles.reviewHeader}>
+                          {/* Add user name here if available */}
+                          <Text style={styles.reviewUser}>{review.userName}</Text>
+                          <Text style={styles.reviewDate}>
+                            {new Date(review.date).toLocaleDateString()}
+                          </Text>
+                        </View>
+                        <View style={styles.reviewRating}>
+                          <StarRating rating={review.rating} />
+                        </View>
+                        <Text style={styles.reviewText}>{review.text}</Text>
+                      </View>
+                    ))
+                  )}
+                </>
               )}
+
             </View>
 
           </View>
@@ -374,6 +393,7 @@ PropertyDetailsScreen.propTypes = {
         contact_phone: PropTypes.string,
         contact_email: PropTypes.string,
       }).isRequired,
+      email: PropTypes.string,
       fromFavorites: PropTypes.bool,
       favoritesUpdated: PropTypes.bool,
     }).isRequired,

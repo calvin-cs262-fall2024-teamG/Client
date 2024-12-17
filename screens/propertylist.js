@@ -19,46 +19,71 @@ const filters = [
 ];
 
 export default function PropertiesScreen({ navigation }) {
+
+  // State variables
+
+  // Modal visibility
+
   const [modalFilteringVisible, setModalFilteringVisible] = useState(false);
   const [modalSortingVisible, setModalSortingVisible] = useState(false);
-  const [displayedProperties, setDisplayedProperties] = useState([]); // Initialize with properties
+
+  // Property Variables
+
+  const [properties, setProperties] = useState([]);
+  const [displayedProperties, setDisplayedProperties] = useState([]);
   const [filteredProperties, setFilteredProperties] = useState([]);
+
+  // General Filter Variables
+
   const [selectedFilters, setSelectedFilters] = useState([]);
   const [tempSelectedFilters, setTempSelectedFilters] = useState([]);
   const [numAppliedFilters, setNumAppliedFilters] = useState(0);
+
+  // Various specific filter variables
+
+  // The first variable, e.g. distance, is the actual value
+  // The second variable, e.g. tempDistance, is the temporary value for cases where we want to change filters but maintain the original filters
+  // The third variable, e.g. distanceStyle, is the style of the text input. This is used to change the color of the text input to red when the user doesn't enter a value
+
   const [distance, setDistance] = useState('');
   const [tempDistance, setTempDistance] = useState('');
   const [distanceStyle, setDistanceStyle] = useState(styles.textInput);
+
   const [busDistance, setBusDistance] = useState('');
   const [tempBusDistance, setTempBusDistance] = useState('');
   const [busDistanceStyle, setBusDistanceStyle] = useState(styles.textInput);
+
   const [priceHigh, setPriceHigh] = useState('');
   const [tempPriceHigh, setTempPriceHigh] = useState('');
   const [priceHighStyle, setPriceHighStyle] = useState(styles.textInputSmall);
-  const [sortType, setSortType] = useState('Rating');
-  const [properties, setProperties] = useState([]);
-  const [loading, setLoading] = useState(true);
+
   const [bedrooms, setBedrooms] = useState('');
   const [tempBedrooms, setTempBedrooms] = useState('');
   const [bedroomsStyle, setBedroomsStyle] = useState(styles.textInput);
 
+  // Sorting Type Variable
+
+  const [sortType, setSortType] = useState('Rating');
+
+  // Loading State Variables
+
+  const [propertyLoading, setPropertyLoading] = useState(true); 
 
   const isFocused = useIsFocused();
 
   const getProperties = async () => {
-    let dataProperties, dataLandlords, dataPropertyLandlords;
     try {
       const responseProperties = await fetch('https://cs262-webapp.azurewebsites.net/properties');
       const reponseLandlords = await fetch('https://cs262-webapp.azurewebsites.net/landlords');
-      const responsePropertyLandlords = await fetch('https://cs262-webapp.azurewebsites.net/propertylandlords');
+      const responseReviews = await fetch('https://cs262-webapp.azurewebsites.net/reviews');
 
       const jsonProperties = await responseProperties.json();
       const jsonLandlords = await reponseLandlords.json();
-      const jsonPropertyLandlords = await responsePropertyLandlords.json();
+      const jsonReviews = await responseReviews.json();
 
-      dataProperties = jsonProperties;
-      dataLandlords = jsonLandlords;
-      dataPropertyLandlords = jsonPropertyLandlords;
+      const dataProperties = jsonProperties;
+      const dataLandlords = jsonLandlords;
+      const dataReviews = jsonReviews;
 
 
       let tempProperties = [];
@@ -70,15 +95,90 @@ export default function PropertiesScreen({ navigation }) {
           address: dataProperties[i].streetaddress,
           bedrooms: dataProperties[i].bedroomnum,
           bathrooms: dataProperties[i].bathroomnum,
-          landlord_name: dataLandlords[dataPropertyLandlords[i].landlordid - 1].name,
-          contact_phone: dataLandlords[dataPropertyLandlords[i].landlordid - 1].phonenumber,
-          contact_email: dataLandlords[dataPropertyLandlords[i].landlordid - 1].emailaddress,
+          landlord_name: dataLandlords[dataProperties[i].landlordid - 1].name,
+          contact_phone: dataLandlords[dataProperties[i].landlordid - 1].phonenumber,
+          contact_email: dataLandlords[dataProperties[i].landlordid - 1].emailaddress,
           estimated_cost: dataProperties[i].price,
           distance_from_campus: dataProperties[i].distancetocalvin,
           distance_from_bus_stop: dataProperties[i].distancetobusstop,
           pet_friendly: dataProperties[i].petfriendly,
-          rating: dataProperties[i].rating,
         }
+      }
+      
+      // Ratings as a concept are difficult, as a property with one review of 5 stars
+      //  is worth much less than a property with 100 reviews of 4.9 stars, despite the
+      //  latter having a lower average rating.
+      // This is especially important as the default sorting is by rating.
+      //
+      // To solve this, we will use the Bayesian average rating
+      // This is a weighted average that takes into account the number of reviews
+      //  and the average rating of all reviews
+      //
+      // The formula is:
+      // (v * R + m * C) / (v + m)
+      // Where:
+      //  v is the number of reviews
+      //  m is the minimum number of reviews to be considered
+      //  R is the average rating of the property
+      //  C is the average rating of all properties
+      //
+      // We will use m = 2 due to our small sample size
+      // The rest of the values will be calculated below.
+      // Calculating the average of all reviews is possible given our small sample size
+      //  but in a real-world scenario, this would have to be done in the backend
+      // 
+      // -@jtlun
+
+      // The follow two loops could be combined into one, but I separated them for clarity
+      // First, calculate the average rating of all properties
+
+      let totalRating = 0;
+      for(let i = 0; i < dataReviews.length; i++) {
+        totalRating += dataReviews[i].rating;
+      }
+      const averageRating = totalRating / dataReviews.length;
+
+      // Next, calculate the average rating and number of reviews of each property individually
+      
+      let propertyNumReviews = [];
+      let propertyTotalRating = [];
+
+      // Initialize arrays
+
+      for(let i = 0; i < tempProperties.length; i++) {
+        propertyNumReviews[i] = 0;
+        propertyTotalRating[i] = 0;
+      }
+      
+      // Calculating Total Rating and Number of Reviews
+      
+      for(let i = 0; i < dataReviews.length; i++) {
+        propertyNumReviews[dataReviews[i].propertyid - 1]++;
+        propertyTotalRating[dataReviews[i].propertyid - 1] += dataReviews[i].rating;
+      }
+      
+      let propertyAverageRating = [];
+
+      // Calculating Average Rating
+
+      for(let i = 0; i < propertyNumReviews.length; i++) {
+        propertyAverageRating[i] = propertyTotalRating[i] / propertyNumReviews[i];
+      }
+
+      // Now, calculate the Bayesian average rating for each property
+      // Round it to one decimal place
+      // and set this value to the tempProperties.rating field
+      // for clarity, we'll use the same variable names as the formula above
+
+      const m = 2; // Minimum number of reviews to be considered
+      const C = averageRating; // Average rating of all properties
+      const R = propertyAverageRating; // Average rating of the property
+      const v = propertyNumReviews; // Number of reviews
+
+      for(let i = 0; i < tempProperties.length; i++) {
+        // If there are no reviews, set the rating to 0, else continue with the formula
+        if (v[i] == 0) tempProperties[i].rating = 0;
+        else tempProperties[i].rating = Math.round((v[i] * R[i] + m * C)/(v[i] + m) * 10) / 10;
       }
 
       tempProperties = sortProperties(tempProperties, '');
@@ -90,7 +190,7 @@ export default function PropertiesScreen({ navigation }) {
     } catch (error) {
       console.error(error);
     } finally {
-      setLoading(false);
+      setPropertyLoading(false);
     }
   }
 
@@ -166,7 +266,7 @@ export default function PropertiesScreen({ navigation }) {
         updatedFilters.push(filterId);
         if (tempBedrooms == '') setBedroomsStyle(styles.textInputError);
       }
-    } 
+    }
     else {
       // Handle other filters
       if (updatedFilters.includes(filterId)) {
@@ -212,7 +312,7 @@ export default function PropertiesScreen({ navigation }) {
     if (filters.includes('7') && bedrooms_in) {
       const bedroomsValue = parseInt(bedrooms_in);
       if (!isNaN(bedroomsValue)) {
-        filtered_Properties = filtered_Properties.filter(property => 
+        filtered_Properties = filtered_Properties.filter(property =>
           property.bedrooms === bedroomsValue
         );
       }
@@ -232,7 +332,7 @@ export default function PropertiesScreen({ navigation }) {
     // this might be necessary but I'm not sure! It makes eslint mad if this isn't commented
 
     setNumAppliedFilters(tempSelectedFilters.length + (!tempDistance && tempSelectedFilters.includes('4') ? -1 : 0) + (!tempBusDistance && tempSelectedFilters.includes('5') ? -1 : 0) + (!tempPriceHigh && tempSelectedFilters.includes('6') ? -1 : 0) +
-    (!tempBedrooms && tempSelectedFilters.includes('7') ? -1 : 0));
+      (!tempBedrooms && tempSelectedFilters.includes('7') ? -1 : 0));
 
     setDisplayedProperties(filteredProperties);
     setModalSortingVisible(false);
@@ -276,8 +376,8 @@ export default function PropertiesScreen({ navigation }) {
   return (
     <View style={[styles.propertiesContainer, tabStyles.container]}>
       <ScreenHeader title="Properties" />
-            {/* Help Button */}
-            <TouchableOpacity
+      {/* Help Button */}
+      <TouchableOpacity
         style={styles.helpButton}
         onPress={() => navigation.navigate('Help')}
       >
@@ -305,10 +405,10 @@ export default function PropertiesScreen({ navigation }) {
 
 
 
-      
+
       {/* if loading database files, display loading circle, otherwise display property list */}
-      {loading ? (
-        <ActivityIndicator size="large" color="#0000ff" />
+      {propertyLoading ? (
+        <ActivityIndicator size="large" color="#8C2131" />
       ) : (
         <>
           <Text style={styles.resultsFoundText}>{displayedProperties.length} results found</Text>
@@ -488,6 +588,11 @@ export default function PropertiesScreen({ navigation }) {
 }
 
 PropertiesScreen.propTypes = {
+  route: PropTypes.shape({
+    params: PropTypes.shape({
+      email: PropTypes.string.isRequired,
+    }).isRequired,
+  }).isRequired,
   navigation: PropTypes.shape({
     navigate: PropTypes.func.isRequired,
   }).isRequired,

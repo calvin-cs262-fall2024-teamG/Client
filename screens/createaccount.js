@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import { View, Text, TouchableOpacity, StatusBar, TextInput } from 'react-native';
 import cityMapImage from '../style/city-map-4320755_640.png'
 import { Ionicons } from '@expo/vector-icons';
+import { createStudent, studentExists } from '../services/controllers';
 
 export default function CreateAccountScreen({ navigation }) {
   const [email, setEmail] = useState('');
@@ -22,6 +23,9 @@ export default function CreateAccountScreen({ navigation }) {
       }
 
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      
+      if (!await studentExists(email)) await createStudent(email);
+      
       console.log('User account created:', userCredential.user);
       navigation.navigate('Main', {
         screen: 'Properties',
