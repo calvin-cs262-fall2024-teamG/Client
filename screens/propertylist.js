@@ -527,7 +527,7 @@ export default function PropertiesScreen({ navigation }) {
             ))}
             <View style={styles.buttonRow}>
               <TouchableOpacity style={styles.filterMenuButton} onPress={applyFilters}>
-                <Text style={styles.filtersText}>Show {displayedProperties.length} Results</Text>
+                <Text style={styles.filtersText}>Show {filteredProperties.length} Results</Text>
               </TouchableOpacity>
               <View style={{ width: 10 }} />
               <TouchableOpacity style={styles.filterMenuButton} onPress={() => {
