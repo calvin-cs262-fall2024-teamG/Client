@@ -10,7 +10,15 @@ import { Ionicons } from '@expo/vector-icons';
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
-// Properties Stack Navigator
+/**
+ * Properties Stack Navigator
+ * This navigator is responsible for the Properties screen and the Property Details screen.
+ * It uses a stack navigator to allow for navigation between these screens.
+ * The stack navigator is configured to not show the header and to detach inactive screens.
+ * The Property Details screen is configured to be gesture-enabled.
+ *
+ * @returns {*}
+ */
 const PropertiesStackNavigator = () => {
   return (
     <Stack.Navigator
@@ -32,7 +40,15 @@ const PropertiesStackNavigator = () => {
   );
 }
 
-// Favorites Stack Navigator
+/**
+ * Favorites Stack Navigator
+ * This navigator is responsible for the Favorites screen and the Property Details screen.
+ * It uses a stack navigator to allow for navigation between these screens.
+ * The stack navigator is configured to not show the header and to detach inactive screens.
+ * The Property Details screen is configured to be gesture-enabled.
+ *
+ * @returns {*}
+ */
 const FavoritesStackNavigator = () => {
   return (
     <Stack.Navigator
@@ -54,6 +70,15 @@ const FavoritesStackNavigator = () => {
   );
 }
 
+/**
+ * Tab Navigator
+ * This navigator is responsible for the bottom tab navigation.
+ * It uses a bottom tab navigator to allow for navigation between the Properties, Favorites, and Profile screens.
+ * The tab navigator is configured to show icons and labels for each tab.
+ * The initial route is set to the Properties screen.
+ *
+ * @returns {*}
+ */
 const TabNavigator = () => {
   return (
     <Tab.Navigator
@@ -92,31 +117,10 @@ const TabNavigator = () => {
       <Tab.Screen
         name="Properties"
         component={PropertiesStackNavigator}
-        // listeners={({ navigation }) => ({
-        //   tabPress: () => {
-        //     // Only prevent navigation if we're on PropertyDetails
-        //     // const state = navigation.getState();
-        //     // const routes = state.routes[state.index].state?.routes;
-        //     // if (routes && routes[routes.length - 1].name === 'PropertyDetails') {
-        //     //   e.preventDefault();
-        //     // }
-        //   }
-        // })}
-        
       />
       <Tab.Screen
         name="Favorites"
         component={FavoritesStackNavigator}
-        // listeners={({ navigation }) => ({
-        //   tabPress: () => {
-        //     // Only prevent navigation if we're on PropertyDetails
-        //     // const state = navigation.getState();
-        //     // const routes = state.routes[state.index].state?.routes;
-        //     // if (routes && routes[routes.length - 1].name === 'PropertyDetails') {
-        //     //   e.preventDefault();
-        //     // }
-        //   }
-        // })}
       />
 
       <Tab.Screen

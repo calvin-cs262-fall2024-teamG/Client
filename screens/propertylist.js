@@ -18,59 +18,129 @@ const filters = [
   { id: '7', label: ' Bedrooms Equal to ' },
 ];
 
+/**
+ * Properties Screen Component
+ * Displays a list of properties with filtering and sorting capabilities
+ * @component
+ * @param {Object} props - Component props
+ * @param {Object} props.navigation - Navigation object for screen transitions
+ * @returns {JSX.Element} Rendered PropertiesScreen component
+ */
 export default function PropertiesScreen({ navigation }) {
+  /**
+   * Filter options for property list
+   * @constant
+   * @type {Array<{id: string, label: string}>}
+   */
 
-  // State variables
-
-  // Modal visibility
-
+  /**
+   * State for filter modal visibility
+   * @type {[boolean, function]} modalFilteringVisible state and setter
+   */
   const [modalFilteringVisible, setModalFilteringVisible] = useState(false);
+
+  /**
+   * State for sort modal visibility
+   * @type {[boolean, function]} modalSortingVisible state and setter
+   */
   const [modalSortingVisible, setModalSortingVisible] = useState(false);
 
-  // Property Variables
-
+  /**
+   * State for all properties
+   * @type {[Array, function]} properties state and setter
+   */
   const [properties, setProperties] = useState([]);
+
+  /**
+   * State for displayed properties after filtering/sorting
+   * @type {[Array, function]} displayedProperties state and setter
+   */
   const [displayedProperties, setDisplayedProperties] = useState([]);
+
+  /**
+   * State for filtered properties
+   * @type {[Array, function]} filteredProperties state and setter
+   */
   const [filteredProperties, setFilteredProperties] = useState([]);
 
-  // General Filter Variables
-
+  /**
+   * State for selected filters
+   * @type {[Array, function]} selectedFilters state and setter
+   */
   const [selectedFilters, setSelectedFilters] = useState([]);
+
+  /**
+   * State for temporary selected filters
+   * @type {[Array, function]} tempSelectedFilters state and setter
+   */
   const [tempSelectedFilters, setTempSelectedFilters] = useState([]);
+
+  /**
+   * State for number of applied filters
+   * @type {[number, function]} numAppliedFilters state and setter
+   */
   const [numAppliedFilters, setNumAppliedFilters] = useState(0);
 
-  // Various specific filter variables
-
-  // The first variable, e.g. distance, is the actual value
-  // The second variable, e.g. tempDistance, is the temporary value for cases where we want to change filters but maintain the original filters
-  // The third variable, e.g. distanceStyle, is the style of the text input. This is used to change the color of the text input to red when the user doesn't enter a value
-
+  /**
+   * States for distance filter
+   * @type {[string, function]} distance - Distance value and setter
+   * @type {[string, function]} tempDistance - Temporary distance value and setter
+   * @type {[Object, function]} distanceStyle - Distance input style and setter
+   */
   const [distance, setDistance] = useState('');
   const [tempDistance, setTempDistance] = useState('');
   const [distanceStyle, setDistanceStyle] = useState(styles.textInput);
 
+  /**
+   * States for bus distance filter
+   * @type {[string, function]} busDistance - Bus distance value and setter
+   * @type {[string, function]} tempBusDistance - Temporary bus distance value and setter
+   * @type {[Object, function]} busDistanceStyle - Bus distance input style and setter
+   */
   const [busDistance, setBusDistance] = useState('');
   const [tempBusDistance, setTempBusDistance] = useState('');
   const [busDistanceStyle, setBusDistanceStyle] = useState(styles.textInput);
 
+  /**
+   * States for price filter
+   * @type {[string, function]} priceHigh - Price value and setter
+   * @type {[string, function]} tempPriceHigh - Temporary price value and setter
+   * @type {[Object, function]} priceHighStyle - Price input style and setter
+   */
   const [priceHigh, setPriceHigh] = useState('');
   const [tempPriceHigh, setTempPriceHigh] = useState('');
   const [priceHighStyle, setPriceHighStyle] = useState(styles.textInputSmall);
 
+  /**
+   * States for bedrooms filter
+   * @type {[string, function]} bedrooms - Bedrooms value and setter
+   * @type {[string, function]} tempBedrooms - Temporary bedrooms value and setter
+   * @type {[Object, function]} bedroomsStyle - Bedrooms input style and setter
+   */
   const [bedrooms, setBedrooms] = useState('');
   const [tempBedrooms, setTempBedrooms] = useState('');
   const [bedroomsStyle, setBedroomsStyle] = useState(styles.textInput);
 
-  // Sorting Type Variable
-
+  /**
+   * State for sort type
+   * @type {[string, function]} sortType state and setter
+   */
   const [sortType, setSortType] = useState('Rating');
 
-  // Loading State Variables
-
-  const [propertyLoading, setPropertyLoading] = useState(true); 
+  /**
+   * State for loading indicator
+   * @type {[boolean, function]} propertyLoading state and setter
+   */
+  const [propertyLoading, setPropertyLoading] = useState(true);
 
   const isFocused = useIsFocused();
 
+  /**
+   * Fetches properties data from the API
+   * @async
+   * @function getProperties
+   * @returns {Promise<void>}
+   */
   const getProperties = async () => {
     try {
       const responseProperties = await fetch('https://cs262-webapp.azurewebsites.net/properties');
@@ -194,13 +264,16 @@ export default function PropertiesScreen({ navigation }) {
     }
   }
 
-  // Initialize properties when component mounts
-
+  /**
+   * Effect hook to fetch properties on component mount
+   */
   useEffect(() => {
     getProperties();
-  }, []); // Empty dependency array means this runs once on mount
+  }, []);
 
-  // Handle focus effects
+  /**
+   * Effect hook to handle screen focus
+   */
   useEffect(() => {
     if (isFocused) {
       // Refresh the displayed properties when screen is focused
@@ -211,6 +284,10 @@ export default function PropertiesScreen({ navigation }) {
     }
   }, [isFocused]);
 
+  /**
+   * Toggles the filtering modal
+   * @function toggleModalFiltering
+   */
   const toggleModalFiltering = () => {
     setModalFilteringVisible(!modalFilteringVisible);
     if (!modalFilteringVisible) {
@@ -224,10 +301,19 @@ export default function PropertiesScreen({ navigation }) {
     }
   };
 
+  /**
+   * Toggles the sorting modal
+   * @function toggleModalSorting
+   */
   const toggleModalSorting = () => {
     setModalSortingVisible(!modalSortingVisible);
   };
 
+  /**
+   * Handles checkbox changes in the filter modal
+   * @function handleCheckboxChange
+   * @param {string} filterId - ID of the filter being toggled
+   */
   const handleCheckboxChange = (filterId) => {
     let updatedFilters = [...tempSelectedFilters];
     if (filterId === '4') {
@@ -279,6 +365,16 @@ export default function PropertiesScreen({ navigation }) {
     setFilteredProperties(getFilteredProperties(updatedFilters, tempDistance, tempBusDistance, tempPriceHigh));
   };
 
+/**
+ * Filters properties based on selected criteria
+ * @function getFilteredProperties
+ * @param {string[]} filters - Array of filter IDs to apply
+ * @param {string} distance_in - Maximum distance from campus
+ * @param {string} busDistance_in - Maximum distance from bus stop
+ * @param {string} priceHigh_in - Maximum price
+ * @param {string} bedrooms_in - Number of bedrooms
+ * @returns {Array} Filtered array of properties
+ */
   const getFilteredProperties = (filters, distance_in, busDistance_in, priceHigh_in, bedrooms_in) => {
     let filtered_Properties = properties;
 
@@ -320,6 +416,12 @@ export default function PropertiesScreen({ navigation }) {
     return filtered_Properties;
   }
 
+/**
+ * Applies selected filters and updates the displayed properties
+ * @function applyFilters
+ * @description Updates filter states with temporary values, calculates the number of applied filters,
+ * and updates the displayed properties list
+ */
   const applyFilters = () => {
     toggleModalFiltering();
     setSelectedFilters(tempSelectedFilters);
@@ -329,7 +431,6 @@ export default function PropertiesScreen({ navigation }) {
     setBedrooms(tempBedrooms);
 
     // const filteredProperties = sortProperties(getFilteredProperties(tempSelectedFilters, tempDistance, tempBusDistance, tempPriceHigh, tempBedrooms), '');
-    // this might be necessary but I'm not sure! It makes eslint mad if this isn't commented
 
     setNumAppliedFilters(tempSelectedFilters.length + (!tempDistance && tempSelectedFilters.includes('4') ? -1 : 0) + (!tempBusDistance && tempSelectedFilters.includes('5') ? -1 : 0) + (!tempPriceHigh && tempSelectedFilters.includes('6') ? -1 : 0) +
       (!tempBedrooms && tempSelectedFilters.includes('7') ? -1 : 0));
@@ -338,10 +439,29 @@ export default function PropertiesScreen({ navigation }) {
     setModalSortingVisible(false);
   };
 
+/**
+ * Sorts and updates the displayed properties list
+ * @function sortDefaultProperties
+ * @param {string} sortType - The type of sorting to apply ('Distance', 'Bus Stop', 'Cost', 'Rating', 'Bedrooms', 'Bathrooms')
+ */
   const sortDefaultProperties = (sortType) => {
     setDisplayedProperties(sortProperties(displayedProperties, sortType));
   }
 
+/**
+ * Sorts properties based on specified criteria
+ * @function sortProperties
+ * @param {Array} sortedProperties - Array of properties to sort
+ * @param {string} sortType_in - Sort criteria to apply
+ * @description Sorts properties by various criteria:
+ * - Distance: Low to high distance from campus
+ * - Bus Stop: Low to high distance from bus stop
+ * - Cost: Low to high estimated cost
+ * - Rating: High to low rating
+ * - Bedrooms: High to low number of bedrooms
+ * - Bathrooms: High to low number of bathrooms
+ * @returns {Array} Sorted array of properties
+ */
   const sortProperties = (sortedProperties, sortType_in) => {
     if (sortType_in != '') {
       setSortType(sortType_in);
@@ -527,7 +647,7 @@ export default function PropertiesScreen({ navigation }) {
             ))}
             <View style={styles.buttonRow}>
               <TouchableOpacity style={styles.filterMenuButton} onPress={applyFilters}>
-                <Text style={styles.filtersText}>Show {displayedProperties.length} Results</Text>
+                <Text style={styles.filtersText}>Show {filteredProperties.length} Results</Text>
               </TouchableOpacity>
               <View style={{ width: 10 }} />
               <TouchableOpacity style={styles.filterMenuButton} onPress={() => {

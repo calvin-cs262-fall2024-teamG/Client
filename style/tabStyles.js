@@ -7,12 +7,12 @@ export default StyleSheet.create({
   },
   contentContainer: {
     flex: 1,
-    paddingBottom: 60, // Height of tab bar
+    paddingBottom: 60, 
   },
   scrollView: {
     flex: 1,
   },
   scrollViewContent: {
-    paddingBottom: 70, // Extra padding for scroll views
+    paddingBottom: 70,
   }
 });

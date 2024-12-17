@@ -4,15 +4,32 @@ import { View, Text, TouchableOpacity } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import styles from '../style/styles';
 
+
+/**
+ * Header component for the application.
+ * Renders different content based on the current route.
+ *
+ * @param {{ title: any; }} param0
+ * @param {*} param0.title
+ * @returns
+ */
 const Header = ({ title }) => {
   const navigation = useNavigation();
   const route = useRoute();
 
+  
+  /** Navigate to a Help screen or show a help modal */
   const handleHelpPress = () => {
-    // Navigate to a Help screen or show a help modal
     navigation.navigate('Help'); // You'll need to create this screen
   };
 
+  
+  /**
+   * renderHeaderContent
+   * Renders the appropriate content based on the current route.
+   *
+   * @returns {*}
+   */
   const renderHeaderContent = () => {
     switch (route.name) {
       case 'Properties':

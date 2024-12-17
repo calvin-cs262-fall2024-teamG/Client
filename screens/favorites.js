@@ -8,6 +8,18 @@ import PropTypes from 'prop-types';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Ionicons } from '@expo/vector-icons';
 
+
+/**
+ * FavoritesScreen component
+ * Displays a list of favorite properties
+ * Allows removing properties from favorites
+ *
+ * @export
+ * @param {{ navigation: any; route: any; }} param0
+ * @param {*} param0.navigation
+ * @param {*} param0.route
+ * @returns
+ */
 export default function FavoritesScreen({ navigation, route }) {
   const [favorites, setFavorites] = React.useState([]);
   const isFocused = useIsFocused();
@@ -16,6 +28,14 @@ export default function FavoritesScreen({ navigation, route }) {
     loadFavorites();
   }, [isFocused, route.params?.favoritesUpdated]); // Reload when screen is focused or favorites are updated
 
+  
+  /**
+   * loadFavorites
+   * Loads favorites from AsyncStorage
+   *
+   * @async
+   * @returns {*}
+   */
   const loadFavorites = async () => {
     try {
       const savedFavorites = await AsyncStorage.getItem('favorites');
@@ -27,6 +47,15 @@ export default function FavoritesScreen({ navigation, route }) {
     }
   };
 
+  
+  /**
+   * removeFromFavorites
+   * Removes a property from favorites
+   *
+   * @async
+   * @param {*} propertyId
+   * @returns {*}
+   */
   const removeFromFavorites = async (propertyId) => {
     try {
       const updatedFavorites = favorites.filter(prop => prop.id !== propertyId);
