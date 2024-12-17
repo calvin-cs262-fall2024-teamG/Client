@@ -32,14 +32,6 @@ export default function PropertiesScreen({ navigation }) {
    * @constant
    * @type {Array<{id: string, label: string}>}
    */
-  const filters = [
-    { id: '1', label: ' Pet Friendly' },
-    { id: '2', label: ' Has Contact' },
-    { id: '4', label: ' School, Less than ' },
-    { id: '5', label: ' Bus Stop, Less than ' },
-    { id: '6', label: ' Price Less than $' },
-    { id: '7', label: ' Bedrooms Equal to ' },
-  ];
 
   /**
    * State for filter modal visibility
@@ -655,7 +647,7 @@ export default function PropertiesScreen({ navigation }) {
             ))}
             <View style={styles.buttonRow}>
               <TouchableOpacity style={styles.filterMenuButton} onPress={applyFilters}>
-                <Text style={styles.filtersText}>Show {displayedProperties.length} Results</Text>
+                <Text style={styles.filtersText}>Show {filteredProperties.length} Results</Text>
               </TouchableOpacity>
               <View style={{ width: 10 }} />
               <TouchableOpacity style={styles.filterMenuButton} onPress={() => {
@@ -716,11 +708,6 @@ export default function PropertiesScreen({ navigation }) {
 }
 
 PropertiesScreen.propTypes = {
-  route: PropTypes.shape({
-    params: PropTypes.shape({
-      email: PropTypes.string.isRequired,
-    }).isRequired,
-  }).isRequired,
   navigation: PropTypes.shape({
     navigate: PropTypes.func.isRequired,
   }).isRequired,

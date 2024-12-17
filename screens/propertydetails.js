@@ -175,7 +175,26 @@ export default function PropertyDetailsScreen({ route, navigation }) {
     try {
       const savedFavorites = await AsyncStorage.getItem('favorites');
       let favorites = savedFavorites ? JSON.parse(savedFavorites) : [];
-      // ... rest of the function
+
+      if (isFavorite) {
+        favorites = favorites.filter(fav => fav.id !== item.id);
+      } else {
+        if (!favorites.some(fav => fav.id === item.id)) {
+          favorites.push(item);
+        }
+      }
+
+      await AsyncStorage.setItem('favorites', JSON.stringify(favorites));
+      setIsFavorite(!isFavorite);
+
+      // Update favorites list without navigation
+      // Notify favorites screen of changes without navigation side effects
+      if (navigation.getState().routes.find(route => route.name === 'Favorites')) {
+        navigation.getState().routes.find(route => route.name === 'Favorites').params = {
+          favoritesUpdateTimestamp: Date.now(),
+          source: 'propertyDetails'
+        };
+      }
     } catch (error) {
       console.error('Error updating favorites:', error);
     }
