@@ -588,11 +588,6 @@ export default function PropertiesScreen({ navigation }) {
 }
 
 PropertiesScreen.propTypes = {
-  route: PropTypes.shape({
-    params: PropTypes.shape({
-      email: PropTypes.string.isRequired,
-    }).isRequired,
-  }).isRequired,
   navigation: PropTypes.shape({
     navigate: PropTypes.func.isRequired,
   }).isRequired,

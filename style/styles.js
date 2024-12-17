@@ -811,5 +811,9 @@ Htext: {
   color: '#000',
 },
 
+scrollViewContent: {
+  padding: 20,
+  flexGrow: 1,
+},
 
 });
